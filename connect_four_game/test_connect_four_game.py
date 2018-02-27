@@ -15,18 +15,31 @@ class TestConnectFourGame(unittest.TestCase):
                  ['E', 'E', 'E', 'E'],
                  ['E', 'E', 'E', 'E'],
                  ['E', 'E', 'E', 'E'],
-                 ['E', 'E', 'E', 'E']
+                 ['E', 'E', 'E', 'E'],
         ]
         self.assertEqual(result, self.game.board_status)
 
-    # def test_first_move_first_column(self):
-    #     result = [
-    #              ['E', 'E', 'E', 'E'],
-    #              ['E', 'E', 'E', 'E'],
-    #              ['E', 'E', 'E', 'E'],
-    #              ['W', 'E', 'E', 'E']
-    #     ]
-    #     self.assertTrue(self.game.playing)
-    #     self.assertEqual(result, self.game.board_status)
+    def test_first_move_first_column(self):
+        result = [
+            ['E', 'E', 'E', 'E'],
+            ['E', 'E', 'E', 'E'],
+            ['E', 'E', 'E', 'E'],
+            ['W', 'E', 'E', 'E'],
+        ]
+        self.assertEqual(result, self.game.move(0))
+        self.assertTrue(self.game.playing)
+
+    def test_second_move_first_column(self):
+        self.game.move(0)
+        result = [
+                 ['E', 'E', 'E', 'E'],
+                 ['E', 'E', 'E', 'E'],
+                 ['B', 'E', 'E', 'E'],
+                 ['W', 'E', 'E', 'E']
+        ]
+        self.assertTrue(self.game.playing)
+        self.assertEqual(result, self.game.move(0))
+
+
 if __name__ == "__main__":
     unittest.main()
