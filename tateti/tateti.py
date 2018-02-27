@@ -1,11 +1,27 @@
 class Tateti(object):
+    def __init__(self):
+        self.tablero = [
+            [0, 0, 0],
+            [0, 0, 0],
+            [0, 0, 0],
+        ]
+        self.col = 3
+        self.row = 3
+        self.x = 'X'
+        self.o = 'O'
+        self.turn = 0
 
-    tablero = []
-    fila = [0, 0, 0]
-    col = 3
-    row = 3
+    def set(self, x1, y1):
+        if self.turn == 0:
+            pieza = 'X'
+            self.turn = 1
+        else:
+            pieza = 'O'
+            self.turn = 0
 
-    def create_tablero(self):
-        for x in range(0, self.row):
-            self.tablero.append(self.fila)
-        return self.tablero
+        self.tablero[x1][y1] = pieza
+
+    @property
+    def board(self):
+        return str(self.tablero)
+>>>>>>> primer test de tablero
