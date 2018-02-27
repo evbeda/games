@@ -3,6 +3,7 @@ from guess_number_game.test_guess_number_game import TestGuessNumberGame
 from reversi.test_reversi import TestReversi
 from connect_four_game.test_connect_four_game import TestConnectFourGame
 from buscaminas.test_buscaminas import TestBuscamina
+from test_game import TestGame
 
 
 def suite():
@@ -14,6 +15,7 @@ def suite():
     test_suite.addTest(unittest.makeSuite(TestGuessNumberGame))
     test_suite.addTest(unittest.makeSuite(TestConnectFourGame))
     test_suite.addTest(unittest.makeSuite(TestBuscamina))
+    test_suite.addTest(unittest.makeSuite(TestGame))
 
     return test_suite
 
