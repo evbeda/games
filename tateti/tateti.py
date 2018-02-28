@@ -12,16 +12,20 @@ class Tateti(object):
         self.turn = 0
 
     def set(self, x1, y1):
-        if self.turn == 0:
-            pieza = 'X'
-            self.turn = 1
-        else:
-            pieza = 'O'
-            self.turn = 0
+        if isinstance(y1, int) and isinstance(x1, int):
+            if self.turn == 0:
+                pieza = 'X'
+                self.turn = 1
+            else:
+                pieza = 'O'
+                self.turn = 0
 
-        self.tablero[x1][y1] = pieza
+            self.tablero[x1][y1] = pieza
+        else:
+            raise Exception("Movmiento no permitido.")
 
     @property
     def board(self):
         return str(self.tablero)
->>>>>>> primer test de tablero
+
+

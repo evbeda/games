@@ -26,6 +26,28 @@ class TestTateti(unittest.TestCase):
              "[['O', 0, 0], [0, 0, 0], [0, 'X', 0]]",
         )
 
+    def test_set_negative_exception(self):
+        with self.assertRaises(Exception) as e:
+            self.tateti.set(-1, 1)
+            self.assertEqual(e.exception.message, "Movmiento no permitido.",)
+
+    def test_set_negative_exception_2(self):
+        with self.assertRaises(Exception) as e:
+            self.tateti.set(-1, -1)
+            self.assertEqual(e.exception.message, "Movmiento no permitido.",)
+
+    def test_set_negative_exception_3(self):
+        with self.assertRaises(Exception) as e:
+            self.tateti.set(1, -1)
+            self.assertEqual(e.exception.message, "Movmiento no permitido.",)
+
+    def test_set_caracter_invalid(self):
+        with self.assertRaises(Exception) as e:
+            self.tateti.set('a', 'b')
+            self.assertEqual(e.exception.message, "Movmiento no permitido.",)
+
+
+
 
 if __name__ == "__main__":
     unittest.main()
