@@ -13,8 +13,7 @@ class ConnectFourGame(object):
             ['E', 'E', 'E', 'E'],
         ]
 
-    def move(self, column):
-        self.playing = True
+    def play(self, column):
         if self.turn % 2 != 0:
             for x in xrange(3, 0, -1):
                 if self.board_status[x][column] == 'E':
@@ -28,3 +27,9 @@ class ConnectFourGame(object):
         print self.board_status
         self.turn += 1
         return self.board_status
+
+    def playingW(self, turn):
+        if self.turn % 2 != 0:
+            return 'White plays'
+        else:
+            return 'Black plays'
