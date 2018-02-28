@@ -28,9 +28,9 @@ class DamaGameStart(object):
             self.playing and
             self.board_status[x][y] == 'b'
         ):
-                self.board_status[x][y] = ' '
-                self.board_status[w][z] = 'b'
-                self.turn = 'White'
+            self.board_status[x][y] = ' '
+            self.board_status[w][z] = 'b'
+            self.turn = 'White'
 
     @property
     def board(self):
@@ -40,3 +40,10 @@ class DamaGameStart(object):
                 result += self.board_status[x][y]
             result += '\n'
         return result
+
+
+        # if self.board_status[w - 1][z - 1] == 'b':
+            #     self.board_status[x][y] = ' '
+            #     self.board_status[w - 1][z - 1] = ' '
+            #     self.board_status[w][z] = 'w'
+            #     self.turn = 'Black'

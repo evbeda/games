@@ -27,65 +27,94 @@ class TestDamaGame(unittest.TestCase):
         )
 
     def test_initial_board_status(self):
-        result = [
-            ['b', ' ', 'b', ' ', 'b', ' ', 'b', ' '],
-            [' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b'],
-            ['b', ' ', 'b', ' ', 'b', ' ', 'b', ' '],
-            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', 'w', ' ', 'w', ' ', 'w', ' ', 'w'],
-            ['w', ' ', 'w', ' ', 'w', ' ', 'w', ' '],
-            [' ', 'w', ' ', 'w', ' ', 'w', ' ', 'w']
-        ]
-        self.assertEqual(result, self.game.board_status)
+        self.assertEqual(
+            self.game.board,
+            'b b b b \n'
+            ' b b b b\n'
+            'b b b b \n'
+            '        \n'
+            '        \n'
+            ' w w w w\n'
+            'w w w w \n'
+            ' w w w w\n'
+        )
 
     def test_firts_move(self):
-        result = [
-            ['b', ' ', 'b', ' ', 'b', ' ', 'b', ' '],
-            [' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b'],
-            ['b', ' ', 'b', ' ', 'b', ' ', 'b', ' '],
-            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            ['w', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', 'w', ' ', 'w', ' ', 'w'],
-            ['w', ' ', 'w', ' ', 'w', ' ', 'w', ' '],
-            [' ', 'w', ' ', 'w', ' ', 'w', ' ', 'w']
-        ]
         self.game.play(5, 1, 4, 0)
-        self.assertEqual(result, self.game.board_status)
+        self.assertEqual(
+            self.game.board,
+            'b b b b \n'
+            ' b b b b\n'
+            'b b b b \n'
+            '        \n'
+            'w       \n'
+            '   w w w\n'
+            'w w w w \n'
+            ' w w w w\n',
+        )
         self.assertEqual('Black', self.game.turn)
 
     def test_second_move(self):
         self.game.play(5, 1, 4, 0)
-        result = [
-            ['b', ' ', 'b', ' ', 'b', ' ', 'b', ' '],
-            [' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b'],
-            [' ', ' ', 'b', ' ', 'b', ' ', 'b', ' '],
-            [' ', 'b', ' ', ' ', ' ', ' ', ' ', ' '],
-            ['w', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', 'w', ' ', 'w', ' ', 'w'],
-            ['w', ' ', 'w', ' ', 'w', ' ', 'w', ' '],
-            [' ', 'w', ' ', 'w', ' ', 'w', ' ', 'w']
-        ]
         self.game.play(2, 0, 3, 1)
-        self.assertEqual(result, self.game.board_status)
+        self.assertEqual(
+            self.game.board,
+            'b b b b \n'
+            ' b b b b\n'
+            '  b b b \n'
+            ' b      \n'
+            'w       \n'
+            '   w w w\n'
+            'w w w w \n'
+            ' w w w w\n',
+        )
         self.assertEqual('White', self.game.turn)
 
     def test_third_move(self):
         self.game.play(5, 1, 4, 0)
         self.game.play(2, 0, 3, 1)
-        result = [
-            ['b', ' ', 'b', ' ', 'b', ' ', 'b', ' '],
-            [' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b'],
-            [' ', ' ', 'b', ' ', 'b', ' ', 'b', ' '],
-            [' ', 'b', ' ', ' ', ' ', ' ', ' ', ' '],
-            ['w', ' ', 'w', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', 'w', ' ', 'w'],
-            ['w', ' ', 'w', ' ', 'w', ' ', 'w', ' '],
-            [' ', 'w', ' ', 'w', ' ', 'w', ' ', 'w']
-        ]
+        self.assertEqual(
+            self.game.board,
+            'b b b b \n'
+            ' b b b b\n'
+            '  b b b \n'
+            ' b      \n'
+            'w       \n'
+            '   w w w\n'
+            'w w w w \n'
+            ' w w w w\n',
+        )
         self.game.play(5, 3, 4, 2)
-        self.assertEqual(result, self.game.board_status)
+        self.assertEqual(
+            self.game.board,
+            'b b b b \n'
+            ' b b b b\n'
+            '  b b b \n'
+            ' b      \n'
+            'w w     \n'
+            '     w w\n'
+            'w w w w \n'
+            ' w w w w\n'
+        )
         self.assertEqual('Black', self.game.turn)
+
+    # def test_action_move(self):
+    #     self.game.play(5, 1, 4, 0)
+    #     self.game.play(2, 0, 3, 1)
+    #     self.game.play(5, 3, 4, 2)
+    #     self.game.play(3, 1, 5, 3)
+    #     self.assertEqual(
+    #         self.game.board,
+    #         'b b b b \n'
+    #         ' b b b b\n'
+    #         '  b b b \n'
+    #         '        \n'
+    #         'w       \n'
+    #         '   b w w\n'
+    #         'w w w w \n'
+    #         ' w w w w\n'
+    #     )
+    #     self.assertEqual('White', self.game.turn)
 
 
 if __name__ == '__main__':
