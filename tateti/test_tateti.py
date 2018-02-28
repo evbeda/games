@@ -66,6 +66,38 @@ class TestTateti(unittest.TestCase):
             self.tateti.play(2, 1)
             self.assertEqual(e.exception.message, "Movement not allowed.",)
 
+    def test_win_horizontal(self):
+        self.tateti.play(0, 0)
+        self.tateti.play(1, 0)
+        self.tateti.play(0, 1)
+        self.tateti.play(2, 1)
+        self.tateti.play(0, 2)
+        self.assertEqual(self.tateti.next(), "X wins")
+
+    def test_win_vertical(self):
+        self.tateti.play(0, 0)
+        self.tateti.play(1, 1)
+        self.tateti.play(1, 0)
+        self.tateti.play(0, 2)
+        self.tateti.play(2, 0)
+        self.assertEqual(self.tateti.next(), "X wins")
+
+    def test_win_diagon_des(self):
+        self.tateti.play(0, 0)
+        self.tateti.play(0, 1)
+        self.tateti.play(1, 1)
+        self.tateti.play(0, 2)
+        self.tateti.play(2, 2)
+        self.assertEqual(self.tateti.next(), "X wins")
+
+    def test_win_diagon_asc(self):
+            self.tateti.play(0, 2)
+            self.tateti.play(0, 1)
+            self.tateti.play(1, 1)
+            self.tateti.play(0, 0)
+            self.tateti.play(2, 0)
+            self.assertEqual(self.tateti.next(), "X wins")
+
 
 if __name__ == "__main__":
     unittest.main()
