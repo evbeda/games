@@ -11,8 +11,8 @@ class TestConnectFourGame(unittest.TestCase):
         self.assertTrue(self.game.playing)
 
     def test_turno(self):
-        turnWhite = self.game.playingW(1)
-        self.assertEqual(turnWhite, 'White plays')
+        turn_white = self.game.playingW(1)
+        self.assertEqual(turn_white, 'White plays')
 
     def test_initial_board_status(self):
         result = [
@@ -43,6 +43,14 @@ class TestConnectFourGame(unittest.TestCase):
         ]
         self.assertTrue(self.game.playing)
         self.assertEqual(result, self.game.play(0))
+
+    def test_full_column(self):
+        self.game.play(0)
+        self.game.play(0)
+        self.game.play(0)
+        self.game.play(0)
+        self.assertTrue(self.game.playing)
+        self.assertEqual('Full column', self.game.play(0))
 
 
 if __name__ == "__main__":

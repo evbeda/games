@@ -14,19 +14,24 @@ class ConnectFourGame(object):
         ]
 
     def play(self, column):
-        if self.turn % 2 != 0:
-            for x in xrange(3, 0, -1):
-                if self.board_status[x][column] == 'E':
-                    self.board_status[x][column] = 'W'
-                    break
+        if(
+            self.board_status[0][column] != 'W' and
+            self.board_status[0][column] != 'B'
+        ):
+            if self.turn % 2 != 0:
+                for x in xrange(3, -1, -1):
+                    if self.board_status[x][column] == 'E':
+                        self.board_status[x][column] = 'W'
+                        break
+            else:
+                for x in xrange(3, -1, -1):
+                    if self.board_status[x][column] == 'E':
+                        self.board_status[x][column] = 'B'
+                        break
+            self.turn += 1
+            return self.board_status
         else:
-            for x in xrange(3, 0, -1):
-                if self.board_status[x][column] == 'E':
-                    self.board_status[x][column] = 'B'
-                    break
-        print self.board_status
-        self.turn += 1
-        return self.board_status
+            return 'Full column'
 
     def playingW(self, turn):
         if self.turn % 2 != 0:
