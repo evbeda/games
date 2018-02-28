@@ -7,46 +7,96 @@ class TestTateti(unittest.TestCase):
     def setUp(self):
         self.tateti = Tateti()
 
-    def test_piezas_set_0(self):
-        self.tateti.set(0, 1)
+    def test_initial_playing(self):
+        self.assertTrue(self.tateti.playing)
+
+    def test_piezas_play_0(self):
+        self.tateti.play(0, 1)
         self.assertEquals(
             self.tateti.board,
-             "[[0, 'X', 0], [0, 0, 0], [0, 0, 0]]",
+            "[[0, 'X', 0], [0, 0, 0], [0, 0, 0]]",
         )
 
-    def test_piezas_set_1(self):
-        self.tateti.set(2, 1)
+    def test_piezas_play_1(self):
+        self.tateti.play(2, 1)
         self.assertEquals(
             self.tateti.board,
-             "[[0, 0, 0], [0, 0, 0], [0, 'X', 0]]",
+            "[[0, 0, 0], [0, 0, 0], [0, 'X', 0]]",
         )
-        self.tateti.set(0, 0)
+        self.tateti.play(0, 0)
         self.assertEquals(
             self.tateti.board,
-             "[['O', 0, 0], [0, 0, 0], [0, 'X', 0]]",
+            "[['O', 0, 0], [0, 0, 0], [0, 'X', 0]]",
         )
 
-    def test_set_negative_exception(self):
+    def test_play_negative_exception(self):
         with self.assertRaises(Exception) as e:
-            self.tateti.set(-1, 1)
-            self.assertEqual(e.exception.message, "Movmiento no permitido.",)
+            self.tateti.play(-1, 1)
+            self.assertEqual(e.exception.message, "Movement not allowed.",)
 
-    def test_set_negative_exception_2(self):
+    def test_play_negative_exception_2(self):
         with self.assertRaises(Exception) as e:
-            self.tateti.set(-1, -1)
-            self.assertEqual(e.exception.message, "Movmiento no permitido.",)
+            self.tateti.play(-1, -1)
+            self.assertEqual(e.exception.message, "Movement not allowed.",)
 
-    def test_set_negative_exception_3(self):
+    def test_play_negative_exception_3(self):
         with self.assertRaises(Exception) as e:
-            self.tateti.set(1, -1)
-            self.assertEqual(e.exception.message, "Movmiento no permitido.",)
+            self.tateti.play(1, -1)
+            self.assertEqual(e.exception.message, "Movement not allowed.",)
 
-    def test_set_caracter_invalid(self):
+    def test_play_caracter_invalid(self):
         with self.assertRaises(Exception) as e:
-            self.tateti.set('a', 'b')
-            self.assertEqual(e.exception.message, "Movmiento no permitido.",)
+            self.tateti.play('a', 'b')
+            self.assertEqual(e.exception.message, "Movement not allowed.",)
 
+    def test_next_O(self):
+        self.assertEqual(self.tateti.next(), "Plays O")
 
+    def test_next_X(self):
+        self.tateti.play(1, 1)
+        self.assertEqual(self.tateti.next(), "Plays X")
+
+    def test_repeat_movement(self):
+        self.tateti.play(2, 1)
+        self.assertEquals(
+            self.tateti.board,
+            "[[0, 0, 0], [0, 0, 0], [0, 'X', 0]]",
+        )
+        with self.assertRaises(Exception) as e:
+            self.tateti.play(2, 1)
+            self.assertEqual(e.exception.message, "Movement not allowed.",)
+
+    def test_win_horizontal(self):
+        self.tateti.play(0, 0)
+        self.tateti.play(1, 0)
+        self.tateti.play(0, 1)
+        self.tateti.play(2, 1)
+        self.tateti.play(0, 2)
+        self.assertEqual(self.tateti.next(), "X wins")
+
+    def test_win_vertical(self):
+        self.tateti.play(0, 0)
+        self.tateti.play(1, 1)
+        self.tateti.play(1, 0)
+        self.tateti.play(0, 2)
+        self.tateti.play(2, 0)
+        self.assertEqual(self.tateti.next(), "X wins")
+
+    def test_win_diagon_des(self):
+        self.tateti.play(0, 0)
+        self.tateti.play(0, 1)
+        self.tateti.play(1, 1)
+        self.tateti.play(0, 2)
+        self.tateti.play(2, 2)
+        self.assertEqual(self.tateti.next(), "X wins")
+
+    def test_win_diagon_asc(self):
+            self.tateti.play(0, 2)
+            self.tateti.play(0, 1)
+            self.tateti.play(1, 1)
+            self.tateti.play(0, 0)
+            self.tateti.play(2, 0)
+            self.assertEqual(self.tateti.next(), "X wins")
 
 
 if __name__ == "__main__":
