@@ -3,6 +3,8 @@ from random import randint
 
 class GuessNumberGame(object):
 
+    name = 'Guess Number Game'
+
     def __init__(self):
         super(GuessNumberGame, self).__init__()
         self.playing = True

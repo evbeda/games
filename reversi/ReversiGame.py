@@ -77,3 +77,4 @@ class ReversiGame(object):
             return True
 
 
+
