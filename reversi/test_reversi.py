@@ -26,28 +26,75 @@ class TestReversi(unittest.TestCase):
     def test_wrong_movement_occupied(self):
         self.assertEquals(self.game.play(3, 4), 'Movimiento no permitido')
 
-
     def test_valid_move(self):
         self.assertEquals(self.game.play(3, 5), 'Correcto')
 
-    # # Solucionar: es un movimiento incorrecto, pero devuelve correcto
-    # def test_valid_move_2(self):
-    #     self.assertEquals(self.game.play(4, 5), 'Movimiento no permitido')
+    def test_get_directions(self):
+        result = [
+            [(3, 4, 'W')]
+        ]
+        self.assertEquals(result, self.game.find_white_pieces(3, 5))
 
-    # def test_get_directions(self):
-    #     # las tuplas representan la cantidad de casilleros en una direccion
-    #     # y que ficha contiene ese casillero
-    #     # las listas representan las direcciones posibles para mover la ficha
-    #     # se pretende ordenar, primero la direccion vertical superior
-    #     #  en sentido horario
-    #     # Por cada lista hay que evaluar si es correcto o incorrecto el
-    #     # movimiento dependiendo del turno
-    #     self.assertEquals(self.game.get_directions(4,5),
-    #         [(4,4,'B'),(4,3,'W')],
-    #         [(4,3,'W')]
-    #         )
+    def test_get_directions_black(self):
+        self.game.tablero = [
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', 'B', 'B', 'B', ' ', ' '],
+            [' ', ' ', ' ', 'W', 'B', 'W', ' ', ' '],
+            [' ', ' ', ' ', ' ', 'B', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+        ]
+        self.game.playingBlack = False
+        result = [
+            [(3, 5, 'B')], [(3, 4, 'B')]
+        ]
+        self.assertEquals(result, self.game.find_black_pieces(2, 5))
+        result = [
+            [(3, 3, 'B')], [(3, 4, 'B')]
+        ]
+        self.assertEquals(result, self.game.find_black_pieces(2, 3))
+
+    def test_get_all_directions_white(self):
+        self.game.tablero = [
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', 'W', 'W', 'W', 'W', 'W', ' '],
+            [' ', ' ', 'W', 'B', 'B', 'B', 'W', ' '],
+            [' ', ' ', 'W', 'B', ' ', 'B', 'W', ' '],
+            [' ', ' ', 'W', 'B', 'B', 'B', 'W', ' '],
+            [' ', ' ', 'W', 'W', 'W', 'W', 'W', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+        ]
+        self.game.playingBlack = False
+        result = [
+            [(3, 3, 'B')], [(3, 5, 'B')],
+            [(2, 4, 'B')], [(4, 4, 'B')],
+            [(2, 5, 'B')], [(2, 3, 'B')],
+            [(4, 3, 'B')], [(4, 5, 'B')]
+        ]
+        self.assertEquals(result, self.game.find_black_pieces(3, 4))
+
+    def test_get_all_directions_black(self):
+        self.game.tablero = [
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', 'B', 'B', 'B', 'B', 'B', ' '],
+            [' ', ' ', 'B', 'W', 'W', 'W', 'B', ' '],
+            [' ', ' ', 'B', 'W', ' ', 'W', 'B', ' '],
+            [' ', ' ', 'B', 'W', 'W', 'W', 'B', ' '],
+            [' ', ' ', 'B', 'B', 'B', 'B', 'B', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+        ]
+        result = [
+            [(3, 3, 'W')], [(3, 5, 'W')],
+            [(2, 4, 'W')], [(4, 4, 'W')],
+            [(2, 5, 'W')], [(2, 3, 'W')],
+            [(4, 3, 'W')], [(4, 5, 'W')]
+        ]
+        self.assertEquals(result, self.game.find_white_pieces(3, 4))
 
 
 if __name__ == "__main__":
-        unittest.main()
-
+    unittest.main()
