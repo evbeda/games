@@ -1,0 +1,14 @@
+[report]
+exclude_lines =
+    pragma: no cover
+    def test_
+    return raw_input
+    print
+    if __name__ == '__main__':
+    def suite
+
+[run]
+omit =
+    home/*
+    env/*
+
