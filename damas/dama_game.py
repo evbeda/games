@@ -18,20 +18,24 @@ class DamaGameStart(object):
         if not self.valid_movement_inside_board(x, y, w, z):
             if(
                 self.turn == 'White' and
-                self.playing and
-                self.board_status[x][y] == 'w'
+                self.playing
             ):
-                self.board_status[x][y] = ' '
-                self.board_status[w][z] = 'w'
-                self.turn = 'Black'
+                if self.board_status[x][y] == 'w':
+                        self.board_status[x][y] = ' '
+                        self.board_status[w][z] = 'w'
+                        self.turn = 'Black'
+                else:
+                        return 'No white piece here to move !'
             elif(
                 self.turn == 'Black' and
-                self.playing and
-                self.board_status[x][y] == 'b'
+                self.playing
             ):
-                self.board_status[x][y] = ' '
-                self.board_status[w][z] = 'b'
-                self.turn = 'White'
+                    if self.board_status[x][y] == 'b':
+                        self.board_status[x][y] = ' '
+                        self.board_status[w][z] = 'b'
+                        self.turn = 'White'
+                    else:
+                            return 'No black piece here to move !'
         else:
             return "This position is outside our board"
 
