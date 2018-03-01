@@ -92,7 +92,6 @@ class ReversiGame(object):
             x = b
             direction = []
             while self.tablero[x][y + 1] == 'W':
-                print 'segundo ' + str(y)
                 direction.append((x, y + 1, 'W'))
                 y += 1
             if direction and self.tablero[x][y + 1] == 'B':
@@ -102,7 +101,6 @@ class ReversiGame(object):
             x = b
             direction = []
             while self.tablero[x - 1][y] == 'W':
-                print 'tercero ' + str(y)
                 direction.append((x - 1, y, 'W'))
                 x -= 1
             if direction and self.tablero[x - 1][y] == 'B':
@@ -112,7 +110,6 @@ class ReversiGame(object):
             x = b
             direction = []
             while self.tablero[x + 1][y] == 'W':
-                print 'cuarto ' + str(y)
                 direction.append((x + 1, y, 'W'))
                 x += 1
             if direction and self.tablero[x + 1][y] == 'B':
@@ -122,7 +119,6 @@ class ReversiGame(object):
             x = b
             direction = []
             while self.tablero[x - 1][y + 1] == 'W':
-                print 'quinto ' + str(y)
                 direction.append((x - 1, y + 1, 'W'))
                 x -= 1
                 y += 1
@@ -133,7 +129,6 @@ class ReversiGame(object):
             x = b
             direction = []
             while self.tablero[x - 1][y - 1] == 'W':
-                print 'sexto ' + str(y)
                 direction.append((x - 1, y - 1, 'W'))
                 x -= 1
                 y -= 1
@@ -144,7 +139,6 @@ class ReversiGame(object):
             x = b
             direction = []
             while self.tablero[x + 1][y - 1] == 'W':
-                print 'septimo ' + str(y)
                 direction.append((x + 1, y - 1, 'W'))
                 x += 1
                 y -= 1
@@ -155,7 +149,6 @@ class ReversiGame(object):
             x = b
             direction = []
             while self.tablero[x + 1][y + 1] == 'W':
-                print 'octavo ' + str(y)
                 direction.append((x + 1, y + 1, 'W'))
                 x += 1
                 y += 1
@@ -209,7 +202,6 @@ class ReversiGame(object):
             x = b
             direction = []
             while self.tablero[x - 1][y + 1] == 'B':
-                print 'quinto ' + str(y)
                 direction.append((x - 1, y + 1, 'B'))
                 x -= 1
                 y += 1
@@ -220,7 +212,6 @@ class ReversiGame(object):
             x = b
             direction = []
             while self.tablero[x - 1][y - 1] == 'B':
-                print 'sexto ' + str(y)
                 direction.append((x - 1, y - 1, 'B'))
                 x -= 1
                 y -= 1
@@ -231,7 +222,6 @@ class ReversiGame(object):
             x = b
             direction = []
             while self.tablero[x + 1][y - 1] == 'B':
-                print 'septimo ' + str(y)
                 direction.append((x + 1, y - 1, 'B'))
                 x += 1
                 y -= 1
@@ -242,7 +232,6 @@ class ReversiGame(object):
             x = b
             direction = []
             while self.tablero[x + 1][y + 1] == 'B':
-                print 'octavo ' + str(y)
                 direction.append((x + 1, y + 1, 'B'))
                 x += 1
                 y += 1
