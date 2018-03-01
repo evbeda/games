@@ -1,4 +1,8 @@
 class Tateti(object):
+
+    name = 'Tateti'
+    input_args = 2
+
     def __init__(self):
         self.tablero = [
             [0, 0, 0],
@@ -13,7 +17,7 @@ class Tateti(object):
         self.playing = True
         self.winner = ""
 
-    def next(self):
+    def next_turn(self):
         if self.playing:
             if self.turn:
                 return "Plays X"
@@ -36,7 +40,8 @@ class Tateti(object):
                         self.check_win_vertical(x1, y1, pieza) or
                         self.check_diagonal_asc(x1, y1, pieza) or
                         self.check_win_diagonal_desc(x1, y1, pieza)):
-                    self.win(pieza)
+                    return self.win(pieza)
+                return ''
             else:
                 raise Exception("Movement not allowed.")
         else:
@@ -93,3 +98,4 @@ class Tateti(object):
     def win(self, pieza):
         self.playing = False
         self.winner = pieza + " wins"
+        return self.winner
