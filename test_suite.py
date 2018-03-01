@@ -4,6 +4,7 @@ from reversi.test_reversi import TestReversi
 from connect_four_game.test_connect_four_game import TestConnectFourGame
 from buscaminas.test_buscaminas import TestBuscamina
 from test_game import TestGame
+from damas.test import TestDamaGame
 
 
 def suite():
@@ -16,6 +17,7 @@ def suite():
     test_suite.addTest(unittest.makeSuite(TestConnectFourGame))
     test_suite.addTest(unittest.makeSuite(TestBuscamina))
     test_suite.addTest(unittest.makeSuite(TestGame))
+    test_suite.addTest(unittest.makeSuite(TestDamaGame))
 
     return test_suite
 
