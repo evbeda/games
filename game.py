@@ -2,6 +2,7 @@ from guess_number_game.guess_number_game import GuessNumberGame
 from tateti.tateti import Tateti
 from buscaminas.buscaminas import Buscaminas
 from connect_four_game.connect_four_game import ConnectFourGame
+from damas.dama_game import DamaGameStart
 
 
 class Game(object):
@@ -13,6 +14,7 @@ class Game(object):
             Tateti,
             Buscaminas,
             ConnectFourGame,
+            DamaGameStart,
         ]
 
     def output(self, text):
@@ -81,8 +83,8 @@ class Game(object):
                         self.output(self.active_game.board)
                         game_input = self.get_turn_input(self.active_game.next_turn())
                         self.output(self.active_game.play(*game_input))
-                except Exception:
-                    self.output('Sorry... ')
+                except Exception, e:
+                    self.output('Sorry... {}'.format(e))
 
 
 if __name__ == '__main__':
