@@ -13,19 +13,19 @@ class TestTateti(unittest.TestCase):
     def test_piezas_play_0(self):
         self.tateti.play(0, 1)
         self.assertEquals(
-            self.tateti.board,
+            str(self.tateti.tablero),
             "[[0, 'X', 0], [0, 0, 0], [0, 0, 0]]",
         )
 
     def test_piezas_play_1(self):
         self.tateti.play(2, 1)
         self.assertEquals(
-            self.tateti.board,
+            str(self.tateti.tablero),
             "[[0, 0, 0], [0, 0, 0], [0, 'X', 0]]",
         )
         self.tateti.play(0, 0)
         self.assertEquals(
-            self.tateti.board,
+            str(self.tateti.tablero),
             "[['O', 0, 0], [0, 0, 0], [0, 'X', 0]]",
         )
 
@@ -50,16 +50,16 @@ class TestTateti(unittest.TestCase):
             self.assertEqual(e.exception.message, "Movement not allowed.",)
 
     def test_next_O(self):
-        self.assertEqual(self.tateti.next(), "Plays O")
+        self.assertEqual(self.tateti.next_turn(), "Plays O")
 
     def test_next_X(self):
         self.tateti.play(1, 1)
-        self.assertEqual(self.tateti.next(), "Plays X")
+        self.assertEqual(self.tateti.next_turn(), "Plays X")
 
     def test_repeat_movement(self):
         self.tateti.play(2, 1)
         self.assertEquals(
-            self.tateti.board,
+            str(self.tateti.tablero),
             "[[0, 0, 0], [0, 0, 0], [0, 'X', 0]]",
         )
         with self.assertRaises(Exception) as e:
@@ -72,7 +72,19 @@ class TestTateti(unittest.TestCase):
         self.tateti.play(0, 1)
         self.tateti.play(2, 1)
         self.tateti.play(0, 2)
-        self.assertEqual(self.tateti.next(), "X wins")
+        self.assertEqual(self.tateti.next_turn(), "X wins")
+
+    def test_tie(self):
+        self.tateti.play(0, 0)
+        self.tateti.play(0, 1)
+        self.tateti.play(0, 2)
+        self.tateti.play(1, 2)
+        self.tateti.play(1, 1)
+        self.tateti.play(2, 2)
+        self.tateti.play(1, 0)
+        self.tateti.play(2, 0)
+        self.tateti.play(2, 1)
+        self.assertEqual(self.tateti.next_turn(), "It's a TIE!")
 
     def test_win_vertical(self):
         self.tateti.play(0, 0)
@@ -80,7 +92,7 @@ class TestTateti(unittest.TestCase):
         self.tateti.play(1, 0)
         self.tateti.play(0, 2)
         self.tateti.play(2, 0)
-        self.assertEqual(self.tateti.next(), "X wins")
+        self.assertEqual(self.tateti.next_turn(), "X wins")
 
     def test_win_diagon_des(self):
         self.tateti.play(0, 0)
@@ -88,7 +100,7 @@ class TestTateti(unittest.TestCase):
         self.tateti.play(1, 1)
         self.tateti.play(0, 2)
         self.tateti.play(2, 2)
-        self.assertEqual(self.tateti.next(), "X wins")
+        self.assertEqual(self.tateti.next_turn(), "X wins")
 
     def test_win_diagon_asc(self):
             self.tateti.play(0, 2)
@@ -96,7 +108,7 @@ class TestTateti(unittest.TestCase):
             self.tateti.play(1, 1)
             self.tateti.play(0, 0)
             self.tateti.play(2, 0)
-            self.assertEqual(self.tateti.next(), "X wins")
+            self.assertEqual(self.tateti.next_turn(), "X wins")
 
 
 if __name__ == "__main__":
