@@ -98,6 +98,11 @@ class TestDamaGame(unittest.TestCase):
         )
         self.assertEqual('Black', self.game.turn)
 
+    def test_check_initial_position_inside_board(self):
+        self.assertEqual(self.game.play(-1, -1, 6, 6), "This position is outside our board")
+
+    def test_check_final_position_inside_board(self):
+        self.assertEqual(self.game.play(1, 1, 9, 8), "This position is outside our board")
     # def test_action_move(self):
     #     self.game.play(5, 1, 4, 0)
     #     self.game.play(2, 0, 3, 1)
