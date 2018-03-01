@@ -1,6 +1,17 @@
+[run]
+source =
+    connect_four_game
+    tateti
+    buscaminas
+    damas
+    guess_number_game
+    reversi
+    game.py
+
 [report]
 exclude_lines =
     pragma: no cover
+    def setUp
     def test_
     return raw_input
     print
@@ -9,6 +20,5 @@ exclude_lines =
 
 [run]
 omit =
-    */home/*
     env/*
 
