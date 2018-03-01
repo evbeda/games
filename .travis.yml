@@ -1,8 +1,10 @@
 language: python
 python:
   - "2.7"
+
 install:
   - pip install -r requeriments.txt
+
 script: coverage run test_suite.py
 
 after_success:
