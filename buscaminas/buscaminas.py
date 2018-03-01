@@ -49,14 +49,14 @@ class Buscaminas(object):
 
                 return 'No bomb, keep going'
         else:
-            return 'esa posicion ya fue seleccionada'
+            return 'Position already selected!'
 
 
     def generate_bombs(self):
         i = 0
         j = 0
         for x in range(0, self.number_bombs):
-            while ((i, j,) in self.bombs):
+            while (i, j,) in self.bombs:
                 i = randint(0, 7)
                 j = randint(0, 7)
             self.bombs.append((i, j, ))
@@ -64,9 +64,9 @@ class Buscaminas(object):
         return len(self.bombs)
 
     def generate_board(self):
-            self.clear_board()
-            for (x, y, ) in self.bombs:
-                self.board[x][y] = 'B'
+        self.clear_board()
+        for (x, y, ) in self.bombs:
+            self.board[x][y] = 'B'
 
     def clear_board(self):
         self.board = [

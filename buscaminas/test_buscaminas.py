@@ -73,9 +73,9 @@ class TestBuscamina(unittest.TestCase):
 
     def test_two_clicks_same_place(self):
         self.game.play(1, 3,)
-        self.assertEqual('esa posicion ya fue seleccionada', self.game.play(1, 3, ))
+        self.assertEqual('Position already selected!', self.game.play(1, 3, ))
 
-    def test_multiple_clicks(self):
+    def test_revealing_number(self):
         self.game.play(2, 2, )
         result = [
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
@@ -87,12 +87,7 @@ class TestBuscamina(unittest.TestCase):
             [' ', 'B', ' ', ' ', ' ', ' ', ' ', ' '],
             [' ', ' ', 'B', ' ', ' ', ' ', ' ', ' '],
         ]
-        print '-------- RESULT'
-        print result
-        print '--------- BOARD'
-        print self.game.check_board()
         self.assertEquals(result, self.game.check_board())
-
 
 
 if __name__ == "__main__":
