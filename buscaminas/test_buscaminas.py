@@ -93,6 +93,9 @@ class TestBuscamina(unittest.TestCase):
         print self.game.check_board()
         self.assertEquals(result, self.game.check_board())
 
+    def test_wrong_movement(self):
+        play_result = self.game.play(-1, 8)
+        self.assertEqual(play_result, 'Movimiento no permitido')
 
 
 if __name__ == "__main__":
