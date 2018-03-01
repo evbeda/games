@@ -9,6 +9,6 @@ exclude_lines =
 
 [run]
 omit =
-    home/*
+    */home/*
     env/*
 
