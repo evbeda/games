@@ -26,28 +26,32 @@ class TestReversi(unittest.TestCase):
     def test_wrong_movement_occupied(self):
         self.assertEquals(self.game.play(3, 4), 'Movimiento no permitido')
 
-
     def test_valid_move(self):
         self.assertEquals(self.game.play(3, 5), 'Correcto')
 
-    # # Solucionar: es un movimiento incorrecto, pero devuelve correcto
-    # def test_valid_move_2(self):
-    #     self.assertEquals(self.game.play(4, 5), 'Movimiento no permitido')
+    def test_get_directions(self):
+        result = [
+            [(3, 4, 'W')]
+        ]
+        self.assertEquals(result, self.game.find_white_pieces(3, 5))
 
-    # def test_get_directions(self):
-    #     # las tuplas representan la cantidad de casilleros en una direccion
-    #     # y que ficha contiene ese casillero
-    #     # las listas representan las direcciones posibles para mover la ficha
-    #     # se pretende ordenar, primero la direccion vertical superior
-    #     #  en sentido horario
-    #     # Por cada lista hay que evaluar si es correcto o incorrecto el
-    #     # movimiento dependiendo del turno
-    #     self.assertEquals(self.game.get_directions(4,5),
-    #         [(4,4,'B'),(4,3,'W')],
-    #         [(4,3,'W')]
-    #         )
+    def test_get_multiple_directions(self):
+        self.game.tablero = [
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', 'B', 'B', 'B', ' ', ' '],
+            [' ', ' ', ' ', 'W', 'B', 'W', ' ', ' '],
+            [' ', ' ', ' ', ' ', 'B', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+        ]
+        self.game.playingBlack = False
+        result = [
+            [(3, 5, 'B')], [(3, 4, 'B')]
+        ]
+        self.assertEquals(result, self.game.find_black_pieces(2, 5))
 
 
 if __name__ == "__main__":
-        unittest.main()
-
+    unittest.main()

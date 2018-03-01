@@ -5,22 +5,23 @@ class ReversiGame(object):
         self.playing = True
         self.playingBlack = True
         self.tablero = [
-            [0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 'B', 'W', 0, 0, 0],
-            [0, 0, 0, 'W', 'B', 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', 'B', 'W', ' ', ' ', ' '],
+            [' ', ' ', ' ', 'W', 'B', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
         ]
 
-    # metodo no terminado, falta cambiar el turno
     def next_turn(self):
         if self.playing:
             if self.playingBlack:
+                self.playingBlack = False
                 return 'Turn of the whiteones'
             else:
+                self.playingBlack = True
                 return 'Turn of the blackones'
         else:
             return 'Game Over'
@@ -42,12 +43,11 @@ class ReversiGame(object):
         if not(self.validate(x, y)):
             return 'Movimiento no permitido'
         else:
-
             return 'Correcto'
 
     # Valida si la casilla esta ocupada o no
     def validate_occupied(self, x, y):
-        if(self.tablero[x][y] != 0):
+        if(self.tablero[x][y] != ' '):
             return False
         else:
             return True
@@ -69,12 +69,198 @@ class ReversiGame(object):
         for i in posibilidades:
             a, b = i
             casilla = self.tablero[a][b]
-            if casilla == 0:
+            if casilla == ' ':
                 count += 1
         if count == 8:
             return False
         else:
             return True
+
+    def find_white_pieces(self, x, y):
+        positions = []
+        a = y
+        b = x
+        if self.playingBlack is True:
+            direction = []
+            while self.tablero[x][y - 1] == 'W':
+                direction.append((x, y - 1, 'W'))
+                y -= 1
+            if direction and self.tablero[x][y - 1] == 'B':
+                positions.append(direction)
+
+            y = a
+            x = b
+            direction = []
+            while self.tablero[x][y + 1] == 'W':
+                print 'segundo ' + str(y)
+                direction.append((x, y + 1, 'W'))
+                y += 1
+            if direction and self.tablero[x][y + 1] == 'B':
+                positions.append(direction)
+
+            y = a
+            x = b
+            direction = []
+            while self.tablero[x - 1][y] == 'W':
+                print 'tercero ' + str(y)
+                direction.append((x - 1, y, 'W'))
+                x -= 1
+            if direction and self.tablero[x - 1][y] == 'B':
+                positions.append(direction)
+
+            y = a
+            x = b
+            direction = []
+            while self.tablero[x + 1][y] == 'W':
+                print 'cuarto ' + str(y)
+                direction.append((x + 1, y, 'W'))
+                x += 1
+            if direction and self.tablero[x + 1][y] == 'B':
+                positions.append(direction)
+
+            y = a
+            x = b
+            direction = []
+            while self.tablero[x - 1][y + 1] == 'W':
+                print 'quinto ' + str(y)
+                direction.append((x - 1, y + 1, 'W'))
+                x -= 1
+                y += 1
+            if direction and self.tablero[x - 1][y + 1] == 'B':
+                positions.append(direction)
+
+            y = a
+            x = b
+            direction = []
+            while self.tablero[x - 1][y - 1] == 'W':
+                print 'sexto ' + str(y)
+                direction.append((x - 1, y - 1, 'W'))
+                x -= 1
+                y -= 1
+            if direction and self.tablero[x - 1][y - 1] == 'B':
+                positions.append(direction)
+
+            y = a
+            x = b
+            direction = []
+            while self.tablero[x + 1][y - 1] == 'W':
+                print 'septimo ' + str(y)
+                direction.append((x + 1, y - 1, 'W'))
+                x += 1
+                y -= 1
+            if direction and self.tablero[x + 1][y - 1] == 'B':
+                positions.append(direction)
+
+            y = a
+            x = b
+            direction = []
+            while self.tablero[x + 1][y + 1] == 'W':
+                print 'octavo ' + str(y)
+                direction.append((x + 1, y + 1, 'W'))
+                x += 1
+                y += 1
+            if direction and self.tablero[x + 1][y + 1] == 'B':
+                positions.append(direction)
+        return positions
+
+    def find_black_pieces(self, x, y):
+        positions = []
+        a = y
+        b = x
+        if self.playingBlack is False:
+            direction = []
+            while self.tablero[x][y - 1] == 'B':
+                direction.append((x, y - 1, 'B'))
+                y -= 1
+            if direction and self.tablero[x][y - 1] == 'W':
+                positions.append(direction)
+
+            direction = []
+
+            y = a
+            x = b
+            while self.tablero[x][y + 1] == 'B':
+                direction.append((x, y + 1, 'B'))
+                y += 1
+            if direction and self.tablero[x][y + 1] == 'W':
+                positions.append(direction)
+
+            direction = []
+
+            y = a
+            x = b
+            while self.tablero[x - 1][y] == 'B':
+                direction.append((x - 1, y, 'B'))
+                x -= 1
+            if direction and self.tablero[x - 1][y] == 'W':
+                positions.append(direction)
+
+            direction = []
+
+            y = a
+            x = b
+            while self.tablero[x + 1][y] == 'B':
+                direction.append((x + 1, y, 'B'))
+                x += 1
+            if direction and self.tablero[x + 1][y] == 'W':
+                positions.append(direction)
+
+            y = a
+            x = b
+            direction = []
+            while self.tablero[x - 1][y + 1] == 'B':
+                print 'quinto ' + str(y)
+                direction.append((x - 1, y + 1, 'B'))
+                x -= 1
+                y += 1
+            if direction and self.tablero[x - 1][y + 1] == 'W':
+                positions.append(direction)
+
+            y = a
+            x = b
+            direction = []
+            while self.tablero[x - 1][y - 1] == 'B':
+                print 'sexto ' + str(y)
+                direction.append((x - 1, y - 1, 'B'))
+                x -= 1
+                y -= 1
+            if direction and self.tablero[x - 1][y - 1] == 'W':
+                positions.append(direction)
+
+            y = a
+            x = b
+            direction = []
+            while self.tablero[x + 1][y - 1] == 'B':
+                print 'septimo ' + str(y)
+                direction.append((x + 1, y - 1, 'B'))
+                x += 1
+                y -= 1
+            if direction and self.tablero[x + 1][y - 1] == 'W':
+                positions.append(direction)
+
+            y = a
+            x = b
+            direction = []
+            while self.tablero[x + 1][y + 1] == 'B':
+                print 'octavo ' + str(y)
+                direction.append((x + 1, y + 1, 'B'))
+                x += 1
+                y += 1
+            if direction and self.tablero[x + 1][y + 1] == 'W':
+                positions.append(direction)
+        return positions
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
