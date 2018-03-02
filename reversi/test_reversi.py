@@ -33,7 +33,7 @@ class TestReversi(unittest.TestCase):
         result = [
             [(3, 4, 'W')]
         ]
-        self.assertEquals(result, self.game.find_white_pieces(3, 5))
+        self.assertEquals(result, self.game.find_possibility_pieces(3, 5))
 
     def test_get_directions_black(self):
         self.game.tablero = [
@@ -50,11 +50,11 @@ class TestReversi(unittest.TestCase):
         result = [
             [(3, 5, 'B')], [(3, 4, 'B')]
         ]
-        self.assertEquals(result, self.game.find_black_pieces(2, 5))
+        self.assertEquals(result, self.game.find_possibility_pieces(2, 5))
         result = [
             [(3, 3, 'B')], [(3, 4, 'B')]
         ]
-        self.assertEquals(result, self.game.find_black_pieces(2, 3))
+        self.assertEquals(result, self.game.find_possibility_pieces(2, 3))
 
     def test_get_all_directions_white(self):
         self.game.tablero = [
@@ -74,7 +74,7 @@ class TestReversi(unittest.TestCase):
             [(2, 5, 'B')], [(2, 3, 'B')],
             [(4, 3, 'B')], [(4, 5, 'B')]
         ]
-        self.assertEquals(result, self.game.find_black_pieces(3, 4))
+        self.assertEquals(result, self.game.find_possibility_pieces(3, 4))
 
     def test_get_all_directions_black(self):
         self.game.tablero = [
@@ -93,7 +93,7 @@ class TestReversi(unittest.TestCase):
             [(2, 5, 'W')], [(2, 3, 'W')],
             [(4, 3, 'W')], [(4, 5, 'W')]
         ]
-        self.assertEquals(result, self.game.find_white_pieces(3, 4))
+        self.assertEquals(result, self.game.find_possibility_pieces(3, 4))
 
 
 if __name__ == "__main__":
