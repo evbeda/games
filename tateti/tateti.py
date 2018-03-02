@@ -9,6 +9,7 @@ class Tateti(object):
             [0, 0, 0],
             [0, 0, 0],
         ]
+
         self.col = 3
         self.row = 3
         self.x = 'X'
@@ -35,21 +36,28 @@ class Tateti(object):
                 else:
                     pieza = self.o
                     self.turn = 0
+
                 self.insert_symbol(x1, y1, pieza)
                 if(self.check_win_hor(x1, y1, pieza) or
                         self.check_win_vertical(x1, y1, pieza) or
                         self.check_diagonal_asc(x1, y1, pieza) or
                         self.check_win_diagonal_desc(x1, y1, pieza)):
                     return self.win(pieza)
-                return ''
+                elif self.check_tie(x1, y1, pieza):
+                    return self.tie(pieza)
             else:
                 raise Exception("Movement not allowed.")
         else:
-            raise Exception("Game Over.")
+            return "Game Over."
 
     @property
     def board(self):
-        return str(self.tablero)
+        result = '\n'
+        for x in xrange(0, 3):
+            for y in xrange(0, 3):
+                result += str(self.tablero[x][y])
+            result += '\n'
+        return result
 
     def check_empty_position(self, x, y):
         return self.tablero[x][y] == 0
@@ -59,6 +67,7 @@ class Tateti(object):
             self.tablero[x1][y1] = pieza
         else:
             raise Exception("Can't insert a symbol here")
+        return self.board
 
     # check horizontal
     def check_win_hor(self, x1, y1, pieza):
@@ -67,6 +76,14 @@ class Tateti(object):
             if self.tablero[x1][column] != pieza:
                 win = False
         return win
+
+    def check_tie(self, x1, y1, pieza):
+        bool = True
+        for x in range(0, 3):
+            for y in range(0, 3):
+                if (self.tablero[x][y] == 0):
+                    bool = False
+        return bool
 
     # check vertical
     def check_win_vertical(self, x1, y1, pieza):
@@ -93,6 +110,10 @@ class Tateti(object):
                 self.tablero[2][0] != pieza):
             win = False
         return win
+
+    def tie(self, pieza):
+        self.playing = False
+        self.winner = "It's a TIE!"
 
     # win
     def win(self, pieza):
