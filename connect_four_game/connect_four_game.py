@@ -5,8 +5,10 @@ class ConnectFourGame(object):
     def __init__(self):
         super(ConnectFourGame, self).__init__()
         self.playing = True
-        self.turn = 1
+        self.turn = 0
         self.ficha = ''
+        self.filas = 6
+        self.columnas = 7
         self.board_status = [
             ['E', 'E', 'E', 'E', 'E', 'E', 'E'],
             ['E', 'E', 'E', 'E', 'E', 'E', 'E'],
@@ -21,67 +23,100 @@ class ConnectFourGame(object):
             self.board_status[0][column] != 'W' and
             self.board_status[0][column] != 'B'
         ):
-            if self.turn % 2 != 0:
+            if self.turn == 0:
                 for x in xrange(5, -1, -1):
-                    #import ipdb; ipdb.set_trace()
-
                     if self.board_status[x][column] == 'E':
                         self.board_status[x][column] = 'W'
                         self.ficha = 'W'
+                        self.turn = 1
                         break
+
             else:
-                for x in xrange(5, -1, -1):
+                 for x in xrange(5, -1, -1):
                     if self.board_status[x][column] == 'E':
                         self.board_status[x][column] = 'B'
                         self.ficha = 'B'
+                        self.turn = 0
                         break
 
-            for x in range(5):
-                for y in range(6):
-                    # win oblicuo derecho
-                    if(
-                        x <= 2 and y <= 3 and
-                        self.board_status[x][y] == self.ficha and
-                        self.board_status[x + 1][y + 1] == self.ficha and
-                        self.board_status[x + 2][y + 2] == self.ficha and
-                        self.board_status[x + 3][y + 3] == self.ficha
-                    ):
-                        return 'You win'
-                    # win oblicuo izquierdo
-                    if(
-                        x >= 3 and y >= 3 and
-                        self.board_status[x][y] == self.ficha and
-                        self.board_status[x - 1][y - 1] == self.ficha and
-                        self.board_status[x - 2][y - 2] == self.ficha and
-                        self.board_status[x - 3][y - 3] == self.ficha
-                    ):
-                        return 'You win'
-                    # win horizontal
-                    if(
-                        y <= 3 and
-                        self.board_status[x][y] == self.ficha and
-                        self.board_status[x][y + 1] == self.ficha and
-                        self.board_status[x][y + 2] == self.ficha and
-                        self.board_status[x][y + 3] == self.ficha
-                    ):
-                        return 'You win'
-                    # win vertical
-                    if(
-                        x <= 2 and
-                        self.board_status[x][y] == self.ficha and
-                        self.board_status[x + 1][y] == self.ficha and
-                        self.board_status[x + 2][y] == self.ficha and
-                        self.board_status[x + 3][y] == self.ficha
-                    ):
-                        return 'You win'
+            if (self.win_diagonal_izquierdo()):
+                return 'You win'
+            elif (self.win_diagonal_derecho()):
+                return 'You win'
+            elif(self.win_horizontal()):
+                return 'You win'
+            elif(self.win_vertical()):
+                return 'You win'
 
-            self.turn += 1
-            return self.board_status
+            # return self.board_status
+
         else:
             return 'Full column'
 
+    def win_diagonal_izquierdo(self):
+        for fila in range(self.filas):
+            for col in range(self.columnas):
+                    if(
+                        3 <= fila <= 5 and 0 <= col <= 3 and
+                        self.board_status[fila][col] == self.ficha and
+                        self.board_status[fila-1][col+1] == self.ficha and
+                        self.board_status[fila-2][col+2] == self.ficha and
+                        self.board_status[fila-3][col+3] == self.ficha
+                    ):
+                        return True
+        return False
+
+    def win_diagonal_derecho(self):
+        for fila in range(self.filas):
+            for col in range(self.columnas):
+                    if(
+                        3 <= fila <= 5 and 3 <= col <= 6 and
+                        self.board_status[fila][col] == self.ficha and
+                        self.board_status[fila-1][col-1] == self.ficha and
+                        self.board_status[fila-2][col-2] == self.ficha and
+                        self.board_status[fila-3][col-3] == self.ficha
+                    ):
+                        return True
+        return False
+
+    def win_horizontal(self):
+        for fila in range(self.filas):
+            for col in range(self.columnas):
+                    if(
+                        col <= 3 and
+                        self.board_status[fila][col] == self.ficha and
+                        self.board_status[fila][col + 1] == self.ficha and
+                        self.board_status[fila][col + 2] == self.ficha and
+                        self.board_status[fila][col + 3] == self.ficha
+                    ):
+                        return True
+        return False
+
+    def win_vertical(self):
+        for fila in range(self.filas):
+            for col in range(self.columnas):
+                    if(
+                        fila <= 2 and
+                        self.board_status[fila][col] == self.ficha and
+                        self.board_status[fila + 1][col] == self.ficha and
+                        self.board_status[fila + 2][col] == self.ficha and
+                        self.board_status[fila + 3][col] == self.ficha
+                    ):
+                        return True
+        return False
+
+
+
+
+
+
+
+
+
+
+
     def playingW(self, turn):
-        if self.turn % 2 != 0:
+        if self.turn == 0:
             return 'White plays'
         else:
             return 'Black plays'

@@ -87,32 +87,41 @@ class TestConnectFourGame(unittest.TestCase):
         self.game.play(1)
         self.game.play(2)
         self.game.play(2)
-        self.game.play(3)
-        self.game.play(3)
-        self.assertEquals('You win', self.game.play(4))
+        self.assertEquals('You win', self.game.play(3))
         self.assertEqual(
             self.game.board,
             'EEEEEEE\n'
             'EEEEEEE\n'
             'EEEEEEE\n'
             'EEEEEEE\n'
-            'BBBBEEE\n'
-            'WWWWBEE\n',
+            'BBBEEEE\n'
+            'WWWWEEE\n',
         )
 
     def test_win_diagonalD(self):
         self.game.play(0)
+
         self.game.play(1)
+
         self.game.play(1)
+
         self.game.play(2)
+
         self.game.play(2)
+
         self.game.play(3)
+
         self.game.play(2)
+
         self.game.play(3)
+
         self.game.play(3)
+
         self.game.play(0)
-        self.game.play(3)
-#        self.assertEquals('You win', self.game.play(3))
+
+        self.assertEquals('You win', self.game.play(3))
+
+
         self.assertEqual(
             self.game.board,
             'EEEEEEE\n'
