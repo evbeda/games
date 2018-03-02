@@ -70,6 +70,7 @@ class TestConnectFourGame(unittest.TestCase):
         self.game.play(0)
         self.game.play(1)
         self.assertEquals('You win', self.game.play(0))
+        self.game.play(0)
         self.assertEqual(
             self.game.board,
             'EEEEEEE\n'

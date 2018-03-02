@@ -24,6 +24,7 @@ class ConnectFourGame(object):
             if self.turn % 2 != 0:
                 for x in xrange(5, -1, -1):
                     #import ipdb; ipdb.set_trace()
+
                     if self.board_status[x][column] == 'E':
                         self.board_status[x][column] = 'W'
                         self.ficha = 'W'
@@ -34,6 +35,7 @@ class ConnectFourGame(object):
                         self.board_status[x][column] = 'B'
                         self.ficha = 'B'
                         break
+
             for x in range(5):
                 for y in range(6):
                     # win oblicuo derecho
