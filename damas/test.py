@@ -111,6 +111,12 @@ class TestDamaGame(unittest.TestCase):
             self.game.play(4, 4, 3, 5), 'No white piece here to move !')
         self.assertEqual('White', self.game.turn)
 
+    def test_unreachable_place(self):
+        self.assertEqual(
+            self.game.play(7, 7, 5, 5), 'you cant reach that place!')
+        self.assertEqual('White', self.game.turn)
+
+
     # def test_action_move(self):
     #     self.game.play(5, 1, 4, 0)
     #     self.game.play(2, 0, 3, 1)

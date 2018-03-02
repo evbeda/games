@@ -96,18 +96,9 @@ class TestBuscamina(unittest.TestCase):
         self.assertEqual(play_result, 'Movimiento no permitido')
 
     def test_output_board(self):
-        result = "|1|2|2|1|0| | | |\n"
-        result += "| | |BOOM| | | | | |\n"
-        result += "| | | | | | | | |\n"
-        result += "| | | | | | | | |\n"
-        result += "| | | | | | | | |\n"
-        result += "| | | | | | | | |\n"
-        result += "| | | | | | | | |\n"
-        result += "| | | | | | | | |\n"
-        print ' ---Test movements ---'
         self.game.play(0, 0, )
 
-        # Bomb
+        # bomb
         # self.game.play(1, 1, )
 
         # bomb
@@ -128,10 +119,10 @@ class TestBuscamina(unittest.TestCase):
         # bomb
         # self.game.play(2, 4, )
 
-        board_ = self.game.board
-        print '\n' + board_
-        print ' ---Test movements ---'
-        self.assertEquals(result, board_)
+        result = self.game.board
+        print '\n' + result
+        self.assertEquals(False, self.game.playing)
+
 
 
 if __name__ == "__main__":
