@@ -33,28 +33,7 @@ class TestReversi(unittest.TestCase):
         result = [
             [(3, 4, 'W')]
         ]
-        self.assertEquals(result, self.game.find_white_pieces(3, 5))
-
-    def test_get_directions_black(self):
-        self.game.tablero = [
-            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', 'B', 'B', 'B', ' ', ' '],
-            [' ', ' ', ' ', 'W', 'B', 'W', ' ', ' '],
-            [' ', ' ', ' ', ' ', 'B', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-        ]
-        self.game.playingBlack = False
-        result = [
-            [(3, 5, 'B')], [(3, 4, 'B')]
-        ]
-        self.assertEquals(result, self.game.find_black_pieces(2, 5))
-        result = [
-            [(3, 3, 'B')], [(3, 4, 'B')]
-        ]
-        self.assertEquals(result, self.game.find_black_pieces(2, 3))
+        self.assertEquals(result, self.game.get_directions(3, 5))
 
     def test_get_all_directions_white(self):
         self.game.tablero = [
@@ -69,12 +48,12 @@ class TestReversi(unittest.TestCase):
         ]
         self.game.playingBlack = False
         result = [
-            [(3, 3, 'B')], [(3, 5, 'B')],
-            [(2, 4, 'B')], [(4, 4, 'B')],
-            [(2, 5, 'B')], [(2, 3, 'B')],
-            [(4, 3, 'B')], [(4, 5, 'B')]
+            [(3, 3, 'B')], [(4, 3, 'B')],
+            [(4, 4, 'B')], [(4, 5, 'B')],
+            [(3, 5, 'B')], [(2, 5, 'B')],
+            [(2, 4, 'B')], [(2, 3, 'B')]
         ]
-        self.assertEquals(result, self.game.find_black_pieces(3, 4))
+        self.assertEquals(result, self.game.get_directions(3, 4))
 
     def test_get_all_directions_black(self):
         self.game.tablero = [
@@ -88,12 +67,12 @@ class TestReversi(unittest.TestCase):
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
         ]
         result = [
-            [(3, 3, 'W')], [(3, 5, 'W')],
-            [(2, 4, 'W')], [(4, 4, 'W')],
-            [(2, 5, 'W')], [(2, 3, 'W')],
-            [(4, 3, 'W')], [(4, 5, 'W')]
+            [(3, 3, 'W')], [(4, 3, 'W')],
+            [(4, 4, 'W')], [(4, 5, 'W')],
+            [(3, 5, 'W')], [(2, 5, 'W')],
+            [(2, 4, 'W')], [(2, 3, 'W')]
         ]
-        self.assertEquals(result, self.game.find_white_pieces(3, 4))
+        self.assertEquals(result, self.game.get_directions(3, 4))
 
 
 if __name__ == "__main__":
