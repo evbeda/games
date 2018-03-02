@@ -21,21 +21,29 @@ class DamaGameStart(object):
                 self.playing
             ):
                 if self.board_status[x][y] == 'w':
-                        self.board_status[x][y] = ' '
-                        self.board_status[w][z] = 'w'
-                        self.turn = 'Black'
+                    if (w == x - 1):
+                        if (z == y - 1 or z == y + 1):
+                            self.move(x, y, w, z, 'w')
+                        else:
+                            return 'you cant reach that place!'
+                    else:
+                        return 'you cant reach that place!'
                 else:
-                        return 'No white piece here to move !'
+                    return 'No white piece here to move !'
             elif(
                 self.turn == 'Black' and
                 self.playing
             ):
-                    if self.board_status[x][y] == 'b':
-                        self.board_status[x][y] = ' '
-                        self.board_status[w][z] = 'b'
-                        self.turn = 'White'
+                if self.board_status[x][y] == 'b':
+                    if (w == x + 1):
+                        if (z == y - 1 or z == y + 1):
+                            self.move(x, y, w, z, 'b')
+                        else:
+                            return 'you cant reach that place!'
                     else:
-                            return 'No black piece here to move !'
+                        return 'you cant reach that place!'
+                else:
+                    return 'No black piece here to move !'
         else:
             return "This position is outside our board"
 
@@ -47,6 +55,14 @@ class DamaGameStart(object):
                 result += self.board_status[x][y]
             result += '\n'
         return result
+
+    def move(self, x, y, w, z, pieza):
+        self.board_status[x][y] = ' '
+        self.board_status[w][z] = pieza
+        if pieza == 'w':
+            self.turn = 'Black'
+        else:
+            self.turn = 'White'
 
     def valid_movement_inside_board(self, x1, y1, x2, y2):
         return (x1 < 0 or x1 > 7 or x2 < 0 or x2 > 7 or
