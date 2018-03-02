@@ -94,6 +94,10 @@ class TestTateti(unittest.TestCase):
         self.tateti.play(2, 0)
         self.assertEqual(self.tateti.next_turn(), "X wins")
 
+    def test_position_taken(self):
+        self.tateti.play(0, 0)
+        self.assertEqual(self.tateti.play(0, 0), "Position already taken. Please, choose another one.")
+
     def test_win_diagon_des(self):
         self.tateti.play(0, 0)
         self.tateti.play(0, 1)
@@ -107,6 +111,14 @@ class TestTateti(unittest.TestCase):
             self.tateti.play(0, 1)
             self.tateti.play(1, 1)
             self.tateti.play(0, 0)
+            self.tateti.play(2, 0)
+            self.assertEqual(self.tateti.next_turn(), "X wins")
+
+    def test_win_vertical_2(self):
+            self.tateti.play(0, 0)
+            self.tateti.play(0, 1)
+            self.tateti.play(1, 0)
+            self.tateti.play(1, 1)
             self.tateti.play(2, 0)
             self.assertEqual(self.tateti.next_turn(), "X wins")
 
