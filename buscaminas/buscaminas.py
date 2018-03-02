@@ -37,14 +37,13 @@ class Buscaminas(object):
                 if (x, y) in self.clicks:
                     if (x, y,) in self.bombs:
                         self.playing = False
-                        print 'Lost' + '(' + str(x) + ',' + str(y) + ')'
-                        self._board[x][y] = 'BOOM'
+
+                        self._board[x][y] = '*'
                         return 'You lost'
                     elif self.number_clicks == (
                             self.number_blocks - len(self.bombs)
                     ):
                         self.playing = False
-                        print 'Win' + '(' + str(x) + ',' + str(y) + ')'
                         return 'You win'
                     else:
 
@@ -69,15 +68,15 @@ class Buscaminas(object):
                             count += 1
                         self._board[x][y] = str(count)
 
-                        print 'Puedes seguir jugando'
+
                         return 'No bomb, keep going'
                 else:
                     return 'Position selected yet'
             else:
-                print 'Game Over, No puedes seguir jugando'
+
                 return 'Game Over'
         else:
-            print 'Movimiento no permitido'
+
             return 'Movimiento no permitido'
 
     def generate_bombs(self):
@@ -118,23 +117,44 @@ class Buscaminas(object):
     def check_board(self):
         return self._board
 
+
+    def poster(self):
+        poster = ""
+        poster += " ______ _   _ _____ _____  ___ ___  ________ _   _  ___  _____ \n"
+        poster += " | ___ \ | | /  ___/  __ \/ _ \|  \/  |_   _| \ | |/ _ \/  ___|\n"
+        poster += " | |_/ / | | \ `--.| /  \/ /_\ \ .  . | | | |  \| / /_\ \ `--. \n"
+        poster += " | ___ \ | | |`--. \ |   |  _  | |\/| | | | | . ` |  _  |`--.  \n"
+        poster += " | |_/ / |_| /\__/ / \__/\ | | | |  | |_| |_| |\  | | | /\__/ /\n"
+        poster += " \____/ \___/\____/ \____|_| |_|_|  |_/\___/\_| \_|_| |_|____/ \n"
+        return poster
+
+
+
     @property
     def board(self):
-        output = ''
+        output = self.poster()
+        output += " x 0 1 2 3 4 5 6 7 \n"
+        output += "y  \n"
         for y in range(0, self.max):
             for x in range(0, self.max):
                 casilla = str(self._board[x][y])
                 if casilla == 'B':
+                    if x%8 == 0:
+                        output += str(y) + ' '
                     casilla = ' '
                     output += '|' + casilla
                     if(x == 7):
                         output += '|' + '\n'
                 elif casilla == '*':
+                    if x%8 == 0:
+                        output += str(y) + ' '
                     casilla = '*'
                     output += '|' + casilla
                     if(x == 7):
                         output += '|' + '\n'
                 else:
+                    if x%8 == 0:
+                        output += str(y) + ' '
                     output += '|' + casilla
                     if(x == 7):
                         output += '|' + '\n'
