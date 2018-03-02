@@ -76,180 +76,89 @@ class ReversiGame(object):
         else:
             return True
 
-    def find_white_pieces(self, x, y):
-        positions = []
+    def find_possibility_pieces(self, x, y):
         a = y
         b = x
+        positions = []
+        direction = []
         if self.playingBlack is True:
-            direction = []
-            while self.tablero[x][y - 1] == 'W':
-                direction.append((x, y - 1, 'W'))
+            piece_to_change = 'W'
+            my_piece = 'B'
+        else:
+            piece_to_change = 'B'
+            my_piece = 'W'
+
+        if self.playing:
+            while self.tablero[x][y - 1] == piece_to_change:
+                direction.append((x, y - 1, piece_to_change))
                 y -= 1
-            if direction and self.tablero[x][y - 1] == 'B':
+            if direction and self.tablero[x][y - 1] == my_piece:
                 positions.append(direction)
 
             y = a
             x = b
             direction = []
-            while self.tablero[x][y + 1] == 'W':
-                direction.append((x, y + 1, 'W'))
+            while self.tablero[x][y + 1] == piece_to_change:
+                direction.append((x, y + 1, piece_to_change))
                 y += 1
-            if direction and self.tablero[x][y + 1] == 'B':
+            if direction and self.tablero[x][y + 1] == my_piece:
                 positions.append(direction)
 
             y = a
             x = b
             direction = []
-            while self.tablero[x - 1][y] == 'W':
-                direction.append((x - 1, y, 'W'))
+            while self.tablero[x - 1][y] == piece_to_change:
+                direction.append((x - 1, y, piece_to_change))
                 x -= 1
-            if direction and self.tablero[x - 1][y] == 'B':
+            if direction and self.tablero[x - 1][y] == my_piece:
                 positions.append(direction)
 
             y = a
             x = b
             direction = []
-            while self.tablero[x + 1][y] == 'W':
-                direction.append((x + 1, y, 'W'))
+            while self.tablero[x + 1][y] == piece_to_change:
+                direction.append((x + 1, y, piece_to_change))
                 x += 1
-            if direction and self.tablero[x + 1][y] == 'B':
+            if direction and self.tablero[x + 1][y] == my_piece:
                 positions.append(direction)
 
             y = a
             x = b
             direction = []
-            while self.tablero[x - 1][y + 1] == 'W':
-                direction.append((x - 1, y + 1, 'W'))
+            while self.tablero[x - 1][y + 1] == piece_to_change:
+                direction.append((x - 1, y + 1, piece_to_change))
                 x -= 1
                 y += 1
-            if direction and self.tablero[x - 1][y + 1] == 'B':
+            if direction and self.tablero[x - 1][y + 1] == my_piece:
                 positions.append(direction)
 
             y = a
             x = b
             direction = []
-            while self.tablero[x - 1][y - 1] == 'W':
-                direction.append((x - 1, y - 1, 'W'))
+            while self.tablero[x - 1][y - 1] == piece_to_change:
+                direction.append((x - 1, y - 1, piece_to_change))
                 x -= 1
                 y -= 1
-            if direction and self.tablero[x - 1][y - 1] == 'B':
+            if direction and self.tablero[x - 1][y - 1] == my_piece:
                 positions.append(direction)
 
             y = a
             x = b
             direction = []
-            while self.tablero[x + 1][y - 1] == 'W':
-                direction.append((x + 1, y - 1, 'W'))
+            while self.tablero[x + 1][y - 1] == piece_to_change:
+                direction.append((x + 1, y - 1, piece_to_change))
                 x += 1
                 y -= 1
-            if direction and self.tablero[x + 1][y - 1] == 'B':
+            if direction and self.tablero[x + 1][y - 1] == my_piece:
                 positions.append(direction)
 
             y = a
             x = b
             direction = []
-            while self.tablero[x + 1][y + 1] == 'W':
-                direction.append((x + 1, y + 1, 'W'))
+            while self.tablero[x + 1][y + 1] == piece_to_change:
+                direction.append((x + 1, y + 1, piece_to_change))
                 x += 1
                 y += 1
-            if direction and self.tablero[x + 1][y + 1] == 'B':
+            if direction and self.tablero[x + 1][y + 1] == my_piece:
                 positions.append(direction)
         return positions
-
-    def find_black_pieces(self, x, y):
-        positions = []
-        a = y
-        b = x
-        if self.playingBlack is False:
-            direction = []
-            while self.tablero[x][y - 1] == 'B':
-                direction.append((x, y - 1, 'B'))
-                y -= 1
-            if direction and self.tablero[x][y - 1] == 'W':
-                positions.append(direction)
-
-            direction = []
-
-            y = a
-            x = b
-            while self.tablero[x][y + 1] == 'B':
-                direction.append((x, y + 1, 'B'))
-                y += 1
-            if direction and self.tablero[x][y + 1] == 'W':
-                positions.append(direction)
-
-            direction = []
-
-            y = a
-            x = b
-            while self.tablero[x - 1][y] == 'B':
-                direction.append((x - 1, y, 'B'))
-                x -= 1
-            if direction and self.tablero[x - 1][y] == 'W':
-                positions.append(direction)
-
-            direction = []
-
-            y = a
-            x = b
-            while self.tablero[x + 1][y] == 'B':
-                direction.append((x + 1, y, 'B'))
-                x += 1
-            if direction and self.tablero[x + 1][y] == 'W':
-                positions.append(direction)
-
-            y = a
-            x = b
-            direction = []
-            while self.tablero[x - 1][y + 1] == 'B':
-                direction.append((x - 1, y + 1, 'B'))
-                x -= 1
-                y += 1
-            if direction and self.tablero[x - 1][y + 1] == 'W':
-                positions.append(direction)
-
-            y = a
-            x = b
-            direction = []
-            while self.tablero[x - 1][y - 1] == 'B':
-                direction.append((x - 1, y - 1, 'B'))
-                x -= 1
-                y -= 1
-            if direction and self.tablero[x - 1][y - 1] == 'W':
-                positions.append(direction)
-
-            y = a
-            x = b
-            direction = []
-            while self.tablero[x + 1][y - 1] == 'B':
-                direction.append((x + 1, y - 1, 'B'))
-                x += 1
-                y -= 1
-            if direction and self.tablero[x + 1][y - 1] == 'W':
-                positions.append(direction)
-
-            y = a
-            x = b
-            direction = []
-            while self.tablero[x + 1][y + 1] == 'B':
-                direction.append((x + 1, y + 1, 'B'))
-                x += 1
-                y += 1
-            if direction and self.tablero[x + 1][y + 1] == 'W':
-                positions.append(direction)
-        return positions
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
