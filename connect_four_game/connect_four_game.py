@@ -8,6 +8,7 @@ class ConnectFourGame(object):
         self.turn = 0
         self.ficha = ''
         self.filas = 6
+        self.min = 0
         self.columnas = 7
         self.board_status = [
             ['E', 'E', 'E', 'E', 'E', 'E', 'E'],
@@ -23,32 +24,44 @@ class ConnectFourGame(object):
             if(self.empate()):
                 self.playing = False
                 return 'Empate'
-            elif(
-                self.board_status[0][column] != 'W' and
-                self.board_status[0][column] != 'B'
-            ):
+            elif(self.in_board(column)):
+                if(
+                    self.board_status[0][column] != 'W' and
+                    self.board_status[0][column] != 'B'
+                ):
 
-                self.set_board(column)
+                    self.set_board(column)
 
-                if (self.win_diagonal_izquierdo()):
-                    self.playing = False
-                    return 'You win'
-                elif (self.win_diagonal_derecho()):
-                    self.playing = False
-                    return 'You win'
-                elif(self.win_horizontal()):
-                    self.playing = False
-                    return 'You win'
-                elif(self.win_vertical()):
-                    self.playing = False
-                    return 'You win'
+                    if (self.win_diagonal_izquierdo()):
+                        self.playing = False
+                        return 'You win'
+                    elif (self.win_diagonal_derecho()):
+                        self.playing = False
+                        return 'You win'
+                    elif(self.win_horizontal()):
+                        self.playing = False
+                        return 'You win'
+                    elif(self.win_vertical()):
+                        self.playing = False
+                        return 'You win'
 
-                return 'Keep playing'
+                    return 'Keep playing'
 
+                else:
+                    return 'Full column'
             else:
-                return 'Full column'
+                return 'Movimiento no permitido'
         else:
             return 'Game Over'
+
+    def in_board(self, column):
+        if isinstance(column, int):
+            return not(
+                self.columnas < column or
+                self.min > column
+            )
+        else:
+            return False
 
     def empate(self):
         if (

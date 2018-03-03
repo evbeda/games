@@ -146,6 +146,45 @@ class TestConnectFourGame(unittest.TestCase):
         self.assertEqual(True, self.game.empate())
         self.assertEqual(False, self.game.playing)
 
+    def test_wrong_set_1(self):
+        self.assertEqual('Movimiento no permitido', self.game.play(-1))
+        self.assertEqual(
+            self.game.board,
+            'EEEEEEE\n'
+            'EEEEEEE\n'
+            'EEEEEEE\n'
+            'EEEEEEE\n'
+            'EEEEEEE\n'
+            'EEEEEEE\n'
+        )
+        self.assertEqual(True, self.game.playing)
+
+    def test_wrong_set_2(self):
+        self.assertEqual('Movimiento no permitido', self.game.play(9))
+        self.assertEqual(
+            self.game.board,
+            'EEEEEEE\n'
+            'EEEEEEE\n'
+            'EEEEEEE\n'
+            'EEEEEEE\n'
+            'EEEEEEE\n'
+            'EEEEEEE\n'
+        )
+        self.assertEqual(True, self.game.playing)
+
+    def test_wrong_set_3(self):
+        self.assertEqual('Movimiento no permitido', self.game.play('a'))
+        self.assertEqual(
+            self.game.board,
+            'EEEEEEE\n'
+            'EEEEEEE\n'
+            'EEEEEEE\n'
+            'EEEEEEE\n'
+            'EEEEEEE\n'
+            'EEEEEEE\n'
+        )
+        self.assertEqual(True, self.game.playing)
+
 
 if __name__ == "__main__":
     unittest.main()
