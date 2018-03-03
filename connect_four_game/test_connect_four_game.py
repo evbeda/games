@@ -87,32 +87,40 @@ class TestConnectFourGame(unittest.TestCase):
         self.game.play(1)
         self.game.play(2)
         self.game.play(2)
-        self.game.play(3)
-        self.game.play(3)
-        self.assertEquals('You win', self.game.play(4))
+        self.assertEquals('You win', self.game.play(3))
         self.assertEqual(
             self.game.board,
             'EEEEEEE\n'
             'EEEEEEE\n'
             'EEEEEEE\n'
             'EEEEEEE\n'
-            'BBBBEEE\n'
-            'WWWWBEE\n',
+            'BBBEEEE\n'
+            'WWWWEEE\n',
         )
 
     def test_win_diagonalD(self):
         self.game.play(0)
+
         self.game.play(1)
+
         self.game.play(1)
+
         self.game.play(2)
+
         self.game.play(2)
+
         self.game.play(3)
+
         self.game.play(2)
+
         self.game.play(3)
+
         self.game.play(3)
+
         self.game.play(0)
-        self.game.play(3)
-#        self.assertEquals('You win', self.game.play(3))
+
+        self.assertEquals('You win', self.game.play(3))
+
         self.assertEqual(
             self.game.board,
             'EEEEEEE\n'
@@ -122,6 +130,21 @@ class TestConnectFourGame(unittest.TestCase):
             'BWWBEEE\n'
             'WBBBEEE\n',
         )
+
+    def test_empate(self):
+
+        self.game.board_status = [
+            ['W', 'W', 'B', 'W', 'B', 'B', 'B'],
+            ['B', 'B', 'W', 'B', 'B', 'W', 'W'],
+            ['W', 'W', 'B', 'B', 'W', 'B', 'W'],
+            ['B', 'W', 'W', 'W', 'B', 'W', 'B'],
+            ['W', 'B', 'B', 'W', 'W', 'W', 'B'],
+            ['W', 'B', 'W', 'B', 'B', 'B', 'W'],
+        ]
+
+        self.assertEqual('Empate', self.game.play(0))
+        self.assertEqual(True, self.game.empate())
+        self.assertEqual(False, self.game.playing)
 
 
 if __name__ == "__main__":
