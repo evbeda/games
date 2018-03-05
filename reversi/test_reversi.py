@@ -21,7 +21,11 @@ class TestReversi(unittest.TestCase):
         )
 
     def test_wrong_movement_empty(self):
-        self.assertEquals(self.game.play(1, 1), 'Movimiento no permitido')
+        self.assertEquals(self.game.play(1, 1), 'No hay posibilidades')
+
+    @unittest.SkipTest
+    def test_no_posibilities(self):
+        self.assertEquals(self.game.play(7, 7), 'No hay posibilidades')
 
     def test_wrong_movement_occupied(self):
         self.assertEquals(self.game.play(3, 4), 'Movimiento no permitido')
