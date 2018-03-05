@@ -35,7 +35,9 @@ class Tateti(object):
                     return "Position already taken. Please, choose another one."
             else:
                 raise Exception("Movement not allowed.")
-            return self.next_turn()
+            if not self.playing:
+                return self.winner
+            return ''
         else:
             return "Game Over."
 
