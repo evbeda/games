@@ -64,16 +64,32 @@ class Buscaminas(object):
 
     def play(self, x, y):
         self.count = 0
-        movements = [
-            self._board[x + 1][y] == 'B',
-            self._board[x][y + 1] == 'B',
-            self._board[x - 1][y] == 'B',
-            self._board[x][y - 1] == 'B',
-            self._board[x + 1][y + 1] == 'B',
-            self._board[x - 1][y - 1] == 'B',
-            self._board[x + 1][y - 1] == 'B',
-            self._board[x - 1][y + 1] == 'B',
+        correct=''
+        coord = [
+            (x+1,y),
+            (x,y+1),
+            (x-1,y),
+            (x,y-1),
+            (x + 1,y + 1),
+            (x - 1,y - 1),
+            (x + 1,y - 1),
+            (x - 1,y + 1),
         ]
+        for element in coord:
+            x, y = element
+            if self.in_board(x, y):
+                correct.append((x,y))
+            
+        # movements = [
+        #     self._board== 'B', 
+        #     self._board[x][y + 1] == 'B',
+        #     self._board[x - 1][y] == 'B', 
+        #     self._board[x][y - 1] == 'B',
+        #     self._board[x + 1][y + 1] == 'B',
+        #     self._board[x - 1][y - 1] == 'B',
+        #     self._board[x + 1][y - 1] == 'B',
+        #     self._board[x - 1][y + 1] == 'B',
+        # ]
         if self.in_board(x, y):
             if (x, y) in self.clicks:
                 if self.check_lose(x, y, self.bombs):
