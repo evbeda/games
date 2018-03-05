@@ -2,6 +2,9 @@
 
 class ConnectFourGame(object):
 
+    name = '4 en linea'
+    input_args = 1
+
     def __init__(self):
         super(ConnectFourGame, self).__init__()
         self.playing = True
@@ -148,7 +151,7 @@ class ConnectFourGame(object):
 
         return poster
 
-    def playingW(self, turn):
+    def next_turn(self):
         if self.turn == 0:
             return 'White plays'
         else:

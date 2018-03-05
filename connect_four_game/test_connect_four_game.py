@@ -11,7 +11,7 @@ class TestConnectFourGame(unittest.TestCase):
         self.assertTrue(self.game.playing)
 
     def test_turno(self):
-        turn_white = self.game.playingW(1)
+        turn_white = self.game.next_turn()
         self.assertEqual(turn_white, 'White plays')
 
     def test_initial_Woard_status(self):

@@ -36,6 +36,7 @@ class TestGame(unittest.TestCase):
             'Select Game\n'
             '0: Guess Number Game\n'
             '1: Tateti\n'
+            '2: 4 en linea\n'
             '9: to quit\n'
         )
 
@@ -109,6 +110,94 @@ class TestGame(unittest.TestCase):
                 'Plays X',
                 '\nXX0\nOO0\n000\n',
                 'X wins',
+            ],
+        )
+
+    def test_play_cuatro_en_linea(self):
+
+        class ControlInputValues(object):
+            def __init__(self, *args, **kwargs):
+                self.played = False
+                self.play_count = 0
+
+            def __call__(self, console_output):
+                if 'Select Game' in console_output:
+                    if self.played:
+                        return '9'
+                    self.played = True
+                    return '2'
+                if '' in console_output:
+                    game_turns = (
+                        '0',
+                        '1',
+                        '0',
+                        '1',
+                        '0',
+                        '1',
+                        '0',
+                    )
+                    play = game_turns[self.play_count]
+                    self.play_count += 1
+                    return play
+
+        with \
+            patch('game.Game.get_input', side_effect=ControlInputValues()), \
+            patch('game.Game.output', side_effect=self.output_collector):
+            self.game.play()
+
+
+        self.assertEquals(
+            self.output_collector.output_collector,
+            [
+                'EEEEEEE\n'
+                'EEEEEEE\n'
+                'EEEEEEE\n'
+                'EEEEEEE\n'
+                'EEEEEEE\n'
+                'EEEEEEE\n',
+                'Keep playing',
+                'EEEEEEE\n'
+                'EEEEEEE\n'
+                'EEEEEEE\n'
+                'EEEEEEE\n'
+                'EEEEEEE\n'
+                'WEEEEEE\n',
+                'Keep playing',
+                'EEEEEEE\n'
+                'EEEEEEE\n'
+                'EEEEEEE\n'
+                'EEEEEEE\n'
+                'EEEEEEE\n'
+                'WBEEEEE\n',
+                'Keep playing',
+                'EEEEEEE\n'
+                'EEEEEEE\n'
+                'EEEEEEE\n'
+                'EEEEEEE\n'
+                'WEEEEEE\n'
+                'WBEEEEE\n',
+                'Keep playing',
+                'EEEEEEE\n'
+                'EEEEEEE\n'
+                'EEEEEEE\n'
+                'EEEEEEE\n'
+                'WBEEEEE\n'
+                'WBEEEEE\n',
+                'Keep playing',
+                'EEEEEEE\n'
+                'EEEEEEE\n'
+                'EEEEEEE\n'
+                'WEEEEEE\n'
+                'WBEEEEE\n'
+                'WBEEEEE\n',
+                'Keep playing',
+                'EEEEEEE\n'
+                'EEEEEEE\n'
+                'EEEEEEE\n'
+                'WBEEEEE\n'
+                'WBEEEEE\n'
+                'WBEEEEE\n',
+                'You win',
             ],
         )
 
