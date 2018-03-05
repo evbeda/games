@@ -92,6 +92,8 @@ class Buscaminas(object):
         i = 0
         j = 0
         for x in range(0, self.number_bombs):
+            i = randint(0, 7)
+            j = randint(0, 7)
             while ((i, j,) in self.bombs):
                 i = randint(0, 7)
                 j = randint(0, 7)

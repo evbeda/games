@@ -127,11 +127,38 @@ class TestGame(unittest.TestCase):
                     self.played = True
                     return '2'
                 if 'Play (expecting 2 numbers separated with spaces)' in console_output:
-                    return '0 0'
+                    game_turns = (
+                        '1 1',
+                    )
+                    play = game_turns[self.play_count]
+                    self.play_count += 1
+                    return play
+
+        class BombsValues(object):
+            def __init__(self, *args, **kwargs):
+                self.random_count = 0
+
+            def __call__(self, console_output, *args, **kwargs):
+                random_values = (
+                    1, 1, 
+                    2, 4, 
+                    1, 2, 
+                    3, 4, 
+                    4, 3, 
+                    2, 1, 
+                    5, 3, 
+                    3, 5, 
+                    6, 1, 
+                    7, 2, 
+                )
+                return_value = random_values[self.random_count]
+                self.random_count += 1
+                return return_value
 
         with \
                 patch('game.Game.get_input', side_effect=ControlInputValues()), \
-                patch('game.Game.output', side_effect=self.output_collector):
+                patch('game.Game.output', side_effect=self.output_collector), \
+                patch('buscaminas.buscaminas.randint', side_effect=BombsValues()):
             self.game.play()
 
         self.assertEqual(
