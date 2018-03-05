@@ -2,6 +2,8 @@ from random import randint
 
 
 class Buscaminas(object):
+    name = 'Buscaminas'
+    input_args = 2
 
     def __init__(self):
         super(Buscaminas, self).__init__()
@@ -30,54 +32,61 @@ class Buscaminas(object):
         else:
             return False
 
-    def play(self, x, y):
-        if self.in_board(x, y):
-            if self.playing:
-                # self._board[x][y] = '*'
-                if (x, y) in self.clicks:
-                    if (x, y,) in self.bombs:
-                        self.playing = False
-
-                        self._board[x][y] = '*'
-                        return 'You lost'
-                    elif self.number_clicks == (
-                            self.number_blocks - len(self.bombs)
-                    ):
-                        self.playing = False
-                        return 'You win'
-                    else:
-
-                        count = 0
-                        self.clicks.remove((x, y, ))
-                        self.number_clicks += 1
-                        if self._board[x + 1][y] == 'B':
-                            count += 1
-                        if self._board[x][y + 1] == 'B':
-                            count += 1
-                        if self._board[x - 1][y] == 'B':
-                            count += 1
-                        if self._board[x][y - 1] == 'B':
-                            count += 1
-                        if self._board[x + 1][y + 1] == 'B':
-                            count += 1
-                        if self._board[x - 1][y - 1] == 'B':
-                            count += 1
-                        if self._board[x + 1][y - 1] == 'B':
-                            count += 1
-                        if self._board[x - 1][y + 1] == 'B':
-                            count += 1
-                        self._board[x][y] = str(count)
-
-
-                        return 'No bomb, keep going'
-                else:
-                    return 'Position selected yet'
-            else:
-
-                return 'Game Over'
+    def next_turn(self):
+        if self.playing:
+            return "Play"
         else:
+            return '*********** Game Over ************'
 
-            return 'Movimiento no permitido'
+    def check_lose(self, x, y, bombs):
+        if (x, y,) in bombs:
+            self._board[x][y] = "*"
+            return True
+        return False
+
+    def check_win(self, number_clicks, number_blocks, bombs):
+        if number_clicks == (number_blocks - len(bombs)):
+            print "------------- You Win -------------------"
+            return True
+        return False
+
+    def keep_playing(self, x, y, movements):
+        self.clicks.remove((x, y, ))
+        self.number_clicks += 1
+        self.count += sum([
+            1
+            for m in movements
+            if m is True
+        ])
+        self._board[x][y] = str(self.count)
+        print 'No bomb, keep going'
+        return True
+
+    def play(self, x, y):
+        self.count = 0
+        movements = [
+            self._board[x + 1][y] == 'B',
+            self._board[x][y + 1] == 'B',
+            self._board[x - 1][y] == 'B',
+            self._board[x][y - 1] == 'B',
+            self._board[x + 1][y + 1] == 'B',
+            self._board[x - 1][y - 1] == 'B',
+            self._board[x + 1][y - 1] == 'B',
+            self._board[x - 1][y + 1] == 'B',
+        ]
+        if self.in_board(x, y):
+            if (x, y) in self.clicks:
+                if self.check_lose(x, y, self.bombs):
+                    self.playing = False
+                    return "------------- You Lose -------------------"
+                if self.check_win(self.number_clicks, self.number_blocks, self.bombs):
+                    self.playing = False
+                    return "------------- You Win -------------------"
+                self.playing = self.keep_playing(x, y, movements)
+            else:
+                return 'Position selected yet'
+        else:
+            return 'Movement not allowed.'
 
     def generate_bombs(self):
         i = 0
@@ -91,9 +100,9 @@ class Buscaminas(object):
         return len(self.bombs)
 
     def generate_board(self):
-            self.clear_board()
-            for (x, y, ) in self.bombs:
-                self._board[x][y] = 'B'
+        self.clear_board()
+        for (x, y, ) in self.bombs:
+            self._board[x][y] = 'B'
 
     def clear_board(self):
         self._board = [
@@ -117,7 +126,6 @@ class Buscaminas(object):
     def check_board(self):
         return self._board
 
-
     def poster(self):
         poster = ""
         poster += " ______ _   _ _____ _____  ___ ___  ________ _   _  ___  _____ \n"
@@ -128,32 +136,31 @@ class Buscaminas(object):
         poster += " \____/ \___/\____/ \____|_| |_|_|  |_/\___/\_| \_|_| |_|____/ \n"
         return poster
 
-
-
     @property
     def board(self):
         output = self.poster()
+        output = ''
         output += " x 0 1 2 3 4 5 6 7 \n"
         output += "y  \n"
         for y in range(0, self.max):
             for x in range(0, self.max):
                 casilla = str(self._board[x][y])
                 if casilla == 'B':
-                    if x%8 == 0:
+                    if x % 8 == 0:
                         output += str(y) + ' '
                     casilla = ' '
                     output += '|' + casilla
                     if(x == 7):
                         output += '|' + '\n'
                 elif casilla == '*':
-                    if x%8 == 0:
+                    if x % 8 == 0:
                         output += str(y) + ' '
                     casilla = '*'
                     output += '|' + casilla
                     if(x == 7):
                         output += '|' + '\n'
                 else:
-                    if x%8 == 0:
+                    if x % 8 == 0:
                         output += str(y) + ' '
                     output += '|' + casilla
                     if(x == 7):

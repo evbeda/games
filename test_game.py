@@ -36,6 +36,7 @@ class TestGame(unittest.TestCase):
             'Select Game\n'
             '0: Guess Number Game\n'
             '1: Tateti\n'
+            '2: Buscaminas\n'
             '9: to quit\n'
         )
 
@@ -56,9 +57,9 @@ class TestGame(unittest.TestCase):
                     return '50'
 
         with \
-            patch('game.Game.get_input', side_effect=ControlInputValues()), \
-            patch('game.Game.output', side_effect=self.output_collector), \
-            patch('guess_number_game.guess_number_game.randint', return_value=50):
+                patch('game.Game.get_input', side_effect=ControlInputValues()), \
+                patch('game.Game.output', side_effect=self.output_collector), \
+                patch('guess_number_game.guess_number_game.randint', return_value=50):
             self.game.play()
 
         self.assertEquals(
@@ -92,8 +93,8 @@ class TestGame(unittest.TestCase):
                     return play
 
         with \
-            patch('game.Game.get_input', side_effect=ControlInputValues()), \
-            patch('game.Game.output', side_effect=self.output_collector):
+                patch('game.Game.get_input', side_effect=ControlInputValues()), \
+                patch('game.Game.output', side_effect=self.output_collector):
             self.game.play()
 
         self.assertEquals(
@@ -110,6 +111,32 @@ class TestGame(unittest.TestCase):
                 '\nXX0\nOO0\n000\n',
                 'X wins',
             ],
+        )
+
+    def test_play_buscaminas(self):
+
+        class ControlInputValues(object):
+            def __init__(self, *args, **kwargs):
+                self.played = False
+                self.play_count = 0
+
+            def __call__(self, console_output):
+                if 'Select Game' in console_output:
+                    if self.played:
+                        return '9'
+                    self.played = True
+                    return '2'
+                if 'Play (expecting 2 numbers separated with spaces)' in console_output:
+                    return '0 0'
+
+        with \
+                patch('game.Game.get_input', side_effect=ControlInputValues()), \
+                patch('game.Game.output', side_effect=self.output_collector):
+            self.game.play()
+
+        self.assertEqual(
+            "------------- You Lose -------------------",
+            self.output_collector.output_collector[1]
         )
 
 
