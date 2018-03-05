@@ -26,7 +26,10 @@ class ReversiGame(object):
         else:
             return 'Game Over'
 
-    # validador maestro, valida si el movimiento esta permitido o no
+    # # validador maestro, valida si el movimiento esta permitido o no
+    # def validMove(self, x, y):
+    #     if self.tablero[x][y] !=
+
     def validate(self, x, y):
         lista = [
             self.validate_empty(x, y),
@@ -39,13 +42,6 @@ class ReversiGame(object):
         else:
             return True
 
-    def play(self, x, y):
-        if not(self.validate(x, y)):
-            return 'Movimiento no permitido'
-        else:
-            return 'Correcto'
-
-    # Valida si la casilla esta ocupada o no
     def validate_occupied(self, x, y):
         if(self.tablero[x][y] != ' '):
             return False
@@ -162,3 +158,19 @@ class ReversiGame(object):
             if direction and self.tablero[x + 1][y + 1] == my_piece:
                 positions.append(direction)
         return positions
+
+    def reverse_posibles(self, posibles):
+        for direction in posibles:
+            for x, y, piece in direction:
+                self.tablero[x][y] = 'B' if self.playingBlack else 'W'
+
+    def play(self, x, y):
+        if not(self.validate(x, y)):
+            return 'Movimiento no permitido'
+        else:
+            posibles = self.find_possibility_pieces(x, y)
+            if posibles == []:
+                return 'No hay posibilidades'
+            else:
+                self.reverse_posibles(posibles)
+                self.tablero[x][y] = 'B' if self.playingBlack else 'W'

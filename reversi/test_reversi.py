@@ -26,9 +26,6 @@ class TestReversi(unittest.TestCase):
     def test_wrong_movement_occupied(self):
         self.assertEquals(self.game.play(3, 4), 'Movimiento no permitido')
 
-    def test_valid_move(self):
-        self.assertEquals(self.game.play(3, 5), 'Correcto')
-
     def test_get_directions(self):
         result = [
             [(3, 4, 'W')]
@@ -94,6 +91,60 @@ class TestReversi(unittest.TestCase):
             [(4, 3, 'W')], [(4, 5, 'W')]
         ]
         self.assertEquals(result, self.game.find_possibility_pieces(3, 4))
+
+    def test_reverse_posibles(self):
+        self.game.tablero = [
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', 'B', 'B', 'B', 'B', 'B', ' '],
+            [' ', ' ', 'B', 'W', 'W', 'W', 'B', ' '],
+            [' ', ' ', 'B', 'W', ' ', 'W', 'B', ' '],
+            [' ', ' ', 'B', 'W', 'W', 'W', 'B', ' '],
+            [' ', ' ', 'B', 'B', 'B', 'B', 'B', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+        ]
+        posibles = self.game.find_possibility_pieces(3, 4)
+
+        self.game.reverse_posibles(posibles)
+        result = [
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', 'B', 'B', 'B', 'B', 'B', ' '],
+            [' ', ' ', 'B', 'B', 'B', 'B', 'B', ' '],
+            [' ', ' ', 'B', 'B', ' ', 'B', 'B', ' '],
+            [' ', ' ', 'B', 'B', 'B', 'B', 'B', ' '],
+            [' ', ' ', 'B', 'B', 'B', 'B', 'B', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+        ]
+        self.assertEquals(result, self.game.tablero)
+
+    def test_play_valid(self):
+        self.game.tablero = [
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', 'B', 'B', 'B', 'B', 'B', ' '],
+            [' ', ' ', 'B', 'W', 'W', 'W', 'B', ' '],
+            [' ', ' ', 'B', 'W', ' ', 'W', 'B', ' '],
+            [' ', ' ', 'B', 'W', 'W', 'W', 'B', ' '],
+            [' ', ' ', 'B', 'B', 'B', 'B', 'B', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+        ]
+        self.game.play(3, 4)
+        result = [
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', 'B', 'B', 'B', 'B', 'B', ' '],
+            [' ', ' ', 'B', 'B', 'B', 'B', 'B', ' '],
+            [' ', ' ', 'B', 'B', 'B', 'B', 'B', ' '],
+            [' ', ' ', 'B', 'B', 'B', 'B', 'B', ' '],
+            [' ', ' ', 'B', 'B', 'B', 'B', 'B', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+        ]
+        self.assertEquals(result, self.game.tablero)
+        self.assertEquals(
+            self.game.next_turn(),
+            'Turn of the whiteones',
+        )
 
 
 if __name__ == "__main__":
