@@ -5,6 +5,7 @@ from connect_four_game.test_connect_four_game import TestConnectFourGame
 from buscaminas.test_buscaminas import TestBuscamina
 from test_game import TestGame
 from damas.test import TestDamaGame
+from tateti.test_tateti import TestTateti
 
 
 def suite():
@@ -18,6 +19,7 @@ def suite():
     test_suite.addTest(unittest.makeSuite(TestBuscamina))
     test_suite.addTest(unittest.makeSuite(TestGame))
     test_suite.addTest(unittest.makeSuite(TestDamaGame))
+    test_suite.addTest(unittest.makeSuite(TestTateti))
 
     return test_suite
 
