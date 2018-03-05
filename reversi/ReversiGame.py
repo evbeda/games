@@ -34,46 +34,10 @@ class ReversiGame(object):
     #     if self.tablero[x][y] !=
 
     def validate(self, x, y):
-        lista = [
-            self.validate_empty(x, y),
-            self.validate_occupied(x, y),
-
-        ]
-
-        if (False in lista):
-            return False
-        else:
+        if(self.tablero[x][y] == ' '):
             return True
-
-    def validate_occupied(self, x, y):
-        if(self.tablero[x][y] != ' '):
-            return False
         else:
-            return True
-
-    # Valida si la casilla esta vacia o no
-    # la lista posibilidades son todas los casilleros alrededor del punto (x,y)
-    def validate_empty(self, x, y):
-        posibilidades = [
-            (x - 1, y - 1),
-            (x - 1, y),
-            (x - 1, y + 1),
-            (x, y - 1),
-            (x, y + 1),
-            (x + 1, y - 1),
-            (x + 1, y),
-            (x + 1, y + 1),
-        ]
-        count = 0
-        for i in posibilidades:
-            a, b = i
-            casilla = self.tablero[a][b]
-            if casilla == ' ':
-                count += 1
-        if count == 8:
             return False
-        else:
-            return True
 
     def find_possibility_pieces(self, x, y):
         a = y
