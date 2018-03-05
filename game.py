@@ -1,5 +1,6 @@
 from guess_number_game.guess_number_game import GuessNumberGame
 from tateti.tateti import Tateti
+from buscaminas.buscaminas import Buscaminas
 
 
 class Game(object):
@@ -9,6 +10,7 @@ class Game(object):
         self.games = [
             GuessNumberGame,
             Tateti,
+            Buscaminas,
         ]
 
     def output(self, text):

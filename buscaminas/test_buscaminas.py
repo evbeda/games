@@ -19,21 +19,31 @@ class TestBuscamina(unittest.TestCase):
         self.assertTrue(self.game.playing)
         self.assertEqual(10, self.game.generate_bombs())
 
-    def test_bomba_encontrada(self):
-        play_result = self.game.play(1, 1)
-        self.assertEqual(play_result, 'You lost')
-        self.assertFalse(self.game.playing)
+    def test_check_lose(self):
+        mock_bomb = [(2, 2,)]
+        buscaminas = Buscaminas()
+        self.assertTrue(buscaminas.check_lose(2, 2, mock_bomb))
+        self.assertFalse(buscaminas.check_lose(1, 2, mock_bomb))
 
-    def test_bomba_no_encontrada(self):
-        play_result = self.game.play(2, 3)
-        self.assertEqual(play_result, 'No bomb, keep going')
-        self.assertTrue(self.game.playing)
+    def test_check_win(self):
+        mock_bomb = [(2, 2,), (1, 1,)]
+        buscaminas = Buscaminas()
+        self.assertTrue(buscaminas.check_win(1, 3, mock_bomb))
+        self.assertFalse(buscaminas.check_win(2, 3, mock_bomb))
 
-    def test_gano(self):
-        self.game.number_clicks = 64 - len(self.game.bombs)
-        play_result = self.game.play(1, 3)
-        self.assertEqual(play_result, 'You win')
-        self.assertFalse(self.game.playing)
+    def test_check_keep_playing(self):
+        buscaminas = Buscaminas()
+        buscaminas.clicks = [(1, 1,), (1, 2,)]
+        buscaminas.number_clicks = 0
+        buscaminas.count = 0
+        mock_movements = [True, False, True]
+
+        self.assertTrue(buscaminas.keep_playing(1, 1, mock_movements))
+        self.assertEqual(1, len(buscaminas.clicks))
+        self.assertEqual((1, 2,), buscaminas.clicks[0])
+        self.assertEqual(1, buscaminas.number_clicks)
+        self.assertEqual(2, buscaminas.count)
+        self.assertEqual("2", buscaminas._board[1][1])
 
     def test_board(self):
         result = [
@@ -90,10 +100,10 @@ class TestBuscamina(unittest.TestCase):
 
         self.assertEquals(result, self.game.check_board())
 
-
-    def test_wrong_movement(self):
-        play_result = self.game.play(-1, 8)
-        self.assertEqual(play_result, 'Movimiento no permitido')
+    def test_check_invalid_movement(self):
+        with self.assertRaises(Exception) as e:
+            self.game.play(-1, 8)
+            self.assertEqual(e.exception.message, "Movement not allowed.",)
 
     def test_output_board(self):
         result = "|1|2|2|1|0| | | |\n"
