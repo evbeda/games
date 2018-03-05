@@ -33,7 +33,12 @@ class Tateti(object):
             if y1 >= 0 and y1 < 3 and x1 >= 0 and x1 < 3:
                 if not self.insert_symbol(x1, y1):
                     return "Position already taken. Please, choose another one."
-                return self.winner if self.winner else ''
+                if self.winner:
+                    return self.winner
+                elif self.tie:
+                    return self.winner
+                else:
+                    return ''
             else:
                 return "Movement not allowed."
         else:
@@ -119,6 +124,7 @@ class Tateti(object):
     def tie(self):
         self.playing = False
         self.winner = "It's a TIE!"
+        return self.winner
 
     # win
     def win(self):
