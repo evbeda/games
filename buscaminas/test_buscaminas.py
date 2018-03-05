@@ -81,6 +81,9 @@ class TestBuscamina(unittest.TestCase):
         ]
         self.assertEqual(result, self.game.possible_clicks())
 
+    def test_two_clicks_7_7_place(self):
+        self.game.play(7, 7,)
+
     def test_two_clicks_same_place(self):
         self.game.play(1, 3,)
         self.assertEqual('Position selected yet', self.game.play(1, 3, ))

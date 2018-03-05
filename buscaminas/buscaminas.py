@@ -8,7 +8,7 @@ class Buscaminas(object):
     def __init__(self):
         super(Buscaminas, self).__init__()
         self.playing = True
-        self.max = 8
+        self.max = 7
         self.min = 0
         self.pos_x = 0
         self.pos_y = 0
@@ -64,16 +64,22 @@ class Buscaminas(object):
 
     def play(self, x, y):
         self.count = 0
-        movements = [
-            self._board[x + 1][y] == 'B',
-            self._board[x][y + 1] == 'B',
-            self._board[x - 1][y] == 'B',
-            self._board[x][y - 1] == 'B',
-            self._board[x + 1][y + 1] == 'B',
-            self._board[x - 1][y - 1] == 'B',
-            self._board[x + 1][y - 1] == 'B',
-            self._board[x - 1][y + 1] == 'B',
+        coord = [
+            (x + 1, y, ),
+            (x, y + 1, ),
+            (x - 1, y, ),
+            (x, y - 1, ),
+            (x + 1, y + 1, ),
+            (x - 1, y - 1, ),
+            (x + 1, y - 1, ),
+            (x - 1, y + 1, ),
         ]
+        movements = []
+        for elements in coord:
+            x1, y1 = elements
+            if self.in_board(x1, y1):
+                movements.append(self._board[x1][y1] == 'B')
+
         if self.in_board(x, y):
             if (x, y) in self.clicks:
                 if self.check_lose(x, y, self.bombs):
