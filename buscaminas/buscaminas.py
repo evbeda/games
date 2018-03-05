@@ -8,7 +8,7 @@ class Buscaminas(object):
     def __init__(self):
         super(Buscaminas, self).__init__()
         self.playing = True
-        self.max = 7
+        self.max = 8
         self.min = 0
         self.pos_x = 0
         self.pos_y = 0
@@ -24,9 +24,9 @@ class Buscaminas(object):
     def in_board(self, x, y):
         if isinstance(x, int) and isinstance(y, int):
             return not(
-                self.max < x or
+                self.max <= x or
                 self.min > x or
-                self.max < y or
+                self.max <= y or
                 self.min > y
             )
         else:
@@ -98,14 +98,15 @@ class Buscaminas(object):
         i = 0
         j = 0
         for x in range(0, self.number_bombs):
-            i = randint(0, 7)
-            j = randint(0, 7)
+            i, j = self.generate_random()
             while ((i, j,) in self.bombs):
-                i = randint(0, 7)
-                j = randint(0, 7)
+                i, j = self.generate_random()
             self.bombs.append((i, j, ))
         self.generate_board()
         return len(self.bombs)
+
+    def generate_random(self):
+        return (randint(0, self.max - 1), randint(0, self.max - 1),)
 
     def generate_board(self):
         self.clear_board()
@@ -126,8 +127,8 @@ class Buscaminas(object):
 
     def possible_clicks(self):
         self.clicks = []
-        for x in range(7):
-            for y in range(7):
+        for x in range(self.max):
+            for y in range(self.max):
                 self.clicks.append((x, y, ))
         return self.clicks
 
