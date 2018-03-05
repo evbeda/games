@@ -180,7 +180,7 @@ class TestGame(unittest.TestCase):
                     if self.played:
                         return '9'
                     self.played = True
-                    return '2'
+                    return '3'
                 if '' in console_output:
                     game_turns = (
                         '0',
