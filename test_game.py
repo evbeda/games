@@ -37,6 +37,7 @@ class TestGame(unittest.TestCase):
             '0: Guess Number Game\n'
             '1: Tateti\n'
             '2: Buscaminas\n'
+            '3: Cuatro en linea\n'
             '9: to quit\n'
         )
 
@@ -113,6 +114,7 @@ class TestGame(unittest.TestCase):
             ],
         )
 
+
     def test_play_buscaminas(self):
 
         class ControlInputValues(object):
@@ -140,16 +142,16 @@ class TestGame(unittest.TestCase):
 
             def __call__(self, console_output, *args, **kwargs):
                 random_values = (
-                    1, 1, 
-                    2, 4, 
-                    1, 2, 
-                    3, 4, 
-                    4, 3, 
-                    2, 1, 
-                    5, 3, 
-                    3, 5, 
-                    6, 1, 
-                    7, 2, 
+                    1, 1,
+                    2, 4,
+                    1, 2,
+                    3, 4,
+                    4, 3,
+                    2, 1,
+                    5, 3,
+                    3, 5,
+                    6, 1,
+                    7, 2,
                 )
                 return_value = random_values[self.random_count]
                 self.random_count += 1
@@ -164,6 +166,94 @@ class TestGame(unittest.TestCase):
         self.assertEqual(
             "------------- You Lose -------------------",
             self.output_collector.output_collector[1]
+        )
+
+    def test_play_cuatro_en_linea(self):
+
+        class ControlInputValues(object):
+            def __init__(self, *args, **kwargs):
+                self.played = False
+                self.play_count = 0
+
+            def __call__(self, console_output):
+                if 'Select Game' in console_output:
+                    if self.played:
+                        return '9'
+                    self.played = True
+                    return '2'
+                if '' in console_output:
+                    game_turns = (
+                        '0',
+                        '1',
+                        '0',
+                        '1',
+                        '0',
+                        '1',
+                        '0',
+                    )
+                    play = game_turns[self.play_count]
+                    self.play_count += 1
+                    return play
+
+        with \
+            patch('game.Game.get_input', side_effect=ControlInputValues()), \
+            patch('game.Game.output', side_effect=self.output_collector):
+            self.game.play()
+
+
+        self.assertEquals(
+            self.output_collector.output_collector,
+            [
+                'EEEEEEE\n'
+                'EEEEEEE\n'
+                'EEEEEEE\n'
+                'EEEEEEE\n'
+                'EEEEEEE\n'
+                'EEEEEEE\n',
+                'Keep playing',
+                'EEEEEEE\n'
+                'EEEEEEE\n'
+                'EEEEEEE\n'
+                'EEEEEEE\n'
+                'EEEEEEE\n'
+                'WEEEEEE\n',
+                'Keep playing',
+                'EEEEEEE\n'
+                'EEEEEEE\n'
+                'EEEEEEE\n'
+                'EEEEEEE\n'
+                'EEEEEEE\n'
+                'WBEEEEE\n',
+                'Keep playing',
+                'EEEEEEE\n'
+                'EEEEEEE\n'
+                'EEEEEEE\n'
+                'EEEEEEE\n'
+                'WEEEEEE\n'
+                'WBEEEEE\n',
+                'Keep playing',
+                'EEEEEEE\n'
+                'EEEEEEE\n'
+                'EEEEEEE\n'
+                'EEEEEEE\n'
+                'WBEEEEE\n'
+                'WBEEEEE\n',
+                'Keep playing',
+                'EEEEEEE\n'
+                'EEEEEEE\n'
+                'EEEEEEE\n'
+                'WEEEEEE\n'
+                'WBEEEEE\n'
+                'WBEEEEE\n',
+                'Keep playing',
+                'EEEEEEE\n'
+                'EEEEEEE\n'
+                'EEEEEEE\n'
+                'WBEEEEE\n'
+                'WBEEEEE\n'
+                'WBEEEEE\n',
+                'You win',
+            ],
         )
 
 
