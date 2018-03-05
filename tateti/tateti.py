@@ -30,14 +30,12 @@ class Tateti(object):
 
     def play(self, x1, y1):
         if self.playing:
-            if isinstance(y1, int) and isinstance(x1, int):
+            if y1 >= 0 and y1 < 3 and x1 >= 0 and x1 < 3:
                 if not self.insert_symbol(x1, y1):
                     return "Position already taken. Please, choose another one."
+                return self.winner if self.winner else ''
             else:
-                raise Exception("Movement not allowed.")
-            if not self.playing:
-                return self.winner
-            return ''
+                return "Movement not allowed."
         else:
             return "Game Over."
 
