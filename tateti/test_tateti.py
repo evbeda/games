@@ -41,12 +41,12 @@ class TestTateti(unittest.TestCase):
     def test_play_caracter_invalid(self):
         self.assertEqual(self.tateti.play('a', 'b'), "Movement not allowed.",)
 
-    def test_next_O(self):
-        self.assertEqual(self.tateti.next_turn(), "Plays O")
-
     def test_next_X(self):
-        self.tateti.play(1, 1)
         self.assertEqual(self.tateti.next_turn(), "Plays X")
+
+    def test_next_O(self):
+        self.tateti.play(1, 1)
+        self.assertEqual(self.tateti.next_turn(), "Plays O")
 
     def test_repeat_movement(self):
         self.tateti.play(2, 1)

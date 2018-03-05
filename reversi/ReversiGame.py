@@ -1,5 +1,8 @@
 class ReversiGame(object):
 
+    name = 'Reversi'
+    input_args = 2
+
     def __init__(self):
         super(ReversiGame, self).__init__()
         self.playing = True
@@ -174,3 +177,16 @@ class ReversiGame(object):
             else:
                 self.reverse_posibles(posibles)
                 self.tablero[x][y] = 'B' if self.playingBlack else 'W'
+
+    @property
+    def board(self):
+        result = ''
+        result += '  | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |\n'
+        result += '--+---+---+---+---+---+---+---+---+\n'
+        for x in xrange(0, 8):
+            result += str(x) + ' |'
+            for y in xrange(0, 8):
+                result += ' ' + self.tablero[x][y] + ' |'
+            result += '\n'
+            result += '--+---+---+---+---+---+---+---+---+\n'
+        return result
