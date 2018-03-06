@@ -1,14 +1,17 @@
 from game_base import GameBase
+from game_base import GameWithTurns
 
 
-class ConnectFourGame(GameBase):
+class ConnectFourGame(GameBase, GameWithTurns):
 
     name = 'Cuatro en linea'
     input_args = 1
+    player_one = 'White'
+    player_two = 'Black'
 
     def __init__(self):
         super(ConnectFourGame, self).__init__()
-        self.turn = 0
+
         self.ficha = ''
         self.filas = 6
         self.min = 0
@@ -72,19 +75,19 @@ class ConnectFourGame(GameBase):
             return False
 
     def set_board(self, column):
-        if self.turn == 0:
+        if self.player_in_game == self.player_one:
             for x in xrange(5, -1, -1):
                 if self.board_status[x][column] == 'E':
                     self.board_status[x][column] = 'W'
                     self.ficha = 'W'
-                    self.turn = 1
+                    self.change_turn()
                     break
         else:
             for x in xrange(5, -1, -1):
                 if self.board_status[x][column] == 'E':
                     self.board_status[x][column] = 'B'
                     self.ficha = 'B'
-                    self.turn = 0
+                    self.change_turn()
                     break
 
     def win_diagonal_izquierdo(self):
@@ -150,10 +153,7 @@ class ConnectFourGame(GameBase):
         return poster
 
     def next_turn(self):
-        if self.turn == 0:
-            return 'White plays'
-        else:
-            return 'Black plays'
+            return self.player_in_game + ' plays'
 
     @property
     def board(self):
