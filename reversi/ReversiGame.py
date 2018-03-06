@@ -169,28 +169,28 @@ class ReversiGame(object):
                 for rows in self.tablero:
                     for cell in rows:
                         if cell == 'W':
-                            blancas += blancas
+                            blancas += 1
                         elif cell == 'B':
-                            negras += negras
+                            negras += 1
                         if cell == ' ':
                             has_empty = True
                 if not has_empty:
                     self.playing = False
                     if blancas > negras:
-                        print 'Las blancas ganan ' \
+                        result = 'Las blancas ganan ' \
                             + str(blancas) + ' a ' + str(negras)
                     else:
-                        print 'Las negras ganan ' \
+                        result = 'Las negras ganan ' \
                             + str(negras) + ' a ' + str(blancas)
                 else:
                     if blancas > negras:
-                        print 'Las blancas van ganando ' \
+                        result = 'Las blancas van ganando ' \
                             + str(blancas) + ' a ' + str(negras)
                     else:
-                        print 'Las negras van ganando ' \
+                        result = 'Las negras van ganando ' \
                             + str(negras) + ' a ' + str(blancas)
                 self.moves.append((x, y, ))
-                print self.moves
+                return result
 
     @property
     def board(self):
