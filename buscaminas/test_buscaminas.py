@@ -2,6 +2,7 @@ import unittest
 from buscaminas import Buscaminas
 
 
+
 class TestBuscamina(unittest.TestCase):
 
     def setUp(self):
@@ -16,7 +17,7 @@ class TestBuscamina(unittest.TestCase):
 
     def test_initial_status(self):
         self.game.bombs = []
-        self.assertTrue(self.game.playing)
+        self.assertTrue(self.game.is_playing)
         self.assertEqual(10, self.game.generate_bombs())
 
     def test_check_lose(self):
@@ -114,14 +115,14 @@ class TestBuscamina(unittest.TestCase):
             self.assertEqual(e.exception.message, "Movement not allowed.",)
 
     def test_output_board(self):
-        result = "|1|2|2|1|0| | | |\n"
-        result += "| | |*| | | | | |\n"
-        result += "| | | | | | | | |\n"
-        result += "| | | | | | | | |\n"
-        result += "| | | | | | | | |\n"
-        result += "| | | | | | | | |\n"
-        result += "| | | | | | | | |\n"
-        result += "| | | | | | | | |\n"
+        # result = "|1|2|2|1|0| | | |\n"
+        # result += "| | |*| | | | | |\n"
+        # result += "| | | | | | | | |\n"
+        # result += "| | | | | | | | |\n"
+        # result += "| | | | | | | | |\n"
+        # result += "| | | | | | | | |\n"
+        # result += "| | | | | | | | |\n"
+        # result += "| | | | | | | | |\n"
 
         self.game.play(0, 0, )
 
@@ -146,8 +147,7 @@ class TestBuscamina(unittest.TestCase):
         # bomb
         # self.game.play(2, 4, )
 
-        board_ = self.game.board
-        print '\n' + board_
+        # board_ = self.game.board
         # self.assertEquals(result, board_)
 
 
