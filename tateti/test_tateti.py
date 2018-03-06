@@ -8,7 +8,7 @@ class TestTateti(unittest.TestCase):
         self.tateti = Tateti()
 
     def test_initial_playing(self):
-        self.assertTrue(self.tateti.playing)
+        self.assertTrue(self.tateti.is_playing)
 
     def test_piezas_play_0(self):
         self.tateti.play(0, 1)

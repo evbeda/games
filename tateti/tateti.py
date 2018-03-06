@@ -1,9 +1,13 @@
-class Tateti(object):
+from game_base import GameBase
+
+
+class Tateti(GameBase):
 
     name = 'Tateti'
     input_args = 2
 
     def __init__(self):
+        super(Tateti, self).__init__()
         self.tablero = [
             [0, 0, 0],
             [0, 0, 0],
@@ -15,12 +19,11 @@ class Tateti(object):
         self.x = 'X'
         self.o = 'O'
         self.turn = 0
-        self.playing = True
         self.winner = ""
         self.pieza = self.x
 
     def next_turn(self):
-        if self.playing:
+        if self.is_playing:
             if self.turn:
                 return "Plays O"
             else:
@@ -29,7 +32,7 @@ class Tateti(object):
             return self.winner
 
     def play(self, x1, y1):
-        if self.playing:
+        if self.is_playing:
             if y1 >= 0 and y1 < 3 and x1 >= 0 and x1 < 3:
                 if not self.insert_symbol(x1, y1):
                     return "Position already taken. Please, choose another one."
@@ -134,12 +137,12 @@ class Tateti(object):
         return win
 
     def tie(self):
-        self.playing = False
+        self.finish()
         self.winner = "It's a TIE!"
         return self.winner
 
     # win
     def win(self):
-        self.playing = False
+        self.finish()
         self.winner = self.pieza + " wins"
         return self.winner
