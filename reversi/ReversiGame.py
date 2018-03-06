@@ -2,6 +2,8 @@ class ReversiGame(object):
 
     name = 'Reversi'
     input_args = 2
+    max = 8
+    min = 0
 
     def __init__(self):
         super(ReversiGame, self).__init__()
@@ -39,6 +41,21 @@ class ReversiGame(object):
         else:
             return False
 
+    def in_board(self, x, y):
+        if isinstance(x, int) and isinstance(y, int):
+            return not(
+                self.max <= x or
+                self.min > x or
+                self.max <= y or
+                self.min > y
+            )
+        else:
+            return False
+
+    def has_piece_to_change(self, x, y, piece_to_change):
+        if (self.in_board(x, y) and self.tablero[x][y] == piece_to_change):
+            return True
+
     def find_possibility_pieces(self, x, y):
         a = y
         b = x
@@ -52,7 +69,7 @@ class ReversiGame(object):
             my_piece = 'W'
 
         if self.playing:
-            while self.tablero[x][y - 1] == piece_to_change:
+            while self.has_piece_to_change(x, y - 1, piece_to_change):
                 direction.append((x, y - 1, piece_to_change))
                 y -= 1
             if direction and self.tablero[x][y - 1] == my_piece:
@@ -61,7 +78,7 @@ class ReversiGame(object):
             y = a
             x = b
             direction = []
-            while self.tablero[x][y + 1] == piece_to_change:
+            while self.has_piece_to_change(x, y + 1, piece_to_change):
                 direction.append((x, y + 1, piece_to_change))
                 y += 1
             if direction and self.tablero[x][y + 1] == my_piece:
@@ -70,7 +87,7 @@ class ReversiGame(object):
             y = a
             x = b
             direction = []
-            while self.tablero[x - 1][y] == piece_to_change:
+            while self.has_piece_to_change(x - 1, y, piece_to_change):
                 direction.append((x - 1, y, piece_to_change))
                 x -= 1
             if direction and self.tablero[x - 1][y] == my_piece:
@@ -79,7 +96,7 @@ class ReversiGame(object):
             y = a
             x = b
             direction = []
-            while self.tablero[x + 1][y] == piece_to_change:
+            while self.has_piece_to_change(x + 1, y, piece_to_change):
                 direction.append((x + 1, y, piece_to_change))
                 x += 1
             if direction and self.tablero[x + 1][y] == my_piece:
@@ -88,7 +105,7 @@ class ReversiGame(object):
             y = a
             x = b
             direction = []
-            while self.tablero[x - 1][y + 1] == piece_to_change:
+            while self.has_piece_to_change(x - 1, y + 1, piece_to_change):
                 direction.append((x - 1, y + 1, piece_to_change))
                 x -= 1
                 y += 1
@@ -98,7 +115,7 @@ class ReversiGame(object):
             y = a
             x = b
             direction = []
-            while self.tablero[x - 1][y - 1] == piece_to_change:
+            while self.has_piece_to_change(x - 1, y - 1, piece_to_change):
                 direction.append((x - 1, y - 1, piece_to_change))
                 x -= 1
                 y -= 1
@@ -108,7 +125,7 @@ class ReversiGame(object):
             y = a
             x = b
             direction = []
-            while self.tablero[x + 1][y - 1] == piece_to_change:
+            while self.has_piece_to_change(x + 1, y - 1, piece_to_change):
                 direction.append((x + 1, y - 1, piece_to_change))
                 x += 1
                 y -= 1
@@ -118,7 +135,7 @@ class ReversiGame(object):
             y = a
             x = b
             direction = []
-            while self.tablero[x + 1][y + 1] == piece_to_change:
+            while self.has_piece_to_change(x + 1, y + 1, piece_to_change):
                 direction.append((x + 1, y + 1, piece_to_change))
                 x += 1
                 y += 1
