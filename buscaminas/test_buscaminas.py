@@ -148,7 +148,8 @@ class TestBuscamina(unittest.TestCase):
         # bomb
         # self.game.play(2, 4, )
 
-        # board_ = self.game.board
+
+        board_ = self.game.board
         # self.assertEquals(result, board_)
 
 
