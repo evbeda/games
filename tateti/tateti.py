@@ -24,10 +24,10 @@ class Tateti(GameBase):
 
     def next_turn(self):
         if self.is_playing:
-            if self.turn:
-                return "Plays O"
-            else:
+            if self.turn == 0:
                 return "Plays X"
+            else:
+                return "Plays O"
         else:
             return self.winner
 
