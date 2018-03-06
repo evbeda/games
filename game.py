@@ -3,6 +3,7 @@ from tateti.tateti import Tateti
 from buscaminas.buscaminas import Buscaminas
 from connect_four_game.connect_four_game import ConnectFourGame
 from damas.dama_game import DamaGameStart
+from reversi.ReversiGame import ReversiGame
 
 
 class Game(object):
@@ -15,6 +16,7 @@ class Game(object):
             Buscaminas,
             ConnectFourGame,
             DamaGameStart,
+            ReversiGame,
         ]
 
     def output(self, text):
