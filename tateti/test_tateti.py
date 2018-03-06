@@ -39,27 +39,14 @@ class TestTateti(unittest.TestCase):
         self.assertEqual(self.tateti.play(1, -1), "Movement not allowed.",)
 
     def test_play_caracter_invalid(self):
-<<<<<<< HEAD
         self.assertEqual(self.tateti.play('a', 'b'), "Movement not allowed.",)
-=======
-        with self.assertRaises(Exception) as e:
-            self.tateti.play('a', 'b')
-            self.assertEqual(e.exception.message, "Movement not allowed.",)
-
-    def test_next_O(self):
-        self.assertEqual(self.tateti.next_turn(), "Plays O")
->>>>>>> empate y dibujo
 
     def test_next_X(self):
         self.assertEqual(self.tateti.next_turn(), "Plays X")
 
     def test_next_O(self):
         self.tateti.play(1, 1)
-<<<<<<< HEAD
         self.assertEqual(self.tateti.next_turn(), "Plays O")
-=======
-        self.assertEqual(self.tateti.next_turn(), "Plays X")
->>>>>>> empate y dibujo
 
     def test_repeat_movement(self):
         self.tateti.play(2, 1)
@@ -98,13 +85,10 @@ class TestTateti(unittest.TestCase):
         self.tateti.play(0, 2)
         self.tateti.play(2, 0)
         self.assertEqual(self.tateti.next_turn(), "X wins")
-<<<<<<< HEAD
 
     def test_position_taken(self):
         self.tateti.play(0, 0)
         self.assertEqual(self.tateti.play(0, 0), "Position already taken. Please, choose another one.")
-=======
->>>>>>> empate y dibujo
 
     def test_win_diagon_des(self):
         self.tateti.play(0, 0)
@@ -121,7 +105,6 @@ class TestTateti(unittest.TestCase):
             self.tateti.play(0, 0)
             self.tateti.play(2, 0)
             self.assertEqual(self.tateti.next_turn(), "X wins")
-<<<<<<< HEAD
 
     def test_win_vertical_2(self):
             self.tateti.play(0, 0)
@@ -130,8 +113,6 @@ class TestTateti(unittest.TestCase):
             self.tateti.play(1, 1)
             self.tateti.play(2, 0)
             self.assertEqual(self.tateti.next_turn(), "X wins")
-=======
->>>>>>> empate y dibujo
 
 
 if __name__ == "__main__":
