@@ -43,40 +43,106 @@ class TestGame(unittest.TestCase):
             '9: to quit\n'
         )
 
-    # def test_play_reversi(self):
+    def test_play_reversi(self):
 
-    #     class ControlInputValues(object):
-    #         def __init__(self, *args, **kwargs):
-    #             self.played = False
-    #             self.play_count = 0
+        class ControlInputValues(object):
+            def __init__(self, *args, **kwargs):
+                self.played = False
+                self.play_count = 0
 
-    #         def __call__(self, console_output):
-    #             if 'Select Game' in console_output:
-    #                 if self.played:
-    #                     return '9'
-    #                 self.played = True
-    #                 return '4'
-    #             if '' in console_output:
-    #                 game_turns = (
-    #                     '0 0',
-    #                     '1 0',
-    #                     '0 1',
-    #                     '1 1',
-    #                     '0 2',
-    #                 )
-    #                 play = game_turns[self.play_count]
-    #                 self.play_count += 1
-    #                 return play
+            def __call__(self, console_output):
+                if 'Select Game' in console_output:
+                    if self.played:
+                        return '9'
+                    self.played = True
+                    return '5'
+                if '' in console_output:
+                    game_turns = (
+                        '3 2',
+                        '4 2',
+                        '5 2',
+                        '4 1',
+                        '5 4',
+                        '4 5',
+                        '5 6',
+                        '2 3',
+                        '4 0',
+                        '3 5',
+                        '1 3',
+                        '6 2',
+                        '3 6',
+                        '3 7',
+                        '6 1',
+                        '6 0',
+                        '2 7',
+                        '0 3',
+                        '4 7',
+                        '4 6',
+                        '3 1',
+                        '2 6',
+                        '1 6',
+                        '3 0',
+                        '1 4',
+                        '1 7',
+                        '5 3',
+                        '6 3',
+                        '0 7',
+                        '0 6',
+                        '7 2',
+                        '7 4',
+                        '5 1',
+                        '6 6',
+                        '7 3',
+                        '6 4',
+                        '1 2',
+                        '0 1',
+                        '1 1',
+                        '5 0',
+                        '7 1',
+                        '7 0',
+                        '7 5',
+                        '7 6',
+                        '0 5',
+                        '2 5',
+                        '5 5',
+                        '6 5',
+                        '6 7',
+                        '1 0',
+                    )
+                    play = game_turns[self.play_count]
+                    self.play_count += 1
+                    return play
 
-    #     with \
-    #             patch('game.Game.get_input', side_effect=ControlInputValues()), \
-    #             patch('game.Game.output', side_effect=self.output_collector):
-    #         self.game.play()
+        with \
+                patch('game.Game.get_input', side_effect=ControlInputValues()), \
+                patch('game.Game.output', side_effect=self.output_collector):
+            self.game.play()
 
-    #     self.assertEquals(
-    #         self.output_collector.output_collector,
-    #         ['[]', 'you win'],
-    #     )
+        self.assertEquals(
+            self.output_collector.output_collector[-3],
+            'Las negras van ganando 31 a 23',
+        )
+        self.assertEquals(
+            self.output_collector.output_collector[-2],
+            '  | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |\n'
+            '--+---+---+---+---+---+---+---+---+\n'
+            '0 |   | B |   | B |   | W | W | W |\n'
+            '--+---+---+---+---+---+---+---+---+\n'
+            '1 | B | B | B | B | B |   | W | W |\n'
+            '--+---+---+---+---+---+---+---+---+\n'
+            '2 |   |   |   | W |   | B | W | W |\n'
+            '--+---+---+---+---+---+---+---+---+\n'
+            '3 | B | B | W | B | W | B | B | W |\n'
+            '--+---+---+---+---+---+---+---+---+\n'
+            '4 | B | B | B | B | W | W | W | W |\n'
+            '--+---+---+---+---+---+---+---+---+\n'
+            '5 | B | B | B | W | B | B | W |   |\n'
+            '--+---+---+---+---+---+---+---+---+\n'
+            '6 | B | B | W | W | W | W | W | W |\n'
+            '--+---+---+---+---+---+---+---+---+\n'
+            '7 | B | B | B | B | B | B | B |   |\n'
+            '--+---+---+---+---+---+---+---+---+\n'
+        )
 
     def test_play_guess_number_game(self):
 
@@ -326,7 +392,7 @@ class TestGame(unittest.TestCase):
             self.game.play()
 
         self.assertEqual(
-            "*********** You Lose ***********",
+            '*********** You Lose ***********',
             self.output_collector.output_collector[1]
         )
 
