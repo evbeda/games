@@ -19,6 +19,7 @@ class ReversiGame(object):
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
         ]
+        self.moves = []
 
     def next_turn(self):
         if self.playing:
@@ -188,6 +189,8 @@ class ReversiGame(object):
                     else:
                         print 'Las negras van ganando ' \
                             + str(negras) + ' a ' + str(blancas)
+                self.moves.append((x, y, ))
+                print self.moves
 
     @property
     def board(self):

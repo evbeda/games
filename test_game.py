@@ -39,8 +39,44 @@ class TestGame(unittest.TestCase):
             '2: Buscaminas\n'
             '3: Cuatro en linea\n'
             '4: Damas\n'
+            '5: Reversi\n'
             '9: to quit\n'
         )
+
+    # def test_play_reversi(self):
+
+    #     class ControlInputValues(object):
+    #         def __init__(self, *args, **kwargs):
+    #             self.played = False
+    #             self.play_count = 0
+
+    #         def __call__(self, console_output):
+    #             if 'Select Game' in console_output:
+    #                 if self.played:
+    #                     return '9'
+    #                 self.played = True
+    #                 return '4'
+    #             if '' in console_output:
+    #                 game_turns = (
+    #                     '0 0',
+    #                     '1 0',
+    #                     '0 1',
+    #                     '1 1',
+    #                     '0 2',
+    #                 )
+    #                 play = game_turns[self.play_count]
+    #                 self.play_count += 1
+    #                 return play
+
+    #     with \
+    #             patch('game.Game.get_input', side_effect=ControlInputValues()), \
+    #             patch('game.Game.output', side_effect=self.output_collector):
+    #         self.game.play()
+
+    #     self.assertEquals(
+    #         self.output_collector.output_collector,
+    #         ['[]', 'you win'],
+    #     )
 
     def test_play_guess_number_game(self):
 
