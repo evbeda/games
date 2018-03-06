@@ -36,10 +36,13 @@ class ReversiGame(object):
     #     if self.tablero[x][y] !=
 
     def validate(self, x, y):
-        if(self.tablero[x][y] == ' '):
-            return True
+        if x > 7 or x < 0 or y > 7 or y < 0:
+            return 'Los valores deben estar entre 0 y 7'
         else:
-            return False
+            if(self.tablero[x][y] == ' '):
+                return True
+            else:
+                return False
 
     def in_board(self, x, y):
         if isinstance(x, int) and isinstance(y, int):
@@ -72,8 +75,9 @@ class ReversiGame(object):
             while self.has_piece_to_change(x, y - 1, piece_to_change):
                 direction.append((x, y - 1, piece_to_change))
                 y -= 1
-            if direction and self.tablero[x][y - 1] == my_piece:
-                positions.append(direction)
+            if y - 1 >= 0:
+                if direction and self.has_piece_to_change(x, y - 1, my_piece):
+                    positions.append(direction)
 
             y = a
             x = b
@@ -81,7 +85,7 @@ class ReversiGame(object):
             while self.has_piece_to_change(x, y + 1, piece_to_change):
                 direction.append((x, y + 1, piece_to_change))
                 y += 1
-            if direction and self.tablero[x][y + 1] == my_piece:
+            if direction and self.has_piece_to_change(x, y + 1, my_piece):
                 positions.append(direction)
 
             y = a
@@ -90,7 +94,7 @@ class ReversiGame(object):
             while self.has_piece_to_change(x - 1, y, piece_to_change):
                 direction.append((x - 1, y, piece_to_change))
                 x -= 1
-            if direction and self.tablero[x - 1][y] == my_piece:
+            if direction and self.has_piece_to_change(x - 1, y, my_piece):
                 positions.append(direction)
 
             y = a
@@ -99,7 +103,7 @@ class ReversiGame(object):
             while self.has_piece_to_change(x + 1, y, piece_to_change):
                 direction.append((x + 1, y, piece_to_change))
                 x += 1
-            if direction and self.tablero[x + 1][y] == my_piece:
+            if direction and self.has_piece_to_change(x + 1, y, my_piece):
                 positions.append(direction)
 
             y = a
@@ -109,7 +113,7 @@ class ReversiGame(object):
                 direction.append((x - 1, y + 1, piece_to_change))
                 x -= 1
                 y += 1
-            if direction and self.tablero[x - 1][y + 1] == my_piece:
+            if direction and self.has_piece_to_change(x - 1, y + 1, my_piece):
                 positions.append(direction)
 
             y = a
@@ -119,7 +123,7 @@ class ReversiGame(object):
                 direction.append((x - 1, y - 1, piece_to_change))
                 x -= 1
                 y -= 1
-            if direction and self.tablero[x - 1][y - 1] == my_piece:
+            if direction and self.has_piece_to_change(x - 1, y - 1, my_piece):
                 positions.append(direction)
 
             y = a
@@ -129,7 +133,7 @@ class ReversiGame(object):
                 direction.append((x + 1, y - 1, piece_to_change))
                 x += 1
                 y -= 1
-            if direction and self.tablero[x + 1][y - 1] == my_piece:
+            if direction and self.has_piece_to_change(x + 1, y - 1, my_piece):
                 positions.append(direction)
 
             y = a
@@ -139,7 +143,7 @@ class ReversiGame(object):
                 direction.append((x + 1, y + 1, piece_to_change))
                 x += 1
                 y += 1
-            if direction and self.tablero[x + 1][y + 1] == my_piece:
+            if direction and self.has_piece_to_change(x + 1, y + 1, my_piece):
                 positions.append(direction)
         return positions
 
@@ -158,6 +162,32 @@ class ReversiGame(object):
             else:
                 self.reverse_posibles(posibles)
                 self.tablero[x][y] = 'B' if self.playingBlack else 'W'
+                has_empty = False
+                blancas = 0
+                negras = 0
+                for rows in self.tablero:
+                    for cell in rows:
+                        if cell == 'W':
+                            blancas += blancas
+                        elif cell == 'B':
+                            negras += negras
+                        if cell == ' ':
+                            has_empty = True
+                if not has_empty:
+                    self.playing = False
+                    if blancas > negras:
+                        print 'Las blancas ganan ' \
+                            + str(blancas) + ' a ' + str(negras)
+                    else:
+                        print 'Las negras ganan ' \
+                            + str(negras) + ' a ' + str(blancas)
+                else:
+                    if blancas > negras:
+                        print 'Las blancas van ganando ' \
+                            + str(blancas) + ' a ' + str(negras)
+                    else:
+                        print 'Las negras van ganando ' \
+                            + str(negras) + ' a ' + str(blancas)
 
     @property
     def board(self):
@@ -171,3 +201,6 @@ class ReversiGame(object):
             result += '\n'
             result += '--+---+---+---+---+---+---+---+---+\n'
         return result
+
+
+
