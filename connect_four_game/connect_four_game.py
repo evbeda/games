@@ -59,9 +59,8 @@ class ConnectFourGame(object):
 
     def in_board(self, column):
         if isinstance(column, int):
-            return not(
-                self.columnas < column or
-                self.min > column
+            return (
+                self.min <= column <= self.columnas
             )
         else:
             return False
