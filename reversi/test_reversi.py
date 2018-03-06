@@ -102,6 +102,19 @@ class TestReversi(unittest.TestCase):
         ]
         self.assertEquals(result, self.game.find_possibility_pieces(3, 4))
 
+    def test_no_posibles(self):
+        self.game.tablero = [
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', 'B', 'B', 'B', 'B', ' ', ' '],
+            [' ', ' ', 'B', 'W', 'W', 'W', ' ', ' '],
+            [' ', ' ', 'B', 'W', ' ', 'W', ' ', ' '],
+            [' ', ' ', 'B', 'W', 'W', ' ', ' ', ' '],
+            [' ', ' ', 'B', 'B', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+        ]
+        self.assertEqual(self.game.play(6, 6), 'No hay posibilidades')
+
     def test_reverse_posibles(self):
         self.game.tablero = [
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
@@ -189,6 +202,34 @@ class TestReversi(unittest.TestCase):
         )
 
         self.assertEquals(result, self.game.board)
+
+    def test_play_finish(self):
+        self.game.tablero = [
+            ['W', 'W', 'W', 'W', 'W', 'W', 'W', 'W'],
+            ['W', 'W', 'B', 'B', 'B', 'B', 'B', 'W'],
+            ['W', 'W', 'B', 'W', 'W', 'W', 'B', 'W'],
+            ['W', 'W', 'B', 'W', 'W', 'W', 'B', 'W'],
+            ['W', 'W', 'B', 'W', 'W', 'W', 'B', 'W'],
+            ['W', ' ', 'W', 'B', 'B', 'B', 'B', 'W'],
+            ['W', 'W', 'W', 'W', 'W', 'W', 'W', 'W'],
+            ['W', 'W', 'W', 'W', 'W', 'W', 'W', 'W'],
+        ]
+        self.game.play(5, 1)
+        result = [
+            ['W', 'W', 'W', 'W', 'W', 'W', 'W', 'W'],
+            ['W', 'W', 'B', 'B', 'B', 'B', 'B', 'W'],
+            ['W', 'W', 'B', 'W', 'W', 'W', 'B', 'W'],
+            ['W', 'W', 'B', 'W', 'W', 'W', 'B', 'W'],
+            ['W', 'W', 'B', 'W', 'W', 'W', 'B', 'W'],
+            ['W', 'B', 'B', 'B', 'B', 'B', 'B', 'W'],
+            ['W', 'W', 'W', 'W', 'W', 'W', 'W', 'W'],
+            ['W', 'W', 'W', 'W', 'W', 'W', 'W', 'W'],
+        ]
+        self.assertEquals(result, self.game.tablero)
+        self.assertEquals(
+            self.game.next_turn(),
+            'Game Over',
+        )
 
 
 if __name__ == "__main__":
