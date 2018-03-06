@@ -1,19 +1,19 @@
 from random import randint
+from game_base import GameBase
 
 
-class GuessNumberGame(object):
+class GuessNumberGame(GameBase):
 
     name = 'Guess Number Game'
     input_args = 1
 
     def __init__(self):
         super(GuessNumberGame, self).__init__()
-        self.playing = True
         self._guess_number = randint(0, 100)
         self.played_numbers = []
 
     def next_turn(self):
-        if self.playing:
+        if self.is_playing:
             return 'Give me a number from 0 to 100'
         else:
             return 'Game Over'
@@ -24,7 +24,7 @@ class GuessNumberGame(object):
             return 'too low'
         elif number > self._guess_number:
             return 'too high'
-        self.playing = False
+        self.finish()
         return 'you win'
 
     @property

@@ -9,22 +9,22 @@ class TestGuessNumberGame(unittest.TestCase):
         self.game._guess_number = 50
 
     def test_initial_status(self):
-        self.assertTrue(self.game.playing)
+        self.assertTrue(self.game.is_playing)
 
     def test_play_lower(self):
         play_result = self.game.play(10)
         self.assertEquals(play_result, 'too low')
-        self.assertTrue(self.game.playing)
+        self.assertTrue(self.game.is_playing)
 
     def test_play_higher(self):
         play_result = self.game.play(80)
         self.assertEquals(play_result, 'too high')
-        self.assertTrue(self.game.playing)
+        self.assertTrue(self.game.is_playing)
 
     def test_play_equal(self):
         play_result = self.game.play(50)
         self.assertEquals(play_result, 'you win')
-        self.assertFalse(self.game.playing)
+        self.assertFalse(self.game.is_playing)
 
     def test_initial_next_turn(self):
         self.assertEquals(
