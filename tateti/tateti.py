@@ -39,6 +39,17 @@ class Tateti(object):
                     return self.winner
                 else:
                     return ''
+                    pieza = self.o
+                    self.turn = 0
+
+                self.insert_symbol(x1, y1, pieza)
+                if(self.check_win_hor(x1, y1, pieza) or
+                        self.check_win_vertical(x1, y1, pieza) or
+                        self.check_diagonal_asc(x1, y1, pieza) or
+                        self.check_win_diagonal_desc(x1, y1, pieza)):
+                    return self.win(pieza)
+                elif self.check_tie(x1, y1, pieza):
+                    return self.tie(pieza)
             else:
                 return "Movement not allowed."
         else:
@@ -77,6 +88,7 @@ class Tateti(object):
                     self.turn = 0
         else:
             return False
+            raise Exception("Can't insert a symbol here")
         return self.board
 
     # check horizontal

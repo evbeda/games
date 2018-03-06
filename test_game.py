@@ -38,6 +38,7 @@ class TestGame(unittest.TestCase):
             '1: Tateti\n'
             '2: Buscaminas\n'
             '3: Cuatro en linea\n'
+            '4: Damas\n'
             '9: to quit\n'
         )
 
@@ -94,7 +95,8 @@ class TestGame(unittest.TestCase):
                     return play
 
         with \
-                patch('game.Game.get_input', side_effect=ControlInputValues()), \
+            patch('game.Game.get_input', side_effect=ControlInputValues()), \
+            patch('game.Game.get_input', side_effect=ControlInputValues()), \
                 patch('game.Game.output', side_effect=self.output_collector):
             self.game.play()
 
@@ -112,6 +114,130 @@ class TestGame(unittest.TestCase):
                 '\nXX0\nOO0\n000\n',
                 'X wins',
             ],
+        )
+
+    def test_play_damas(self):
+
+        class ControlInputValues(object):
+            def __init__(self, *args, **kwargs):
+                self.played = False
+                self.play_count = 0
+
+            def __call__(self, console_output):
+                if 'Select Game' in console_output:
+                    if self.played:
+                        return '9'
+                    self.played = True
+                    return '4'
+                if '' in console_output:
+                    game_turns = (
+                        '5 1 4 2',
+                        '2 2 3 3',
+                        '5 3 4 4',
+                        '3 3 5 0',
+                        '4 4 3 3',
+                        '2 4 4 2',
+                        '5 5 4 4',
+                        '4 2 5 3',
+                        '6 4 4 2',
+                        '2 6 3 5',
+                        '4 4 2 7',
+                        '1 1 2 2',
+                        '4 2 3 3',
+                        '2 2 4 4',
+                        '6 2 5 3',
+                        '4 4 6 1',
+                        '5 7 4 6',
+                        '2 0 3 1',
+                        '4 6 3 5',
+                        '3 1 4 2',
+                        '3 5 2 4',
+                        '4 2 5 3',
+                        '6 0 5 1',
+                        '5 3 6 4',
+                        '7 5 5 2',
+                        '6 1 7 2',
+                        '7 1 6 2',
+                        '1 3 3 5',
+                        '6 6 5 5',
+                        '1 5 2 4',
+                        '2 7 1 6',
+                        '5 0 6 1',
+                        '5 5 4 4',
+                        '2 4 3 3',
+                        '7 7 6 6',
+                        '3 3 5 6',
+                        '6 6 5 5',
+                        '5 6 6 5',
+                        '6 2 5 3',
+                        '6 5 7 4',
+                        '5 5 4 4',
+                        '0 0 1 1',
+                        '5 3 4 2',
+                        '3 5 5 3',
+                        '4 2 3 3',
+                        '1 1 2 2',
+                        '5 1 4 2',
+                        '2 2 4 4',
+                        '4 2 3 3',
+                        '4 4 5 5',
+                        '3 3 2 4',
+                        '7 2 6 3',
+                        '2 4 1 3',
+                        '0 2 2 4',
+                        '5 2 4 1',
+                        '5 3 4 2',
+                        '7 3 6 4',
+                        '5 5 4 6',
+                        '4 1 5 2',
+                        '6 1 7 2',
+                        '5 2 6 1',
+                        '7 4 6 5',
+                        '1 6 0 7',
+                        '6 3 5 4',
+                        '0 7 1 6',
+                        '4 2 5 1',
+                        '6 4 5 5',
+                        '4 6 6 4',
+                        '6 1 5 2',
+                        '2 4 3 3',
+                        '1 6 2 5',
+                        '0 4 1 3',
+                        '5 2 4 3',
+                        '5 4 4 5',
+                        '2 5 3 6',
+                        '1 3 2 4',
+                        '4 3 5 4',
+                        '1 7 2 6',
+                        '3 6 2 7',
+                        '4 5 6 3',
+                        '2 7 3 6',
+                        '3 3 4 4',
+                        '3 6 4 5',
+                        '6 5 5 6',
+                        '4 5 5 4',
+                        '5 6 4 5',
+                        '5 4 6 5',
+                        '5 1 4 2',
+                        '6 5 5 4',
+                        '6 3 5 2',
+                        '5 4 6 5',
+                        '7 2 6 1',
+                        '6 5 5 4',
+                        '4 5 6 3',
+                    )
+                    play = game_turns[self.play_count]
+                    self.play_count += 1
+                    return play
+
+        with \
+            patch('game.Game.get_input', side_effect=ControlInputValues()), \
+                patch('game.Game.output', side_effect=self.output_collector):
+            self.game.play()
+
+        self.assertEquals(
+            self.output_collector.output_collector[-2],
+            ' 01234567\n0      b \n1        \n2    b b \n3        \n4  b bB  \n5  B W   \n6 B  b   \n7        \n',
         )
 
 
