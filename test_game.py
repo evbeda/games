@@ -326,7 +326,7 @@ class TestGame(unittest.TestCase):
             self.game.play()
 
         self.assertEqual(
-            "------------- You Lose -------------------",
+            "*********** You Lose ***********",
             self.output_collector.output_collector[1]
         )
 

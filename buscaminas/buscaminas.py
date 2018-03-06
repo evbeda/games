@@ -41,12 +41,13 @@ class Buscaminas(object):
     def check_lose(self, x, y, bombs):
         if (x, y,) in bombs:
             self._board[x][y] = "*"
+            print self.board
             return True
         return False
 
     def check_win(self, number_clicks, number_blocks, bombs):
         if number_clicks == (number_blocks - len(bombs)):
-            print "------------- You Win -------------------"
+            # print '*********** You Win ***********' 
             return True
         return False
 
@@ -59,7 +60,7 @@ class Buscaminas(object):
             if m is True
         ])
         self._board[x][y] = str(self.count)
-        print 'No bomb, keep going'
+        print '*********** No bomb, keep going ***********'
         return True
 
     def play(self, x, y):
@@ -84,10 +85,10 @@ class Buscaminas(object):
             if (x, y) in self.clicks:
                 if self.check_lose(x, y, self.bombs):
                     self.playing = False
-                    return "------------- You Lose -------------------"
+                    return '*********** You Lose ***********'
                 if self.check_win(self.number_clicks, self.number_blocks, self.bombs):
                     self.playing = False
-                    return "------------- You Win -------------------"
+                    return  '*********** You Win ***********'
                 self.playing = self.keep_playing(x, y, movements)
             else:
                 return 'Position selected yet'
