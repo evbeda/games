@@ -1,11 +1,13 @@
-class DamaGameStart(object):
+from game_base import GameBase
+
+
+class DamaGameStart(GameBase):
 
     name = 'Damas'
     input_args = 4
 
     def __init__(self):
         super(DamaGameStart, self).__init__()
-        self.playing = True
         self.turn = 'White'
         self.board_status = [
             ['b', ' ', 'b', ' ', 'b', ' ', 'b', ' '],
@@ -54,7 +56,7 @@ class DamaGameStart(object):
         self.check_if_has_won()
 
     def check_if_has_won(self):
-        if self.playing:
+        if self._playing:
             count = 0
             if (self.turn == 'White'):
                 for x in range(0, 8):
@@ -63,7 +65,7 @@ class DamaGameStart(object):
                         if(board_pos == 'b' or board_pos == 'B'):
                             count += 1
                 if (count == 0):
-                    self.playing = False
+                    self.finish()
                     self.winner = 'White'
             else:
                 for x in range(0, 8):
@@ -72,7 +74,7 @@ class DamaGameStart(object):
                         if (board_pos == 'w' or board_pos == 'W'):
                             count += 1
                 if (count == 0):
-                    self.playing = False
+                    self.finish()
                     self.winner = 'Black'
 
     def play_black(self, x, y, w, z):
@@ -107,19 +109,19 @@ class DamaGameStart(object):
         if not self.valid_movement_inside_board(x, y, w, z):
             if(
                 self.turn == 'White' and
-                self.playing
+                self._playing
             ):
                 return self.play_white(x, y, w, z)
             elif(
                 self.turn == 'Black' and
-                self.playing
+                self._playing
             ):
                 return self.play_black(x, y, w, z)
         else:
             return "This position is outside our board"
 
     def next_turn(self):
-        if self.playing:
+        if self._playing:
             if (self.turn == 'White'):
                 return "Plays White"
             else:
@@ -148,9 +150,3 @@ class DamaGameStart(object):
     def valid_movement_inside_board(self, x1, y1, x2, y2):
         return (x1 < 0 or x1 > 7 or x2 < 0 or x2 > 7 or
                 y1 < 0 or y1 > 7 or y2 < 0 or y2 > 7)
-
-        # if self.board_status[w - 1][z - 1] == 'b':
-        #     self.board_status[x][y] = ' '
-        #     self.board_status[w - 1][z - 1] = ' '
-        #     self.board_status[w][z] = 'w'
-        #     self.turn = 'Black'

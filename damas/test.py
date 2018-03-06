@@ -8,7 +8,7 @@ class TestDamaGame(unittest.TestCase):
         self.game = DamaGameStart()
 
     def test_initial_status(self):
-        self.assertTrue(self.game.playing)
+        self.assertTrue(self.game._playing)
 
     def test_initial_turn(self):
         self.assertEqual('White', self.game.turn)
