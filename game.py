@@ -79,9 +79,19 @@ class Game(object):
             if game_selection < len(self.games):
                 self.active_game = self.games[game_selection]()
                 try:
-                    while self.active_game.playing:
+                    while (
+                        (
+                            hasattr(self.active_game, 'playing') and
+                            self.active_game.playing
+                        ) or (
+                            hasattr(self.active_game, 'is_playing') and
+                            self.active_game.is_playing
+                        )
+                    ):
                         self.output(self.active_game.board)
-                        game_input = self.get_turn_input(self.active_game.next_turn())
+                        game_input = self.get_turn_input(
+                            self.active_game.next_turn(),
+                        )
                         self.output(self.active_game.play(*game_input))
                 except Exception, e:
                     self.output('Sorry... {}'.format(e))
