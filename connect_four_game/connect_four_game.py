@@ -1,13 +1,13 @@
+from game_base import GameBase
 
 
-class ConnectFourGame(object):
+class ConnectFourGame(GameBase):
 
     name = 'Cuatro en linea'
     input_args = 1
 
     def __init__(self):
         super(ConnectFourGame, self).__init__()
-        self.playing = True
         self.turn = 0
         self.ficha = ''
         self.filas = 6
@@ -23,9 +23,9 @@ class ConnectFourGame(object):
         ]
 
     def play(self, column):
-        if(self.playing):
+        if(self.is_playing):
             if(self.empate()):
-                self.playing = False
+                self.finish()
                 return 'Empate'
             elif(self.in_board(column)):
                 if(
@@ -35,17 +35,8 @@ class ConnectFourGame(object):
 
                     self.set_board(column)
 
-                    if (self.win_diagonal_izquierdo()):
-                        self.playing = False
-                        return 'You win'
-                    elif (self.win_diagonal_derecho()):
-                        self.playing = False
-                        return 'You win'
-                    elif(self.win_horizontal()):
-                        self.playing = False
-                        return 'You win'
-                    elif(self.win_vertical()):
-                        self.playing = False
+                    if self.check_win():
+                        self.finish()
                         return 'You win'
 
                     return 'Keep playing'
@@ -66,12 +57,7 @@ class ConnectFourGame(object):
             return False
 
     def empate(self):
-        if (
-            not self.win_diagonal_izquierdo() and
-            not self.win_diagonal_derecho() and
-            not self.win_horizontal() and
-            not self.win_vertical()
-        ):
+        if (not self.check_win()):
             count = 0
             for col in range(self.columnas):
                 if (
@@ -104,53 +90,53 @@ class ConnectFourGame(object):
     def win_diagonal_izquierdo(self):
         for fila in range(self.filas):
             for col in range(self.columnas):
-                    if(
-                        3 <= fila <= 5 and 0 <= col <= 3 and
-                        self.board_status[fila][col] == self.ficha and
-                        self.board_status[fila - 1][col + 1] == self.ficha and
-                        self.board_status[fila - 2][col + 2] == self.ficha and
-                        self.board_status[fila - 3][col + 3] == self.ficha
-                    ):
-                        return True
+                if(
+                    3 <= fila <= 5 and 0 <= col <= 3 and
+                    self.board_status[fila][col] == self.ficha and
+                    self.board_status[fila - 1][col + 1] == self.ficha and
+                    self.board_status[fila - 2][col + 2] == self.ficha and
+                    self.board_status[fila - 3][col + 3] == self.ficha
+                ):
+                    return True
         return False
 
     def win_diagonal_derecho(self):
         for fila in range(self.filas):
             for col in range(self.columnas):
-                    if(
-                        3 <= fila <= 5 and 3 <= col <= 6 and
-                        self.board_status[fila][col] == self.ficha and
-                        self.board_status[fila - 1][col - 1] == self.ficha and
-                        self.board_status[fila - 2][col - 2] == self.ficha and
-                        self.board_status[fila - 3][col - 3] == self.ficha
-                    ):
-                        return True
+                if(
+                    3 <= fila <= 5 and 3 <= col <= 6 and
+                    self.board_status[fila][col] == self.ficha and
+                    self.board_status[fila - 1][col - 1] == self.ficha and
+                    self.board_status[fila - 2][col - 2] == self.ficha and
+                    self.board_status[fila - 3][col - 3] == self.ficha
+                ):
+                    return True
         return False
 
     def win_horizontal(self):
         for fila in range(self.filas):
             for col in range(self.columnas):
-                    if(
-                        col <= 3 and
-                        self.board_status[fila][col] == self.ficha and
-                        self.board_status[fila][col + 1] == self.ficha and
-                        self.board_status[fila][col + 2] == self.ficha and
-                        self.board_status[fila][col + 3] == self.ficha
-                    ):
-                        return True
+                if(
+                    col <= 3 and
+                    self.board_status[fila][col] == self.ficha and
+                    self.board_status[fila][col + 1] == self.ficha and
+                    self.board_status[fila][col + 2] == self.ficha and
+                    self.board_status[fila][col + 3] == self.ficha
+                ):
+                    return True
         return False
 
     def win_vertical(self):
         for fila in range(self.filas):
             for col in range(self.columnas):
-                    if(
-                        fila <= 2 and
-                        self.board_status[fila][col] == self.ficha and
-                        self.board_status[fila + 1][col] == self.ficha and
-                        self.board_status[fila + 2][col] == self.ficha and
-                        self.board_status[fila + 3][col] == self.ficha
-                    ):
-                        return True
+                if(
+                    fila <= 2 and
+                    self.board_status[fila][col] == self.ficha and
+                    self.board_status[fila + 1][col] == self.ficha and
+                    self.board_status[fila + 2][col] == self.ficha and
+                    self.board_status[fila + 3][col] == self.ficha
+                ):
+                    return True
         return False
 
     def poster(self):
@@ -171,9 +157,16 @@ class ConnectFourGame(object):
 
     @property
     def board(self):
-            result = ''
-            for x in xrange(0, 6):
-                for y in xrange(0, 7):
-                    result += self.board_status[x][y]
-                result += '\n'
-            return result
+        result = ''
+        for x in xrange(0, 6):
+            for y in xrange(0, 7):
+                result += self.board_status[x][y]
+            result += '\n'
+        return result
+
+    def check_win(self):
+        return (self.win_diagonal_izquierdo() or
+                self.win_diagonal_derecho() or
+                self.win_horizontal() or
+                self.win_vertical()
+                )

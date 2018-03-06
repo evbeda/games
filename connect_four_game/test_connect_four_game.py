@@ -8,7 +8,7 @@ class TestConnectFourGame(unittest.TestCase):
         self.game = ConnectFourGame()
 
     def test_initial_game_status(self):
-        self.assertTrue(self.game.playing)
+        self.assertTrue(self.game.is_playing)
 
     def test_turno(self):
         turn_white = self.game.next_turn()
@@ -26,7 +26,7 @@ class TestConnectFourGame(unittest.TestCase):
         )
 
     def test_first_move_first_column(self):
-        self.assertTrue(self.game.playing)
+        self.assertTrue(self.game.is_playing)
         self.game.play(0)
         self.assertEqual(
             self.game.board,
@@ -39,7 +39,7 @@ class TestConnectFourGame(unittest.TestCase):
         )
 
     def test_second_move_first_column(self):
-        self.assertTrue(self.game.playing)
+        self.assertTrue(self.game.is_playing)
         self.game.play(0)
         self.game.play(0)
         self.assertEqual(
@@ -59,7 +59,7 @@ class TestConnectFourGame(unittest.TestCase):
         self.game.play(0)
         self.game.play(0)
         self.game.play(0)
-        self.assertTrue(self.game.playing)
+        self.assertTrue(self.game.is_playing)
         self.assertEqual('Full column', self.game.play(0))
 
     def test_win_vertical(self):
@@ -144,7 +144,7 @@ class TestConnectFourGame(unittest.TestCase):
 
         self.assertEqual('Empate', self.game.play(0))
         self.assertEqual(True, self.game.empate())
-        self.assertEqual(False, self.game.playing)
+        self.assertEqual(False, self.game.is_playing)
 
     def test_wrong_set_1(self):
         self.assertEqual('Movimiento no permitido', self.game.play(-1))
@@ -157,7 +157,7 @@ class TestConnectFourGame(unittest.TestCase):
             'EEEEEEE\n'
             'EEEEEEE\n'
         )
-        self.assertEqual(True, self.game.playing)
+        self.assertEqual(True, self.game.is_playing)
 
     def test_wrong_set_2(self):
         self.assertEqual('Movimiento no permitido', self.game.play(9))
@@ -170,7 +170,7 @@ class TestConnectFourGame(unittest.TestCase):
             'EEEEEEE\n'
             'EEEEEEE\n'
         )
-        self.assertEqual(True, self.game.playing)
+        self.assertEqual(True, self.game.is_playing)
 
     def test_wrong_set_3(self):
         self.assertEqual('Movimiento no permitido', self.game.play('a'))
@@ -183,7 +183,7 @@ class TestConnectFourGame(unittest.TestCase):
             'EEEEEEE\n'
             'EEEEEEE\n'
         )
-        self.assertEqual(True, self.game.playing)
+        self.assertEqual(True, self.game.is_playing)
 
 
 if __name__ == "__main__":
