@@ -57,6 +57,12 @@ class TestReversi(unittest.TestCase):
         ]
         self.assertEquals(result, self.game.find_possibility_pieces(2, 3))
 
+    def test_find_possibilities_limits_min(self):
+        self.assertEquals([], self.game.find_possibility_pieces(0, 0))
+
+    def test_find_possibilities_limits_max(self):
+        self.assertEquals([], self.game.find_possibility_pieces(7, 7))
+
     def test_get_all_directions_white(self):
         self.game.tablero = [
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
