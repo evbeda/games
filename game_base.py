@@ -7,10 +7,9 @@ class GameBase(object):
         super(GameBase, self).__init__(*args, **kwargs)
         self._playing = True
 
-    # fixme-2: lanzar exception si no esta implementado
     @property
     def board(self):
-        return ''
+        raise NotImplementedError("Subclass should implement this!")
 
     @property
     def is_playing(self):
