@@ -1,10 +1,12 @@
 from game_base import GameBase
+from game_base import GameWithTurns
 
-
-class Tateti(GameBase):
+class Tateti(GameBase, GameWithTurns):
 
     name = 'Tateti'
     input_args = 2
+    player_one = 'X'
+    player_two = 'O'
 
     def __init__(self):
         super(Tateti, self).__init__()
@@ -16,18 +18,11 @@ class Tateti(GameBase):
 
         self.col = 3
         self.row = 3
-        self.x = 'X'
-        self.o = 'O'
-        self.turn = 0
         self.winner = ""
-        self.pieza = self.x
 
     def next_turn(self):
         if self.is_playing:
-            if self.turn == 0:
-                return "Plays X"
-            else:
-                return "Plays O"
+            return 'Plays ' + self.player_in_game
         else:
             return self.winner
 
@@ -42,17 +37,15 @@ class Tateti(GameBase):
                     return self.winner
                 else:
                     return ''
-                    pieza = self.o
-                    self.turn = 0
 
-                self.insert_symbol(x1, y1, pieza)
-                if(self.check_win_hor(x1, y1, pieza) or
-                        self.check_win_vertical(x1, y1, pieza) or
-                        self.check_diagonal_asc(x1, y1, pieza) or
-                        self.check_win_diagonal_desc(x1, y1, pieza)):
-                    return self.win(pieza)
-                elif self.check_tie(x1, y1, pieza):
-                    return self.tie(pieza)
+                self.insert_symbol(x1, y1)
+                if(self.check_win_hor(x1, y1) or
+                        self.check_win_vertical(x1, y1) or
+                        self.check_diagonal_asc(x1, y1) or
+                        self.check_win_diagonal_desc(x1, y1)):
+                    return self.win(self.player_in_game)
+                elif self.check_tie(x1, y1):
+                    return self.tie()
             else:
                 return "Movement not allowed."
         else:
@@ -72,7 +65,7 @@ class Tateti(GameBase):
 
     def insert_symbol(self, x1, y1):
         if self.check_empty_position(x1, y1):
-            self.tablero[x1][y1] = self.pieza
+            self.tablero[x1][y1] = self.player_in_game
             if(self.check_win_hor(x1, y1) or
                 self.check_win_vertical(x1, y1) or
                 self.check_diagonal_asc(x1, y1) or
@@ -83,12 +76,7 @@ class Tateti(GameBase):
                 return self.tie()
             else:
                 # Cambia el turno si nadie gano o empataron
-                if self.turn == 0:
-                    self.pieza = self.o
-                    self.turn = 1
-                else:
-                    self.pieza = self.x
-                    self.turn = 0
+                self.change_turn()
         else:
             return False
             raise Exception("Can't insert a symbol here")
@@ -98,7 +86,7 @@ class Tateti(GameBase):
     def check_win_hor(self, x1, y1):
         win = True
         for column in xrange(0, 3):
-            if self.tablero[x1][column] != self.pieza:
+            if self.tablero[x1][column] != self.player_in_game:
                 win = False
         return win
 
@@ -114,25 +102,25 @@ class Tateti(GameBase):
     def check_win_vertical(self, x1, y1):
         win = True
         for row in xrange(0, 3):
-            if self.tablero[row][y1] != self.pieza:
+            if self.tablero[row][y1] != self.player_in_game:
                 win = False
         return win
 
     # check diagonal
     def check_win_diagonal_desc(self, x1, y1):
         win = True
-        if(self.tablero[0][0] != self.pieza or
-                self.tablero[1][1] != self.pieza or
-                self.tablero[2][2] != self.pieza):
+        if(self.tablero[0][0] != self.player_in_game or
+                self.tablero[1][1] != self.player_in_game or
+                self.tablero[2][2] != self.player_in_game):
             win = False
         return win
 
     # check diagonal
     def check_diagonal_asc(self, x1, y1):
         win = True
-        if(self.tablero[0][2] != self.pieza or
-                self.tablero[1][1] != self.pieza or
-                self.tablero[2][0] != self.pieza):
+        if(self.tablero[0][2] != self.player_in_game or
+                self.tablero[1][1] != self.player_in_game or
+                self.tablero[2][0] != self.player_in_game):
             win = False
         return win
 
@@ -144,5 +132,5 @@ class Tateti(GameBase):
     # win
     def win(self):
         self.finish()
-        self.winner = self.pieza + " wins"
+        self.winner = self.player_in_game + " wins"
         return self.winner
