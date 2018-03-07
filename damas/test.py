@@ -11,7 +11,7 @@ class TestDamaGame(unittest.TestCase):
         self.assertTrue(self.game._playing)
 
     def test_initial_turn(self):
-        self.assertEqual('White', self.game.turn)
+        self.assertEqual('White', self.game.player_one)
 
     def test_initial_board(self):
         self.assertEqual(
@@ -55,7 +55,7 @@ class TestDamaGame(unittest.TestCase):
             '6w w w w \n'
             '7 w w w w\n',
         )
-        self.assertEqual('Black', self.game.turn)
+        self.assertEqual(self.game.player_two, self.game._turn)
 
     def test_second_move(self):
         self.game.play(5, 1, 4, 0)
@@ -72,7 +72,7 @@ class TestDamaGame(unittest.TestCase):
             '6w w w w \n'
             '7 w w w w\n',
         )
-        self.assertEqual('White', self.game.turn)
+        self.assertEqual(self.game.player_one, self.game._turn)
 
     def test_third_move(self):
         self.game.play(5, 1, 4, 0)
@@ -102,7 +102,7 @@ class TestDamaGame(unittest.TestCase):
             '6w w w w \n'
             '7 w w w w\n'
         )
-        self.assertEqual('Black', self.game.turn)
+        self.assertEqual(self.game.player_two, self.game._turn)
 
     def test_check_initial_position_inside_board(self):
         self.assertEqual(self.game.play(-1, -1, 6, 6),
@@ -115,12 +115,12 @@ class TestDamaGame(unittest.TestCase):
     def test_wrong_choise(self):
         self.assertEqual(
             self.game.play(4, 4, 3, 5), 'No white piece here to move !')
-        self.assertEqual('White', self.game.turn)
+        self.assertEqual(self.game.player_one, self.game._turn)
 
     def test_unreachable_place(self):
         self.assertEqual(
             self.game.play(7, 7, 5, 5), 'you cant reach that place!')
-        self.assertEqual('White', self.game.turn)
+        self.assertEqual(self.game.player_one, self.game._turn)
 
     def test_is_dama_white(self):
         self.game.board_status = [
@@ -138,7 +138,7 @@ class TestDamaGame(unittest.TestCase):
             self.game.board_status[0][2], 'W')
 
     def test_is_dama_black(self):
-        self.game.turn = 'Black'
+        self.game._turn = self.game.player_two
         self.game.board_status = [
             ['b', ' ', ' ', ' ', 'b', ' ', 'b', ' '],
             [' ', 'w', ' ', 'b', ' ', 'b', ' ', 'b'],
@@ -166,7 +166,7 @@ class TestDamaGame(unittest.TestCase):
         self.assertEqual(self.game.board_status[4][2], ' ')
 
     def test_eat_move_black(self):
-        self.game.turn = 'Black'
+        self.game._turn = self.game.player_two
         self.game.board_status = [
             ['b', ' ', ' ', ' ', 'b', ' ', 'b', ' '],
             [' ', 'w', ' ', 'b', ' ', 'b', ' ', 'b'],
@@ -193,7 +193,7 @@ class TestDamaGame(unittest.TestCase):
         self.assertEqual(self.game.next_turn(), 'White wins.')
 
     def test_win_black(self):
-        self.game.turn = 'Black'
+        self.game._turn = self.game.player_two
         self.game.board_status = [
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
