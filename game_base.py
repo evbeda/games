@@ -49,13 +49,10 @@ class GameWithTurns(object):
 class GameWithBoard(object):
 
     minimum = 0
+    _col = 0
+    _row = 0
 
-    # fixme-4: class var, remove args
-    def __init__(self, col, row):
-        # fixme-4: class var
-        self._col = col
-        # fixme-4: class var
-        self._row = row
+    def __init__(self):
         self._board = []
 
     @property
