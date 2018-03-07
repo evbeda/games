@@ -46,10 +46,8 @@ class Buscaminas(GameBase):
         else:
             return '*********** Game Over ************'
 
-    # fixme-21: just need x, y args...
-    def check_lose(self, x, y, bombs):
-        # fixme-20: you don't need this... use: self._board
-        if (x, y,) in bombs:
+    def check_lose(self, x, y):
+        if (x, y,) in self.bombs:
             self._board[x][y] = "*"
             return True
         return False
@@ -92,7 +90,7 @@ class Buscaminas(GameBase):
 
         if self.in_board(x, y):
             if (x, y) in self.clicks:
-                if self.check_lose(x, y, self.bombs):
+                if self.check_lose(x, y):
                     self.finish()
                     return '*********** You Lose ***********'
                 if self.check_win(self.number_clicks, self.number_blocks, self.bombs):
