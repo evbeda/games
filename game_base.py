@@ -39,9 +39,8 @@ class GameWithTurns(object):
         else:
             self._turn = self.player_one
 
-    # fixme-3: player in turn
     @property
-    def player_in_game(self):
+    def actual_player(self):
         return self._turn
 
 
