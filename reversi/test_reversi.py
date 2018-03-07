@@ -8,36 +8,37 @@ class TestReversi(unittest.TestCase):
         self.game = ReversiGame()
 
     def test_initial_status(self):
-        self.assertTrue(self.game.playing)
-        self.assertEquals(self.game.tablero[3][3], 'B')
-        self.assertEquals(self.game.tablero[3][4], 'W')
-        self.assertEquals(self.game.tablero[4][3], 'W')
-        self.assertEquals(self.game.tablero[4][4], 'B')
+        self.assertTrue(self.game.is_playing)
+        self.assertEquals(self.game.matrix_board[3][3], 'B')
+        self.assertEquals(self.game.matrix_board[3][4], 'W')
+        self.assertEquals(self.game.matrix_board[4][3], 'W')
+        self.assertEquals(self.game.matrix_board[4][4], 'B')
 
     def test_initial_next_turn_whites(self):
         self.assertEquals(
             self.game.next_turn(),
-            'Turn of the whiteones',
+            'White',
         )
 
     def test_wrong_movement_empty(self):
-        self.assertEquals(self.game.play(1, 1), 'No hay posibilidades')
+        self.assertEquals(self.game.play(1, 1), 'No possibilities. Try again.')
 
-    @unittest.SkipTest
     def test_no_posibilities(self):
-        self.assertEquals(self.game.play(7, 7), 'No hay posibilidades')
+        self.assertEquals(self.game.play(7, 7), 'No possibilities. Try again.')
 
     def test_wrong_movement_occupied(self):
-        self.assertEquals(self.game.play(3, 4), 'Movimiento no permitido')
+        self.assertEquals(self.game.play(3, 4),
+                          'Movement not allowed. Try again.')
 
     def test_get_directions(self):
         result = [
             [(3, 4, 'W')]
         ]
+        self.game.change_turn()
         self.assertEquals(result, self.game.find_possibility_pieces(3, 5))
 
     def test_get_directions_black(self):
-        self.game.tablero = [
+        self.game.matrix_board = [
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
@@ -47,7 +48,7 @@ class TestReversi(unittest.TestCase):
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
         ]
-        self.game.playingBlack = False
+
         result = [
             [(3, 5, 'B')], [(3, 4, 'B')]
         ]
@@ -64,7 +65,7 @@ class TestReversi(unittest.TestCase):
         self.assertEquals([], self.game.find_possibility_pieces(7, 7))
 
     def test_get_all_directions_white(self):
-        self.game.tablero = [
+        self.game.matrix_board = [
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
             [' ', ' ', 'W', 'W', 'W', 'W', 'W', ' '],
             [' ', ' ', 'W', 'B', 'B', 'B', 'W', ' '],
@@ -74,7 +75,7 @@ class TestReversi(unittest.TestCase):
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
         ]
-        self.game.playingBlack = False
+
         result = [
             [(3, 3, 'B')], [(3, 5, 'B')],
             [(2, 4, 'B')], [(4, 4, 'B')],
@@ -84,7 +85,7 @@ class TestReversi(unittest.TestCase):
         self.assertEquals(result, self.game.find_possibility_pieces(3, 4))
 
     def test_get_all_directions_black(self):
-        self.game.tablero = [
+        self.game.matrix_board = [
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
             [' ', ' ', 'B', 'B', 'B', 'B', 'B', ' '],
             [' ', ' ', 'B', 'W', 'W', 'W', 'B', ' '],
@@ -94,6 +95,7 @@ class TestReversi(unittest.TestCase):
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
         ]
+        self.game.change_turn()
         result = [
             [(3, 3, 'W')], [(3, 5, 'W')],
             [(2, 4, 'W')], [(4, 4, 'W')],
@@ -102,8 +104,8 @@ class TestReversi(unittest.TestCase):
         ]
         self.assertEquals(result, self.game.find_possibility_pieces(3, 4))
 
-    def test_no_posibles(self):
-        self.game.tablero = [
+    def test_no_possibles(self):
+        self.game.matrix_board = [
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
             [' ', ' ', 'B', 'B', 'B', 'B', ' ', ' '],
             [' ', ' ', 'B', 'W', 'W', 'W', ' ', ' '],
@@ -113,10 +115,10 @@ class TestReversi(unittest.TestCase):
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
         ]
-        self.assertEqual(self.game.play(6, 6), 'No hay posibilidades')
+        self.assertEqual(self.game.play(6, 6), 'No possibilities. Try again.')
 
-    def test_reverse_posibles(self):
-        self.game.tablero = [
+    def test_reverse_possibles(self):
+        self.game.matrix_board = [
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
             [' ', ' ', 'B', 'B', 'B', 'B', 'B', ' '],
             [' ', ' ', 'B', 'W', 'W', 'W', 'B', ' '],
@@ -126,9 +128,10 @@ class TestReversi(unittest.TestCase):
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
         ]
-        posibles = self.game.find_possibility_pieces(3, 4)
+        self.game.change_turn()
+        possibles = self.game.find_possibility_pieces(3, 4)
 
-        self.game.reverse_posibles(posibles)
+        self.game.reverse_possibles(possibles)
         result = [
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
             [' ', ' ', 'B', 'B', 'B', 'B', 'B', ' '],
@@ -139,10 +142,10 @@ class TestReversi(unittest.TestCase):
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
         ]
-        self.assertEquals(result, self.game.tablero)
+        self.assertEquals(result, self.game.matrix_board)
 
     def test_play_valid(self):
-        self.game.tablero = [
+        self.game.matrix_board = [
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
             [' ', ' ', 'B', 'B', 'B', 'B', 'B', ' '],
             [' ', ' ', 'B', 'W', 'W', 'W', 'B', ' '],
@@ -152,6 +155,7 @@ class TestReversi(unittest.TestCase):
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
         ]
+        self.game.change_turn()
         self.game.play(3, 4)
         result = [
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
@@ -163,14 +167,14 @@ class TestReversi(unittest.TestCase):
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
         ]
-        self.assertEquals(result, self.game.tablero)
+        self.assertEquals(result, self.game.matrix_board)
         self.assertEquals(
             self.game.next_turn(),
-            'Turn of the whiteones',
+            'White',
         )
 
     def test_graphic_board(self):
-        self.game.tablero = [
+        self.game.matrix_board = [
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
             [' ', ' ', 'B', 'B', 'B', 'B', 'B', ' '],
             [' ', ' ', 'B', 'W', 'W', 'W', 'B', ' '],
@@ -204,7 +208,7 @@ class TestReversi(unittest.TestCase):
         self.assertEquals(result, self.game.board)
 
     def test_play_finish(self):
-        self.game.tablero = [
+        self.game.matrix_board = [
             ['W', 'W', 'W', 'W', 'W', 'W', 'W', 'W'],
             ['W', 'W', 'B', 'B', 'B', 'B', 'B', 'W'],
             ['W', 'W', 'B', 'W', 'W', 'W', 'B', 'W'],
@@ -214,7 +218,14 @@ class TestReversi(unittest.TestCase):
             ['W', 'W', 'W', 'W', 'W', 'W', 'W', 'W'],
             ['W', 'W', 'W', 'W', 'W', 'W', 'W', 'W'],
         ]
-        self.game.play(5, 1)
+
+        self.game.change_turn()
+
+        self.assertEquals(
+            self.game.play(5, 1),
+            'Whites win 47 to 17',
+        )
+
         result = [
             ['W', 'W', 'W', 'W', 'W', 'W', 'W', 'W'],
             ['W', 'W', 'B', 'B', 'B', 'B', 'B', 'W'],
@@ -225,11 +236,7 @@ class TestReversi(unittest.TestCase):
             ['W', 'W', 'W', 'W', 'W', 'W', 'W', 'W'],
             ['W', 'W', 'W', 'W', 'W', 'W', 'W', 'W'],
         ]
-        self.assertEquals(result, self.game.tablero)
-        self.assertEquals(
-            self.game.next_turn(),
-            'Game Over',
-        )
+        self.assertEquals(result, self.game.matrix_board)
 
 
 if __name__ == "__main__":

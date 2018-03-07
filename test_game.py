@@ -120,7 +120,7 @@ class TestGame(unittest.TestCase):
 
         self.assertEquals(
             self.output_collector.output_collector[-3],
-            'Las negras van ganando 31 a 23',
+            'Blacks are going ahead 31 to 23',
         )
         self.assertEquals(
             self.output_collector.output_collector[-2],

@@ -12,16 +12,24 @@ class Buscaminas(GameBase):
         self.min = 0
         self.pos_x = 0
         self.pos_y = 0
+        # fixme-20: you don't need this... use: self._board
         self.bombs = []
+        # fixme-20: you don't need this... use: self._board
         self.number_clicks = 0
+        # fixme-20: you don't need this... use: self._board
         self.number_bombs = 10
+        # fixme-20: you don't need this... use: self._board
         self.number_blocks = 64
+        # fixme-20: you don't need this... use: self._board
         self.clicks = []
+        # fixme-25: clear_board is included in generate_bombs
         self.clear_board()
         self.generate_bombs()
+        # fixme-20: you don't need this... use: self._board
         self.possible_clicks()
 
     def in_board(self, x, y):
+        # fixme-21: no need to validate int
         if isinstance(x, int) and isinstance(y, int):
             return not(
                 self.max <= x or
@@ -38,17 +46,21 @@ class Buscaminas(GameBase):
         else:
             return '*********** Game Over ************'
 
+    # fixme-21: just need x, y args...
     def check_lose(self, x, y, bombs):
+        # fixme-20: you don't need this... use: self._board
         if (x, y,) in bombs:
             self._board[x][y] = "*"
             return True
         return False
 
+    # fixme-22: no need args... use object vars
     def check_win(self, number_clicks, number_blocks, bombs):
         if number_clicks == (number_blocks - len(bombs)):
             return True
         return False
 
+    # fixme-23: just need x, y args...
     def keep_playing(self, x, y, movements):
         self.clicks.remove((x, y, ))
         self.number_clicks += 1
@@ -88,6 +100,7 @@ class Buscaminas(GameBase):
                     return  '*********** You Win ***********'
                 if not self.keep_playing(x, y, movements):
                     self.finish()
+                # fixme-24: return ''
             else:
                 return 'Position selected yet'
         else:
@@ -154,23 +167,29 @@ class Buscaminas(GameBase):
             for x in range(0, self.max):
                 casilla = str(self._board[x][y])
                 if casilla == 'B':
+                    # fixme-25: no need to use `x % 8` or `x % 7`...place code outside `for`
                     if x % 8 == 0:
                         output += str(y) + ' '
                     casilla = ' '
                     output += '|' + casilla
+                    # fixme-25: no need to use `x % 8` or `x % 7`...place code outside `for`
                     if(x == 7):
                         output += '|' + '\n'
                 elif casilla == '*':
+                    # fixme-25: no need to use `x % 8` or `x % 7`...place code outside `for`
                     if x % 8 == 0:
                         output += str(y) + ' '
                     casilla = '*'
                     output += '|' + casilla
+                    # fixme-25: no need to use `x % 8` or `x % 7`...place code outside `for`
                     if(x == 7):
                         output += '|' + '\n'
                 else:
+                    # fixme-25: no need to use `x % 8` or `x % 7`...place code outside `for`
                     if x % 8 == 0:
                         output += str(y) + ' '
                     output += '|' + casilla
+                    # fixme-25: no need to use `x % 8` or `x % 7`...place code outside `for`
                     if(x == 7):
                         output += '|' + '\n'
         return output

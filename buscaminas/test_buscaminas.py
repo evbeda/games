@@ -23,6 +23,7 @@ class TestBuscamina(unittest.TestCase):
     def test_check_lose(self):
         mock_bomb = [(2, 2,)]
         buscaminas = Buscaminas()
+        # fixme-26:
         self.assertTrue(buscaminas.check_lose(2, 2, mock_bomb))
         self.assertFalse(buscaminas.check_lose(1, 2, mock_bomb))
 
