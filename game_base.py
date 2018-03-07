@@ -68,8 +68,7 @@ class GameWithBoard(object):
 
     # fixme-8: char args?
     def create_board(self):
-        # fixme-5: it won't work...
-        self._board = ['' * self._col]
+        self._board = [[''] * self._col]
         self._board = self._board * self._row
 
     def get_value(self, x, y):
