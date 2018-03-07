@@ -7,8 +7,9 @@ class Tateti(GameBase, GameWithTurns):
     input_args = 2
     player_one = 'X'
     player_two = 'O'
-
+    # fixme-10: default args
     def __init__(self):
+        # fixme-10: default args
         super(Tateti, self).__init__()
         self.tablero = [
             [0, 0, 0],
@@ -18,27 +19,49 @@ class Tateti(GameBase, GameWithTurns):
 
         self.col = 3
         self.row = 3
+        # fixme-15: remove me!
         self.winner = ""
 
     def next_turn(self):
         if self.is_playing:
             return 'Plays ' + self.player_in_game
         else:
+            # fixme-15: remove me!
             return self.winner
 
+    # fixme-11: too many things to do here...
+    # play()
+    # if not valido1(): no cambia estado  y return bool...
+    #   return "error1"
+    # if not valido2(): no cambia estado  y return bool...
+    #   return "error2"
+    #
+    # camino feliz!
+    # insertar_ficha(): cambia estado...
+    # if gano(): cambia estado y return bool...
+    #    return "win"
+    # elif empato: cambia estado y return bool...
+    #    return "tie"
+    # else:
+    #    cambiar_turno() cambia estado...
+    #
     def play(self, x1, y1):
         if self.is_playing:
             if y1 >= 0 and y1 < 3 and x1 >= 0 and x1 < 3:
+                # fixme-12: DRY
                 if not self.insert_symbol(x1, y1):
                     return "Position already taken. Please, choose another one."
                 if self.winner:
+                    # fixme-15: remove me!
                     return self.winner
                 elif self.tie:
+                    # fixme-15: remove me!
                     return self.winner
                 else:
                     return ''
-
+                # fixme-12: DRY
                 self.insert_symbol(x1, y1)
+                # fixme-12: DRY
                 if(self.check_win_hor(x1, y1) or
                         self.check_win_vertical(x1, y1) or
                         self.check_diagonal_asc(x1, y1) or
@@ -63,9 +86,11 @@ class Tateti(GameBase, GameWithTurns):
     def check_empty_position(self, x, y):
         return self.tablero[x][y] == 0
 
+    # fixme-11: too many things to do here...
     def insert_symbol(self, x1, y1):
         if self.check_empty_position(x1, y1):
             self.tablero[x1][y1] = self.player_in_game
+            # fixme-12: DRY
             if(self.check_win_hor(x1, y1) or
                 self.check_win_vertical(x1, y1) or
                 self.check_diagonal_asc(x1, y1) or
@@ -95,6 +120,7 @@ class Tateti(GameBase, GameWithTurns):
         for x in range(0, 3):
             for y in range(0, 3):
                 if (self.tablero[x][y] == 0):
+                    # fixme-13: just return False...
                     bool = False
         return bool
 
@@ -103,6 +129,7 @@ class Tateti(GameBase, GameWithTurns):
         win = True
         for row in xrange(0, 3):
             if self.tablero[row][y1] != self.player_in_game:
+                # fixme-14: break...
                 win = False
         return win
 
