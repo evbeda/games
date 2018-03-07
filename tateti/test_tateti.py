@@ -41,10 +41,9 @@ class TestTateti(unittest.TestCase):
         self.assertEqual(self.tateti.play(1, -1), "Movement not allowed.",)
         self.assertEqual(self.tateti.next_turn(), "Plays X")
 
-    # fixme-16: validate (20,20)
-    def test_play_caracter_invalid(self):
-        self.assertEqual(self.tateti.play('a', 'b'), "Movement not allowed.",)
-        self.assertEqual(self.tateti.next_turn(), "Plays X")
+    def test_position_outside_board(self):
+        self.assertEqual(self.tateti.play(20, 20), "Movement not allowed.",)
+        # fixme-17: assert turn
 
     def test_next_O(self):
         self.assertEqual(self.tateti.next_turn(), "Plays X")
