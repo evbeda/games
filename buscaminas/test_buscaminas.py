@@ -2,7 +2,6 @@ import unittest
 from buscaminas import Buscaminas
 
 
-
 class TestBuscamina(unittest.TestCase):
 
     def setUp(self):
@@ -21,11 +20,11 @@ class TestBuscamina(unittest.TestCase):
         self.assertEqual(10, self.game.generate_bombs())
 
     def test_check_lose(self):
-        mock_bomb = [(2, 2,)]
         buscaminas = Buscaminas()
+        buscaminas.bombs = [(2, 2,)]
         # fixme-26:
-        self.assertTrue(buscaminas.check_lose(2, 2, mock_bomb))
-        self.assertFalse(buscaminas.check_lose(1, 2, mock_bomb))
+        self.assertTrue(buscaminas.check_lose(2, 2))
+        self.assertFalse(buscaminas.check_lose(1, 2))
 
     def test_check_win(self):
         mock_bomb = [(2, 2,), (1, 1,)]
