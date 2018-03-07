@@ -1,16 +1,16 @@
 from game_base import GameBase
 from game_base import GameWithTurns
 
-class Tateti(GameBase, GameWithTurns):
+
+class Tateti(GameWithTurns, GameBase):
 
     name = 'Tateti'
     input_args = 2
     player_one = 'X'
     player_two = 'O'
-    # fixme-10: default args
-    def __init__(self):
-        # fixme-10: default args
-        super(Tateti, self).__init__()
+
+    def __init__(self, *args, **kwargs):
+        super(Tateti, self).__init__(*args, **kwargs)
         self.tablero = [
             [0, 0, 0],
             [0, 0, 0],
