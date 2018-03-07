@@ -120,8 +120,7 @@ class Tateti(GameBase, GameWithTurns):
         for x in range(0, 3):
             for y in range(0, 3):
                 if (self.tablero[x][y] == 0):
-                    # fixme-13: just return False...
-                    bool = False
+                    return False
         return bool
 
     # check vertical
