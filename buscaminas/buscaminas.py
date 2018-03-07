@@ -75,7 +75,6 @@ class Buscaminas(GameBase):
         ])
         #fixme-buscaminas-6: call 'set_value' method from parent
         self._board[x][y] = str(self.count)
-        return True
 
     def play(self, x, y):
         self.count = 0
@@ -103,9 +102,9 @@ class Buscaminas(GameBase):
                 if self.check_win(self.number_clicks, self.number_blocks, self.bombs):
                     self.finish()
                     return  '*********** You Win ***********'
-                if not self.keep_playing(x, y, movements):
-                    self.finish()
-                # fixme-24: return ''
+                self.keep_playing(x, y, movements)
+
+                return 'Keep playing'
             else:
                 return 'Position selected yet'
         else:
