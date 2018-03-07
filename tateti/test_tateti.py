@@ -71,7 +71,11 @@ class TestTateti(unittest.TestCase):
         self.tateti.play(2, 1)
         self.tateti.play(0, 2)
         self.assertEqual(self.tateti.next_turn(), "X wins")
-        # fixme-18: assert is_playing and board status
+        self.assertFalse(self.tateti.is_playing)
+        self.assertEquals(
+            str(self.tateti.tablero),
+            "[['X', 'X', 'X'], ['O', 0, 0], [0, 'O', 0]]",
+        )
 
     def test_tie(self):
         self.tateti.play(0, 0)
@@ -84,7 +88,11 @@ class TestTateti(unittest.TestCase):
         self.tateti.play(2, 0)
         self.tateti.play(2, 1)
         self.assertEqual(self.tateti.next_turn(), "It's a TIE!")
-        # fixme-18: assert is_playing and board status
+        self.assertFalse(self.tateti.is_playing)
+        self.assertEquals(
+            str(self.tateti.tablero),
+            "[['X', 'O', 'X'], ['X', 'X', 'O'], ['O', 'X', 'O']]",
+        )
 
     def test_win_vertical(self):
         self.tateti.play(0, 0)
@@ -93,7 +101,11 @@ class TestTateti(unittest.TestCase):
         self.tateti.play(0, 2)
         self.tateti.play(2, 0)
         self.assertEqual(self.tateti.next_turn(), "X wins")
-        # fixme-18: assert is_playing and board status
+        self.assertFalse(self.tateti.is_playing)
+        self.assertEquals(
+            str(self.tateti.tablero),
+            "[['X', 0, 'O'], ['X', 'O', 0], ['X', 0, 0]]",
+        )
 
     def test_position_taken(self):
         self.tateti.play(0, 0)
@@ -107,7 +119,11 @@ class TestTateti(unittest.TestCase):
         self.tateti.play(0, 2)
         self.tateti.play(2, 2)
         self.assertEqual(self.tateti.next_turn(), "X wins")
-        # fixme-18: assert is_playing and board status
+        self.assertFalse(self.tateti.is_playing)
+        self.assertEquals(
+            str(self.tateti.tablero),
+            "[['X', 'O', 'O'], [0, 'X', 0], [0, 0, 'X']]",
+        )
 
     def test_win_diagon_asc(self):
         self.tateti.play(0, 2)
@@ -116,7 +132,11 @@ class TestTateti(unittest.TestCase):
         self.tateti.play(0, 0)
         self.tateti.play(2, 0)
         self.assertEqual(self.tateti.next_turn(), "X wins")
-        # fixme-18: assert is_playing and board status
+        self.assertFalse(self.tateti.is_playing)
+        self.assertEquals(
+            str(self.tateti.tablero),
+            "[['O', 'O', 'X'], [0, 'X', 0], ['X', 0, 0]]",
+        )
 
     def test_win_vertical_2(self):
         self.tateti.play(0, 0)
@@ -125,7 +145,11 @@ class TestTateti(unittest.TestCase):
         self.tateti.play(1, 1)
         self.tateti.play(2, 0)
         self.assertEqual(self.tateti.next_turn(), "X wins")
-        # fixme-18: assert is_playing and board status
+        self.assertFalse(self.tateti.is_playing)
+        self.assertEquals(
+            str(self.tateti.tablero),
+            "[['X', 'O', 0], ['X', 'O', 0], ['X', 0, 0]]",
+        )
 
     # fixme-19: assert board draw...
 
