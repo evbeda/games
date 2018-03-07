@@ -58,10 +58,6 @@ class GameWithBoard(object):
     def get_board(self):
         return self._board
 
-    # fixme-6: useful?
-    def clear_board(self):
-        del self._board[:]
-
     # fixme-8: char args?
     def create_board(self):
         self._board = [[''] * self._col]
