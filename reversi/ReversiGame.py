@@ -26,7 +26,7 @@ class ReversiGame(GameBase, GameWithTurns):
         self.moves = []
 
     def next_turn(self):
-        if self.player_in_game == self.player_one:
+        if self.actual_player == self.player_one:
             return 'White'
         else:
             return 'Black'
@@ -65,7 +65,7 @@ class ReversiGame(GameBase, GameWithTurns):
         b = x
         positions = []
         direction = []
-        if self.player_one == self.player_in_game:
+        if self.player_one == self.actual_player:
             piece_to_change = 'B'
             my_piece = 'W'
         else:
@@ -152,7 +152,7 @@ class ReversiGame(GameBase, GameWithTurns):
         for direction in possibles:
             for x, y, piece in direction:
                 self.matrix_board[x][y] = 'W' \
-                    if self.player_one == self.player_in_game else 'B'
+                    if self.player_one == self.actual_player else 'B'
 
     def play(self, x, y):
         if not(self.validate(x, y)):
@@ -164,7 +164,7 @@ class ReversiGame(GameBase, GameWithTurns):
             else:
                 self.reverse_possibles(possibles)
                 self.matrix_board[x][y] = 'W' \
-                    if self.player_one == self.player_in_game else 'B'
+                    if self.player_one == self.actual_player else 'B'
                 has_empty = False
                 whites = 0
                 blacks = 0

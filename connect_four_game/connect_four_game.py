@@ -75,7 +75,7 @@ class ConnectFourGame(GameBase, GameWithTurns):
             return False
 
     def set_board(self, column):
-        if self.player_in_game == self.player_one:
+        if self.actual_player == self.player_one:
             for x in xrange(5, -1, -1):
                 if self.board_status[x][column] == 'E':
                     self.board_status[x][column] = 'W'
@@ -153,7 +153,7 @@ class ConnectFourGame(GameBase, GameWithTurns):
         return poster
 
     def next_turn(self):
-            return self.player_in_game + ' plays'
+            return self.actual_player + ' plays'
 
     @property
     def board(self):
