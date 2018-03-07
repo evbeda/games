@@ -1,16 +1,16 @@
 from game_base import GameBase
 from game_base import GameWithTurns
 
-class Tateti(GameBase, GameWithTurns):
+
+class Tateti(GameWithTurns, GameBase):
 
     name = 'Tateti'
     input_args = 2
     player_one = 'X'
     player_two = 'O'
-    # fixme-10: default args
-    def __init__(self):
-        # fixme-10: default args
-        super(Tateti, self).__init__()
+
+    def __init__(self, *args, **kwargs):
+        super(Tateti, self).__init__(*args, **kwargs)
         self.tablero = [
             [0, 0, 0],
             [0, 0, 0],
@@ -109,11 +109,11 @@ class Tateti(GameBase, GameWithTurns):
 
     # check horizontal
     def check_win_hor(self, x1, y1):
-        win = True
         for column in xrange(0, 3):
+
             if self.tablero[x1][column] != self.actual_player:
-                win = False
-        return win
+                return False
+        return True
 
     def check_tie(self, x1, y1):
         bool = True
@@ -126,30 +126,26 @@ class Tateti(GameBase, GameWithTurns):
 
     # check vertical
     def check_win_vertical(self, x1, y1):
-        win = True
         for row in xrange(0, 3):
             if self.tablero[row][y1] != self.actual_player:
-                # fixme-14: break...
-                win = False
-        return win
+                return False
+        return True
 
     # check diagonal
     def check_win_diagonal_desc(self, x1, y1):
-        win = True
         if(self.tablero[0][0] != self.actual_player or
                 self.tablero[1][1] != self.actual_player or
                 self.tablero[2][2] != self.actual_player):
-            win = False
-        return win
+            return False
+        return True
 
     # check diagonal
     def check_diagonal_asc(self, x1, y1):
-        win = True
         if(self.tablero[0][2] != self.actual_player or
                 self.tablero[1][1] != self.actual_player or
                 self.tablero[2][0] != self.actual_player):
-            win = False
-        return win
+            return False
+        return True
 
     def tie(self):
         self.finish()

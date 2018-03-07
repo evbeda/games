@@ -71,19 +71,21 @@ class GameWithBoard(object):
     # fixme-7: separate in_board(x, y) & in_columns(col)
     def in_board(self, *args):
         count_args = len(args)
-
-        if count_args == 1:
-            if isinstance(args, int):
-                return (
-                    self.minimum <= args[0] < self.col
-                )
-            else:
-                return False
-        elif (count_args == 2):
+        if (count_args == 2):
             if isinstance(args, int):
                 return (
                     self.minimum <= args[0] < self.col and
                     self.minimum <= args[1] < self.row
+                )
+            else:
+                return False
+
+    def in_columns(self, *args):
+        count_args = len(args)
+        if count_args == 1:
+            if isinstance(args, int):
+                return (
+                    self.minimum <= args[0] < self.col
                 )
             else:
                 return False
