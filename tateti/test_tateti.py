@@ -127,7 +127,9 @@ class TestTateti(unittest.TestCase):
         self.assertEqual(self.tateti.next_turn(), "X wins")
         # fixme-18: assert is_playing and board status
 
-    # fixme-19: assert board draw...
+    def test_board_layout(self):
+        result = '\n000\n000\n000\n'
+        self.assertEquals(result, self.tateti.board)
 
 
 if __name__ == "__main__":
