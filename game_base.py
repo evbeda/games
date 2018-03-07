@@ -3,10 +3,8 @@ class GameBase(object):
     name = 'Undefined'
     input_args = 0
 
-    # fixme-1: default values
-    def __init__(self):
-        # fixme 1: default values
-        super(GameBase, self).__init__()
+    def __init__(self, *args, **kwargs):
+        super(GameBase, self).__init__(*args, **kwargs)
         self._playing = True
 
     # fixme-2: lanzar exception si no esta implementado
@@ -32,10 +30,8 @@ class GameWithTurns(object):
     player_one = 'Undefined'
     player_two = 'Undefined'
 
-    # fixme-1: default values
-    def __init__(self):
-        # fixme-1: default values
-        super(GameWithTurns, self).__init__()
+    def __init__(self, *args, **kwargs):
+        super(GameWithTurns, self).__init__(*args, **kwargs)
         self._turn = self.player_one
 
     def change_turn(self):
