@@ -31,20 +31,20 @@ class TestTateti(unittest.TestCase):
 
     def test_play_negative_exception(self):
         self.assertEqual(self.tateti.play(-1, 1), "Movement not allowed.",)
-        # fixme-17: assert turn
+        self.assertEqual(self.tateti.next_turn(), "Plays X")
 
     def test_play_negative_exception_2(self):
         self.assertEqual(self.tateti.play(-1, -1), "Movement not allowed.",)
-        # fixme-17: assert turn
+        self.assertEqual(self.tateti.next_turn(), "Plays X")
 
     def test_play_negative_exception_3(self):
         self.assertEqual(self.tateti.play(1, -1), "Movement not allowed.",)
-        # fixme-17: assert turn
+        self.assertEqual(self.tateti.next_turn(), "Plays X")
 
     # fixme-16: validate (20,20)
     def test_play_caracter_invalid(self):
         self.assertEqual(self.tateti.play('a', 'b'), "Movement not allowed.",)
-        # fixme-17: assert turn
+        self.assertEqual(self.tateti.next_turn(), "Plays X")
 
     def test_next_O(self):
         self.assertEqual(self.tateti.next_turn(), "Plays X")
