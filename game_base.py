@@ -7,10 +7,9 @@ class GameBase(object):
         super(GameBase, self).__init__(*args, **kwargs)
         self._playing = True
 
-    # fixme-2: lanzar exception si no esta implementado
     @property
     def board(self):
-        return ''
+        raise NotImplementedError("Subclass should implement this!")
 
     @property
     def is_playing(self):
@@ -48,22 +47,15 @@ class GameWithTurns(object):
 class GameWithBoard(object):
 
     minimum = 0
+    _col = 0
+    _row = 0
 
-    # fixme-4: class var, remove args
-    def __init__(self, col, row):
-        # fixme-4: class var
-        self._col = col
-        # fixme-4: class var
-        self._row = row
+    def __init__(self):
         self._board = []
 
     @property
     def get_board(self):
         return self._board
-
-    # fixme-6: useful?
-    def clear_board(self):
-        del self._board[:]
 
     # fixme-8: char args?
     def create_board(self):
