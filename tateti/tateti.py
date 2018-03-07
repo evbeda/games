@@ -47,21 +47,15 @@ class Tateti(GameWithTurns, GameBase):
     #
     def play(self, x1, y1):
         if self.is_playing:
-            if y1 >= 0 and y1 < 3 and x1 >= 0 and x1 < 3:
+            if not y1 >= 0 and y1 < 3 and x1 >= 0 and x1 < 3:
+                return "Movement not allowed."
                 # fixme-12: DRY
-                if not self.insert_symbol(x1, y1):
-                    return "Position already taken. Please, choose another one."
-                if self.winner:
-                    # fixme-15: remove me!
-                    return self.winner
-                elif self.tie:
-                    # fixme-15: remove me!
-                    return self.winner
-                else:
-                    return ''
-                # fixme-12: DRY
+            if not self.insert_symbol(x1, y1):
+                    return "Position already taken.|\
+                     Please, choose another one."
+            else:
                 self.insert_symbol(x1, y1)
-                # fixme-12: DRY
+            # fixme-12: DRY
                 if(self.check_win_hor(x1, y1) or
                         self.check_win_vertical(x1, y1) or
                         self.check_diagonal_asc(x1, y1) or
@@ -69,10 +63,9 @@ class Tateti(GameWithTurns, GameBase):
                     return self.win(self.actual_player)
                 elif self.check_tie(x1, y1):
                     return self.tie()
-            else:
-                return "Movement not allowed."
-        else:
-            return "Game Over."
+                else:
+                    self.change_turn()
+                #fixme-15:remove me!
 
     @property
     def board(self):
