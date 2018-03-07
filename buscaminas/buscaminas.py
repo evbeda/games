@@ -54,9 +54,8 @@ class Buscaminas(GameBase):
             return True
         return False
 
-    # fixme-22: no need args... use object vars
-    def check_win(self, number_clicks, number_blocks, bombs):
-        if number_clicks == (number_blocks - len(bombs)):
+    def check_win(self):
+        if self.number_clicks == (self.number_blocks - len(self.bombs)):
             return True
         return False
 
@@ -95,9 +94,10 @@ class Buscaminas(GameBase):
                 if self.check_lose(x, y):
                     self.finish()
                     return '*********** You Lose ***********'
-                if self.check_win(self.number_clicks, self.number_blocks, self.bombs):
+                if self.check_win():
                     self.finish()
-                    return  '*********** You Win ***********'
+                    return '*********** You Win ***********'
+
                 self.keep_playing(x, y, movements)
 
                 return 'Keep playing'

@@ -28,10 +28,8 @@ class TestBuscamina(unittest.TestCase):
         self.assertFalse(buscaminas.check_lose(1, 2))
 
     def test_check_win(self):
-        mock_bomb = [(2, 2,), (1, 1,)]
-        buscaminas = Buscaminas()
-        self.assertTrue(buscaminas.check_win(1, 3, mock_bomb))
-        self.assertFalse(buscaminas.check_win(2, 3, mock_bomb))
+        self.game.number_clicks = 54
+        self.assertTrue(self.game.check_win())
 
     def test_check_keep_playing(self):
         buscaminas = Buscaminas()
