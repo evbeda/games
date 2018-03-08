@@ -7,6 +7,7 @@ source =
     guess_number_game
     reversi
     game.py
+    game_base.py
 
 [report]
 exclude_lines =
@@ -21,4 +22,5 @@ exclude_lines =
 [run]
 omit =
     env/*
+    */test*
 
