@@ -84,7 +84,6 @@ class TestTateti(unittest.TestCase):
         self.tateti.play(2, 2)
         self.tateti.play(1, 0)
         self.tateti.play(2, 0)
-        self.tateti.play(2, 1)
         self.assertEqual(self.tateti.play(2, 1), "It's a TIE!")
         self.assertFalse(self.tateti.is_playing)
         self.assertEquals(
