@@ -1,3 +1,4 @@
+# fixme-test-damas-0: rename file
 import unittest
 from dama_game import DamaGameStart
 
@@ -25,8 +26,10 @@ class TestDamaGame(unittest.TestCase):
             '5 w w w w\n'
             '6w w w w \n'
             '7 w w w w\n'
+            # fixme-test-damas-1: add status validations
         )
 
+    # fixme-test-damas-2: remove this test
     def test_initial_board_status(self):
         self.assertEqual(
             self.game.board,
@@ -73,10 +76,12 @@ class TestDamaGame(unittest.TestCase):
             '7 w w w w\n',
         )
         self.assertEqual(self.game.player_one, self.game._turn)
+        # fixme-test-damas-1: add status validations
 
     def test_third_move(self):
         self.game.play(5, 1, 4, 0)
         self.game.play(2, 0, 3, 1)
+        # fixme-test-damas-3: remove innecesary validations
         self.assertEqual(
             self.game.board,
             ' 01234567\n'
@@ -103,24 +108,29 @@ class TestDamaGame(unittest.TestCase):
             '7 w w w w\n'
         )
         self.assertEqual(self.game.player_two, self.game._turn)
+        # fixme-test-damas-1: add status validations
 
     def test_check_initial_position_inside_board(self):
         self.assertEqual(self.game.play(-1, -1, 6, 6),
                          "This position is outside our board")
+        # fixme-test-damas-1: add status validations
 
     def test_check_final_position_inside_board(self):
         self.assertEqual(self.game.play(1, 1, 9, 8),
                          "This position is outside our board")
 
+    # fixme-test-damas-4: rename test with a more clear name
     def test_wrong_choise(self):
         self.assertEqual(
             self.game.play(4, 4, 3, 5), 'No white piece here to move !')
         self.assertEqual(self.game.player_one, self.game._turn)
+    # fixme-test-damas-1: add status validations
 
     def test_unreachable_place(self):
         self.assertEqual(
             self.game.play(7, 7, 5, 5), 'you cant reach that place!')
         self.assertEqual(self.game.player_one, self.game._turn)
+        # fixme-test-damas-1: add status validations (is_playing)
 
     def test_is_dama_white(self):
         self.game.board_status = [
@@ -136,6 +146,7 @@ class TestDamaGame(unittest.TestCase):
             self.game.play(1, 1, 0, 2), 'you became a dama!')
         self.assertEqual(
             self.game.board_status[0][2], 'W')
+        # fixme-test-damas-1: add status validations
 
     def test_is_dama_black(self):
         self.game._turn = self.game.player_two
@@ -151,6 +162,7 @@ class TestDamaGame(unittest.TestCase):
         self.assertEqual(
             self.game.play(6, 2, 7, 3), 'you became a dama!')
         self.assertEqual(self.game.board_status[7][3], 'B')
+        # fixme-test-damas-1: add status validations
 
     def test_eat_move_white(self):
         self.game.board_status = [
@@ -164,6 +176,7 @@ class TestDamaGame(unittest.TestCase):
             [' ', 'w', ' ', ' ', ' ', 'w', ' ', 'w']]
         self.assertEqual(self.game.play(5, 1, 3, 3), None)
         self.assertEqual(self.game.board_status[4][2], ' ')
+        # fixme-test-damas-1: add status validations
 
     def test_eat_move_black(self):
         self.game._turn = self.game.player_two
@@ -178,6 +191,7 @@ class TestDamaGame(unittest.TestCase):
             [' ', 'w', ' ', ' ', ' ', 'w', ' ', 'w']]
         self.assertEqual(self.game.play(1, 3, 3, 5), None)
         self.assertEqual(self.game.board_status[2][4], ' ')
+        # fixme-test-damas-1: add status validations
 
     def test_win_white(self):
         self.game.board_status = [
@@ -191,6 +205,7 @@ class TestDamaGame(unittest.TestCase):
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', 'w']]
         self.assertEqual(self.game.play(5, 1, 3, 3), None)
         self.assertEqual(self.game.next_turn(), 'White wins.')
+        # fixme-test-damas-1: add status validations
 
     def test_win_black(self):
         self.game._turn = self.game.player_two
@@ -205,6 +220,7 @@ class TestDamaGame(unittest.TestCase):
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']]
         self.assertEqual(self.game.play(4, 2, 6, 0), None)
         self.assertEqual(self.game.next_turn(), 'Black wins.')
+        # fixme-test-damas-1: add status validations
 
     def test_out_of_index(self):
         self.game.play(5, 1, 4, 2)
@@ -259,6 +275,7 @@ class TestDamaGame(unittest.TestCase):
         self.game.play(4, 4, 5, 5)
         self.game.play(3, 3, 2, 4)
         self.assertEqual(self.game.play(7, 2, 6, 3), None)
+        # fixme-test-damas-1: add status validations
 
 
 if __name__ == '__main__':

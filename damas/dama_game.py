@@ -1,6 +1,7 @@
 from game_base import (GameBase,
                        GameWithTurns)
 
+
 # fixme-damas-2: switch parent classes
 class DamaGameStart(GameBase, GameWithTurns):
     # fixme-damas-5: override attributes _col _row
@@ -24,7 +25,8 @@ class DamaGameStart(GameBase, GameWithTurns):
         self.winner = ''
         self.moves = []
 
-    # fixme-damas-9: many actions split them up, don't name var as  x, y, w, z, k, t
+    # fixme-damas-9: many actions split them up,
+    # don't name var as  x, y, w, z, k, t
     def play_white(self, x, y, w, z):
         # fixme-damas-3: change metod with GameWithBoard's get
         if self.board_status[x][y] == 'w' or self.board_status[x][y] == 'W':
@@ -70,7 +72,7 @@ class DamaGameStart(GameBase, GameWithTurns):
         if self._playing:
             count = 0
             if (self._turn == self.player_one):
-                #fixme-damas-6: use attributes _col _row
+                # fixme-damas-6: use attributes _col _row
                 for x in range(0, 8):
                     for y in range(0, 8):
                         # fixme-damas-3: change metod with GameWithBoard's get
@@ -79,20 +81,20 @@ class DamaGameStart(GameBase, GameWithTurns):
                             count += 1
                 if (count == 0):
                     self.finish()
-                     # fixme-damas-1: remove winner
+                    # fixme-damas-1: remove winner
                     self.winner = self.player_one
             else:
-                #fixme-damas-6: use attributes _col _row
+                # fixme-damas-6: use attributes _col _row
                 for x in range(0, 8):
                     for y in range(0, 8):
                         # fixme-damas-3: change metod with GameWithBoard's get
                         board_pos = self.board_status[x][y]
-                        #fixme-damas-7: DRY attrinute board_pos
+                        # fixme-damas-7: DRY attrinute board_pos
                         if (board_pos == 'w' or board_pos == 'W'):
                             count += 1
                 if (count == 0):
                     self.finish()
-                     # fixme-damas-1: remove winner
+                    # fixme-damas-1:remove winner
                     self.winner = 'Black'
 
     # fixme-damas-9: many actions split them up
@@ -152,7 +154,7 @@ class DamaGameStart(GameBase, GameWithTurns):
             else:
                 return "Plays Black"
         else:
-             #fixme-damas-1: remove winner
+            # fixme-damas-1: remove winner
             return self.winner + " wins."
 
     @property
