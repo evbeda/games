@@ -68,8 +68,7 @@ class TestTateti(unittest.TestCase):
         self.tateti.play(1, 0)
         self.tateti.play(0, 1)
         self.tateti.play(2, 1)
-        self.tateti.play(0, 2)
-        self.assertEqual(self.tateti.next_turn(), "X wins")
+        self.assertEqual(self.tateti.play(0, 2), "X wins")
         # fixme-18: assert is_playing and board status
 
     def test_tie(self):
@@ -81,8 +80,7 @@ class TestTateti(unittest.TestCase):
         self.tateti.play(2, 2)
         self.tateti.play(1, 0)
         self.tateti.play(2, 0)
-        self.tateti.play(2, 1)
-        self.assertEqual(self.tateti.next_turn(), "It's a TIE!")
+        self.assertEqual(self.tateti.play(2, 1), "It's a TIE!")
         # fixme-18: assert is_playing and board status
 
     def test_win_vertical(self):
@@ -90,13 +88,12 @@ class TestTateti(unittest.TestCase):
         self.tateti.play(1, 1)
         self.tateti.play(1, 0)
         self.tateti.play(0, 2)
-        self.tateti.play(2, 0)
-        self.assertEqual(self.tateti.next_turn(), "X wins")
+        self.assertEqual(self.tateti.play(2, 0), "X wins")
         # fixme-18: assert is_playing and board status
 
     def test_position_taken(self):
         self.tateti.play(0, 0)
-        self.assertEqual(self.tateti.play(0, 0), "Position already taken. Please, choose another one.")
+        self.assertEqual(self.tateti.play(0, 0), "Position already taken,please, choose another one.")
         # fixme-17: assert turn
 
     def test_win_diagon_des(self):
@@ -104,8 +101,7 @@ class TestTateti(unittest.TestCase):
         self.tateti.play(0, 1)
         self.tateti.play(1, 1)
         self.tateti.play(0, 2)
-        self.tateti.play(2, 2)
-        self.assertEqual(self.tateti.next_turn(), "X wins")
+        self.assertEqual(self.tateti.play(2, 2), "X wins")
         # fixme-18: assert is_playing and board status
 
     def test_win_diagon_asc(self):
@@ -113,8 +109,7 @@ class TestTateti(unittest.TestCase):
         self.tateti.play(0, 1)
         self.tateti.play(1, 1)
         self.tateti.play(0, 0)
-        self.tateti.play(2, 0)
-        self.assertEqual(self.tateti.next_turn(), "X wins")
+        self.assertEqual(self.tateti.play(2, 0), "X wins")
         # fixme-18: assert is_playing and board status
 
     def test_win_vertical_2(self):
@@ -122,8 +117,7 @@ class TestTateti(unittest.TestCase):
         self.tateti.play(0, 1)
         self.tateti.play(1, 0)
         self.tateti.play(1, 1)
-        self.tateti.play(2, 0)
-        self.assertEqual(self.tateti.next_turn(), "X wins")
+        self.assertEqual(self.tateti.play(2, 0), "X wins")
         # fixme-18: assert is_playing and board status
 
     def test_board_layout(self):
