@@ -1,7 +1,7 @@
 from game_base import GameBase
 from game_base import GameWithTurns
 
-
+# fixme-connectfour-12: missing extends GameWithBoard
 class ConnectFourGame(GameBase, GameWithTurns):
 
     name = 'Cuatro en linea'
