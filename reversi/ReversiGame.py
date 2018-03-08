@@ -160,6 +160,11 @@ class ReversiGame(GameBase, GameWithTurns):
                     if self.player_one == self.actual_player else 'B'
 
     def play(self, x, y):
+        if not self.check_can_play():
+            self.change_turn()
+            if not self.check_can_play():
+                return 'Game over!'
+            return 'No possible moves, turn changes'
         if not(self.validate(x, y)):
             return 'Movement not allowed. Try again.'
         else:
@@ -205,6 +210,15 @@ class ReversiGame(GameBase, GameWithTurns):
                 # Fixme-Reversi-9: Remove
                 self.moves.append((x, y, ))
                 return result
+
+    def check_can_play(self):
+        result = []
+        for x in xrange(8):
+            for y in xrange(8):
+                if self.matrix_board[x][y] == ' ':
+                    if self.find_possibility_pieces(x, y):
+                        result.append(self.find_possibility_pieces(x, y))
+        return result
 
     @property
     def board(self):

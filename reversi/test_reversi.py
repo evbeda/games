@@ -238,6 +238,36 @@ class TestReversi(unittest.TestCase):
         ]
         self.assertEquals(result, self.game.matrix_board)
 
+    def test_change_turn_if_no_possibility(self):
+        self.game.matrix_board = [
+            [' ', 'W', 'W', 'W', 'W', 'W', 'W', 'W'],
+            [' ', 'W', 'B', 'B', 'B', 'B', 'B', 'W'],
+            [' ', 'W', 'B', 'W', 'W', 'W', 'B', 'W'],
+            [' ', 'W', 'B', 'W', 'W', 'W', 'B', 'W'],
+            [' ', 'W', 'B', 'W', 'W', 'W', 'B', 'W'],
+            [' ', 'W', 'W', 'B', 'B', 'B', 'B', 'W'],
+            [' ', 'W', 'W', 'W', 'W', 'W', 'W', 'W'],
+            [' ', 'W', 'W', 'W', 'W', 'W', 'W', 'W'],
+        ]
+        self.assertEquals(self.game.play(0, 0),
+                          'No possible moves, turn changes')
+
+        self.assertEquals(self.game.next_turn(), 'Black')
+
+    def test_no_one_can_play(self):
+        self.game.matrix_board = [
+            [' ', 'W', 'W', 'W', 'W', 'W', 'W', 'W'],
+            [' ', 'W', 'W', 'W', 'W', 'W', 'W', 'W'],
+            [' ', 'W', 'W', 'W', 'W', 'W', 'W', 'W'],
+            [' ', 'W', 'W', 'W', 'W', 'W', 'W', 'W'],
+            [' ', 'W', 'W', 'W', 'W', 'W', 'W', 'W'],
+            [' ', 'W', 'W', 'W', 'W', 'W', 'W', 'W'],
+            [' ', 'W', 'W', 'W', 'W', 'W', 'W', 'W'],
+            [' ', 'W', 'W', 'W', 'W', 'W', 'W', 'W'],
+        ]
+        self.assertEquals(self.game.play(0, 0),
+                          'Game over!')
+
 
 if __name__ == "__main__":
     unittest.main()
