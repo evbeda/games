@@ -40,12 +40,13 @@ class TestBuscamina(unittest.TestCase):
         buscaminas.count = 0
         mock_movements = [True, False, True]
 
-        self.assertTrue(buscaminas.keep_playing(1, 1, mock_movements))
+        buscaminas.keep_playing(1, 1, mock_movements)
         self.assertEqual(1, len(buscaminas.clicks))
         self.assertEqual((1, 2,), buscaminas.clicks[0])
         self.assertEqual(1, buscaminas.number_clicks)
         self.assertEqual(2, buscaminas.count)
         self.assertEqual("2", buscaminas._board[1][1])
+        self.assertEqual("Keep playing", self.game.play(2, 2))
 
     def test_board(self):
         result = [
