@@ -24,7 +24,7 @@ class DamaGameStart(GameBase, GameWithTurns):
         self.winner = ''
         self.moves = []
 
-    # fixme-damas-9: many actions split them up
+    # fixme-damas-9: many actions split them up, don't name var as  x, y, w, z, k, t
     def play_white(self, x, y, w, z):
         # fixme-damas-3: change metod with GameWithBoard's get
         if self.board_status[x][y] == 'w' or self.board_status[x][y] == 'W':
