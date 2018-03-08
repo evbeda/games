@@ -7,6 +7,7 @@ from test_game import TestGame
 from damas.test import TestDamaGame
 from tateti.test_tateti import TestTateti
 from test_game_base import TestGameBase
+from four_number.test_four_number import TestFourNumber
 
 
 def suite():
@@ -22,6 +23,7 @@ def suite():
     test_suite.addTest(unittest.makeSuite(TestDamaGame))
     test_suite.addTest(unittest.makeSuite(TestTateti))
     test_suite.addTest(unittest.makeSuite(TestGameBase))
+    test_suite.addTest(unittest.makeSuite(TestFourNumber))
     return test_suite
 
 

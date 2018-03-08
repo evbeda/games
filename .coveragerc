@@ -6,6 +6,7 @@ source =
     damas
     guess_number_game
     reversi
+    four_number
     game.py
     game_base.py
 
