@@ -12,10 +12,14 @@ class ConnectFourGame(GameBase, GameWithTurns):
     def __init__(self):
         super(ConnectFourGame, self).__init__()
 
+        # fixme-connectfour-2: Spanish?
         self.ficha = ''
+        # fixme-connectfour-2: Spanish?
         self.filas = 6
         self.min = 0
+        # fixme-connectfour-2: Spanish?
         self.columnas = 7
+        # fixme-connectfour-1: Change E's for ' '
         self.board_status = [
             ['E', 'E', 'E', 'E', 'E', 'E', 'E'],
             ['E', 'E', 'E', 'E', 'E', 'E', 'E'],
@@ -26,9 +30,12 @@ class ConnectFourGame(GameBase, GameWithTurns):
         ]
 
     def play(self, column):
+        # fixme-connectfour-4: Remove is_playing condition. Never used.
         if(self.is_playing):
+            # fixme-connectfour-3: Should be after 'set_board'
             if(self.empate()):
                 self.finish()
+                # fixme-connectfour-2: Spanish?
                 return 'Empate'
             elif(self.in_board(column)):
                 if(
@@ -47,11 +54,15 @@ class ConnectFourGame(GameBase, GameWithTurns):
                 else:
                     return 'Full column'
             else:
+                # fixme-connectfour-2: Spanish?
                 return 'Movimiento no permitido'
+        # fixme-connectfour-4: Remove is_playing condition. Never used.
         else:
             return 'Game Over'
 
     def in_board(self, column):
+        # fixme-connectfour-5: Remove isinstance condition.
+        # It's already checked in game.py.
         if isinstance(column, int):
             return (
                 self.min <= column <= self.columnas
@@ -59,7 +70,10 @@ class ConnectFourGame(GameBase, GameWithTurns):
         else:
             return False
 
+    # fixme-connectfour-2: Spanish?
     def empate(self):
+        # fixme-connectfour-6: Remove not self.check_win() condition.
+        # If check_win executed before 'empate()' in play() it's not necessary.
         if (not self.check_win()):
             count = 0
             for col in range(self.columnas):
@@ -74,7 +88,10 @@ class ConnectFourGame(GameBase, GameWithTurns):
         else:
             return False
 
+    # fixme-connectfour-7: Method name is not clear.
+    # Does it set the whole board?
     def set_board(self, column):
+        # fixme-connectfour-8: for loops VERY similar. Could be refactorized.
         if self.actual_player == self.player_one:
             for x in xrange(5, -1, -1):
                 if self.board_status[x][column] == 'E':
@@ -90,7 +107,9 @@ class ConnectFourGame(GameBase, GameWithTurns):
                     self.change_turn()
                     break
 
+    # fixme-connectfour-2: Spanish?
     def win_diagonal_izquierdo(self):
+        # fixme-connectfour-2: Spanish?
         for fila in range(self.filas):
             for col in range(self.columnas):
                 if(
@@ -103,7 +122,9 @@ class ConnectFourGame(GameBase, GameWithTurns):
                     return True
         return False
 
+    # fixme-connectfour-2: Spanish?
     def win_diagonal_derecho(self):
+        # fixme-connectfour-2: Spanish?
         for fila in range(self.filas):
             for col in range(self.columnas):
                 if(
@@ -117,6 +138,7 @@ class ConnectFourGame(GameBase, GameWithTurns):
         return False
 
     def win_horizontal(self):
+        # fixme-connectfour-2: Spanish?
         for fila in range(self.filas):
             for col in range(self.columnas):
                 if(
@@ -130,6 +152,7 @@ class ConnectFourGame(GameBase, GameWithTurns):
         return False
 
     def win_vertical(self):
+        # fixme-connectfour-2: Spanish?
         for fila in range(self.filas):
             for col in range(self.columnas):
                 if(
@@ -155,6 +178,7 @@ class ConnectFourGame(GameBase, GameWithTurns):
     def next_turn(self):
             return self.actual_player + ' plays'
 
+    # fixme-connectfour-11: Can get better! Columns indistinguishable.
     @property
     def board(self):
         result = ''

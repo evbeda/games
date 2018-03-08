@@ -10,10 +10,12 @@ class TestConnectFourGame(unittest.TestCase):
     def test_initial_game_status(self):
         self.assertTrue(self.game.is_playing)
 
+    # fixme-connectfour-2: Spanish?
     def test_turno(self):
         turn_white = self.game.next_turn()
         self.assertEqual(turn_white, 'White plays')
 
+    # fixme-connectfour-8: Woard?
     def test_initial_Woard_status(self):
         self.assertEqual(
             self.game.board,
@@ -98,7 +100,9 @@ class TestConnectFourGame(unittest.TestCase):
             'WWWWEEE\n',
         )
 
+    # fixme-connectfour-10: test name unclear
     def test_win_diagonalD(self):
+        # fixme-connectfour-9: Remove white spaces
         self.game.play(0)
 
         self.game.play(1)
@@ -131,6 +135,7 @@ class TestConnectFourGame(unittest.TestCase):
             'WBBBEEE\n',
         )
 
+    # fixme-connectfour-2: Spanish?
     def test_empate(self):
 
         self.game.board_status = [
