@@ -2,7 +2,6 @@ import unittest
 from buscaminas import Buscaminas
 
 
-
 class TestBuscamina(unittest.TestCase):
 
     def setUp(self):
@@ -13,6 +12,7 @@ class TestBuscamina(unittest.TestCase):
             (5, 3, ), (3, 5, ), (6, 1, ),
             (7, 2, ),
         ]
+        #fixme-buscaminas-13: no need to call it from here
         self.game.generate_board()
 
     def test_initial_status(self):
@@ -21,17 +21,15 @@ class TestBuscamina(unittest.TestCase):
         self.assertEqual(10, self.game.generate_bombs())
 
     def test_check_lose(self):
-        mock_bomb = [(2, 2,)]
         buscaminas = Buscaminas()
+        buscaminas.bombs = [(2, 2,)]
         # fixme-26:
-        self.assertTrue(buscaminas.check_lose(2, 2, mock_bomb))
-        self.assertFalse(buscaminas.check_lose(1, 2, mock_bomb))
+        self.assertTrue(buscaminas.check_lose(2, 2))
+        self.assertFalse(buscaminas.check_lose(1, 2))
 
     def test_check_win(self):
-        mock_bomb = [(2, 2,), (1, 1,)]
-        buscaminas = Buscaminas()
-        self.assertTrue(buscaminas.check_win(1, 3, mock_bomb))
-        self.assertFalse(buscaminas.check_win(2, 3, mock_bomb))
+        self.game.number_clicks = 54
+        self.assertTrue(self.game.check_win())
 
     def test_check_keep_playing(self):
         buscaminas = Buscaminas()
@@ -40,12 +38,13 @@ class TestBuscamina(unittest.TestCase):
         buscaminas.count = 0
         mock_movements = [True, False, True]
 
-        self.assertTrue(buscaminas.keep_playing(1, 1, mock_movements))
+        buscaminas.keep_playing(1, 1, mock_movements)
         self.assertEqual(1, len(buscaminas.clicks))
         self.assertEqual((1, 2,), buscaminas.clicks[0])
         self.assertEqual(1, buscaminas.number_clicks)
         self.assertEqual(2, buscaminas.count)
         self.assertEqual("2", buscaminas._board[1][1])
+        self.assertEqual("Keep playing", self.game.play(2, 2))
 
     def test_board(self):
         result = [
@@ -148,7 +147,6 @@ class TestBuscamina(unittest.TestCase):
         # bomb
         # self.game.play(2, 4, )
 
-        # board_ = self.game.board
         # self.assertEquals(result, board_)
 
 

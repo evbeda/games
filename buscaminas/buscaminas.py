@@ -1,13 +1,16 @@
 from random import randint
 from game_base import GameBase
+#fixme-buscaminas-1: add GameWithBoard import
 
-
+#fixme-buscaminas-1: add GameWithBoard import inheritance
 class Buscaminas(GameBase):
     name = 'Buscaminas'
     input_args = 2
+    #fixme-buscaminas-2: overwrite GameWithBoard attributes
 
     def __init__(self):
         super(Buscaminas, self).__init__()
+        #fixme-buscaminas-3: remove max, min, pos_x, pos_y
         self.max = 8
         self.min = 0
         self.pos_x = 0
@@ -24,21 +27,19 @@ class Buscaminas(GameBase):
         self.clicks = []
         # fixme-25: clear_board is included in generate_bombs
         self.clear_board()
+        #fixme-buscaminas-7: need to create board before insert bombs in it
         self.generate_bombs()
         # fixme-20: you don't need this... use: self._board
         self.possible_clicks()
 
+    #fixme-buscaminas-4: dont overwrite this, it's already inside GameWithBoard
     def in_board(self, x, y):
-        # fixme-21: no need to validate int
-        if isinstance(x, int) and isinstance(y, int):
-            return not(
-                self.max <= x or
-                self.min > x or
-                self.max <= y or
-                self.min > y
-            )
-        else:
-            return False
+        return not(
+            self.max <= x or
+            self.min > x or
+            self.max <= y or
+            self.min > y
+        )
 
     def next_turn(self):
         if self.is_playing:
@@ -46,17 +47,15 @@ class Buscaminas(GameBase):
         else:
             return '*********** Game Over ************'
 
-    # fixme-21: just need x, y args...
-    def check_lose(self, x, y, bombs):
-        # fixme-20: you don't need this... use: self._board
-        if (x, y,) in bombs:
+    def check_lose(self, x, y):
+        if (x, y,) in self.bombs:
+            #fixme-buscaminas-5: call 'set_value' method from parent
             self._board[x][y] = "*"
             return True
         return False
 
-    # fixme-22: no need args... use object vars
-    def check_win(self, number_clicks, number_blocks, bombs):
-        if number_clicks == (number_blocks - len(bombs)):
+    def check_win(self):
+        if self.number_clicks == (self.number_blocks - len(self.bombs)):
             return True
         return False
 
@@ -69,8 +68,8 @@ class Buscaminas(GameBase):
             for m in movements
             if m is True
         ])
+        #fixme-buscaminas-6: call 'set_value' method from parent
         self._board[x][y] = str(self.count)
-        return True
 
     def play(self, x, y):
         self.count = 0
@@ -92,15 +91,16 @@ class Buscaminas(GameBase):
 
         if self.in_board(x, y):
             if (x, y) in self.clicks:
-                if self.check_lose(x, y, self.bombs):
+                if self.check_lose(x, y):
                     self.finish()
                     return '*********** You Lose ***********'
-                if self.check_win(self.number_clicks, self.number_blocks, self.bombs):
+                if self.check_win():
                     self.finish()
-                    return  '*********** You Win ***********'
-                if not self.keep_playing(x, y, movements):
-                    self.finish()
-                # fixme-24: return ''
+                    return '*********** You Win ***********'
+
+                self.keep_playing(x, y, movements)
+
+                return 'Keep playing'
             else:
                 return 'Position selected yet'
         else:
@@ -118,13 +118,17 @@ class Buscaminas(GameBase):
         return len(self.bombs)
 
     def generate_random(self):
+        #fixme-buscaminas-10: use rows and columns instead
         return (randint(0, self.max - 1), randint(0, self.max - 1),)
 
+    #fixme-buscaminas-7: confusing name
     def generate_board(self):
         self.clear_board()
         for (x, y, ) in self.bombs:
+            #fixme-buscaminas-8: need to cal 'set_value' method from parent
             self._board[x][y] = 'B'
 
+    #fixme-buscaminas-9:  delete clear board, only use 'create_board' from parent ONCE
     def clear_board(self):
         self._board = [
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
@@ -139,11 +143,13 @@ class Buscaminas(GameBase):
 
     def possible_clicks(self):
         self.clicks = []
+        #fixme-buscaminas-10: use rows and columns instead
         for x in range(self.max):
             for y in range(self.max):
                 self.clicks.append((x, y, ))
         return self.clicks
 
+    #fixme-buscaminas-11: delete this, used 'get_board' form parent
     def check_board(self):
         return self._board
 
@@ -163,8 +169,10 @@ class Buscaminas(GameBase):
         output = ''
         output += " x 0 1 2 3 4 5 6 7 \n"
         output += "y  \n"
+        #fixme-buscaminas-10: use rows and columns instead
         for y in range(0, self.max):
             for x in range(0, self.max):
+                #fixme-buscaminas-12: use 'get_value' from parent
                 casilla = str(self._board[x][y])
                 if casilla == 'B':
                     # fixme-25: no need to use `x % 8` or `x % 7`...place code outside `for`
