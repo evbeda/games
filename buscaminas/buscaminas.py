@@ -34,16 +34,12 @@ class Buscaminas(GameBase):
 
     #fixme-buscaminas-4: dont overwrite this, it's already inside GameWithBoard
     def in_board(self, x, y):
-        # fixme-21: no need to validate int
-        if isinstance(x, int) and isinstance(y, int):
-            return not(
-                self.max <= x or
-                self.min > x or
-                self.max <= y or
-                self.min > y
-            )
-        else:
-            return False
+        return not(
+            self.max <= x or
+            self.min > x or
+            self.max <= y or
+            self.min > y
+        )
 
     def next_turn(self):
         if self.is_playing:
