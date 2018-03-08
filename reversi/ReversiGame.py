@@ -2,10 +2,13 @@ from game_base import GameBase
 from game_base import GameWithTurns
 
 
+# Fixme-Reversi-1: First mixin!!
+# Fixme-Reversi-2: Integration with gamewhitBoard
 class ReversiGame(GameBase, GameWithTurns):
 
     name = 'Reversi'
     input_args = 2
+
     max = 8
     min = 0
     player_one = 'White'
@@ -23,19 +26,18 @@ class ReversiGame(GameBase, GameWithTurns):
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
         ]
+        # Fixme-Reversi-9: Remove
         self.moves = []
 
+    # Fixme-Reversi-3: Return actual player!
     def next_turn(self):
         if self.actual_player == self.player_one:
             return 'White'
         else:
             return 'Black'
 
-    # # validador maestro, valida si el movimiento esta permitido o no
-    # def validMove(self, x, y):
-    #     if self.matrix_board[x][y] !=
-
     def validate(self, x, y):
+        # Fixme-Reversi-4: Change validation to gamewithboard
         if x > 7 or x < 0 or y > 7 or y < 0:
             return 'Values must be between 0 and 7'
         else:
@@ -44,6 +46,7 @@ class ReversiGame(GameBase, GameWithTurns):
             else:
                 return False
 
+    # Fixme-Reversi-5: Remove in_board, the same is in gamewithboard
     def in_board(self, x, y):
         if isinstance(x, int) and isinstance(y, int):
             return not(
@@ -56,10 +59,12 @@ class ReversiGame(GameBase, GameWithTurns):
             return False
 
     def has_piece_to_change(self, x, y, piece):
+        # Fixme-Reversi-2: Integration with gamewhitBoard
         if (self.in_board(x, y) and
                 self.matrix_board[x][y] == piece):
             return True
 
+    # Fixme-Reversi-6: Too many things here!
     def find_possibility_pieces(self, x, y):
         a = y
         b = x
@@ -165,6 +170,7 @@ class ReversiGame(GameBase, GameWithTurns):
                 self.reverse_possibles(possibles)
                 self.matrix_board[x][y] = 'W' \
                     if self.player_one == self.actual_player else 'B'
+                # Fixme-Reversi-7: Create a separate method for check finish
                 has_empty = False
                 whites = 0
                 blacks = 0
@@ -178,6 +184,7 @@ class ReversiGame(GameBase, GameWithTurns):
                             has_empty = True
                 if not has_empty:
                     self.finish()
+                    # Fixme-Reversi-8: Create a separate method for check win or tie
                     if whites > blacks:
                         result = 'Whites win ' \
                             + str(whites) + ' to ' + str(blacks)
@@ -195,6 +202,7 @@ class ReversiGame(GameBase, GameWithTurns):
                     else:
                         result = 'Blacks are going ahead ' \
                             + str(blacks) + ' to ' + str(whites)
+                # Fixme-Reversi-9: Remove
                 self.moves.append((x, y, ))
                 return result
 
@@ -206,6 +214,7 @@ class ReversiGame(GameBase, GameWithTurns):
         for x in xrange(0, 8):
             result += str(x) + ' |'
             for y in xrange(0, 8):
+                # Fixme-Reversi-2: Integration with gamewhitBoard
                 result += ' ' + self.matrix_board[x][y] + ' |'
             result += '\n'
             result += '--+---+---+---+---+---+---+---+---+\n'
