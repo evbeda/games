@@ -11,32 +11,26 @@ class ConnectFourGame(GameBase, GameWithTurns):
 
     def __init__(self):
         super(ConnectFourGame, self).__init__()
-
-        # fixme-connectfour-2: Spanish?
-        self.ficha = ''
-        # fixme-connectfour-2: Spanish?
-        self.filas = 6
+        self.piece = ''
+        self.row = 6
         self.min = 0
-        # fixme-connectfour-2: Spanish?
-        self.columnas = 7
-        # fixme-connectfour-1: Change E's for ' '
+        self.col = 7
         self.board_status = [
-            ['E', 'E', 'E', 'E', 'E', 'E', 'E'],
-            ['E', 'E', 'E', 'E', 'E', 'E', 'E'],
-            ['E', 'E', 'E', 'E', 'E', 'E', 'E'],
-            ['E', 'E', 'E', 'E', 'E', 'E', 'E'],
-            ['E', 'E', 'E', 'E', 'E', 'E', 'E'],
-            ['E', 'E', 'E', 'E', 'E', 'E', 'E'],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' '],
         ]
 
     def play(self, column):
         # fixme-connectfour-4: Remove is_playing condition. Never used.
         if(self.is_playing):
             # fixme-connectfour-3: Should be after 'set_board'
-            if(self.empate()):
+            if(self.tie()):
                 self.finish()
-                # fixme-connectfour-2: Spanish?
-                return 'Empate'
+                return 'Tie'
             elif(self.in_board(column)):
                 if(
                     self.board_status[0][column] != 'W' and
@@ -54,8 +48,7 @@ class ConnectFourGame(GameBase, GameWithTurns):
                 else:
                     return 'Full column'
             else:
-                # fixme-connectfour-2: Spanish?
-                return 'Movimiento no permitido'
+                return 'Movement not allowed'
         # fixme-connectfour-4: Remove is_playing condition. Never used.
         else:
             return 'Game Over'
@@ -65,23 +58,22 @@ class ConnectFourGame(GameBase, GameWithTurns):
         # It's already checked in game.py.
         if isinstance(column, int):
             return (
-                self.min <= column <= self.columnas
+                self.min <= column <= self.col
             )
         else:
             return False
 
-    # fixme-connectfour-2: Spanish?
-    def empate(self):
+    def tie(self):
         # fixme-connectfour-6: Remove not self.check_win() condition.
-        # If check_win executed before 'empate()' in play() it's not necessary.
+        # If check_win executed before 'tie()' in play() it's not necessary.
         if (not self.check_win()):
             count = 0
-            for col in range(self.columnas):
+            for col in range(self.col):
                 if (
-                    self.board_status[0][col] != 'E'
+                    self.board_status[0][col] != ' '
                 ):
                     count += 1
-            if (count == self.columnas):
+            if (count == self.col):
                 return True
             else:
                 return False
@@ -94,73 +86,67 @@ class ConnectFourGame(GameBase, GameWithTurns):
         # fixme-connectfour-8: for loops VERY similar. Could be refactorized.
         if self.actual_player == self.player_one:
             for x in xrange(5, -1, -1):
-                if self.board_status[x][column] == 'E':
+                if self.board_status[x][column] == ' ':
                     self.board_status[x][column] = 'W'
-                    self.ficha = 'W'
+                    self.piece = 'W'
                     self.change_turn()
                     break
         else:
             for x in xrange(5, -1, -1):
-                if self.board_status[x][column] == 'E':
+                if self.board_status[x][column] == ' ':
                     self.board_status[x][column] = 'B'
-                    self.ficha = 'B'
+                    self.piece = 'B'
                     self.change_turn()
                     break
 
-    # fixme-connectfour-2: Spanish?
-    def win_diagonal_izquierdo(self):
-        # fixme-connectfour-2: Spanish?
-        for fila in range(self.filas):
-            for col in range(self.columnas):
+    def check_win_left_diagonal(self):
+        for row in range(self.row):
+            for col in range(self.col):
                 if(
-                    3 <= fila <= 5 and 0 <= col <= 3 and
-                    self.board_status[fila][col] == self.ficha and
-                    self.board_status[fila - 1][col + 1] == self.ficha and
-                    self.board_status[fila - 2][col + 2] == self.ficha and
-                    self.board_status[fila - 3][col + 3] == self.ficha
+                    3 <= row <= 5 and 0 <= col <= 3 and
+                    self.board_status[row][col] == self.piece and
+                    self.board_status[row - 1][col + 1] == self.piece and
+                    self.board_status[row - 2][col + 2] == self.piece and
+                    self.board_status[row - 3][col + 3] == self.piece
                 ):
                     return True
         return False
 
-    # fixme-connectfour-2: Spanish?
-    def win_diagonal_derecho(self):
-        # fixme-connectfour-2: Spanish?
-        for fila in range(self.filas):
-            for col in range(self.columnas):
+    def check_win_right_diagonal(self):
+        for row in range(self.row):
+            for col in range(self.col):
                 if(
-                    3 <= fila <= 5 and 3 <= col <= 6 and
-                    self.board_status[fila][col] == self.ficha and
-                    self.board_status[fila - 1][col - 1] == self.ficha and
-                    self.board_status[fila - 2][col - 2] == self.ficha and
-                    self.board_status[fila - 3][col - 3] == self.ficha
+                    3 <= row <= 5 and 3 <= col <= 6 and
+                    self.board_status[row][col] == self.piece and
+                    self.board_status[row - 1][col - 1] == self.piece and
+                    self.board_status[row - 2][col - 2] == self.piece and
+                    self.board_status[row - 3][col - 3] == self.piece
                 ):
                     return True
         return False
 
-    def win_horizontal(self):
-        # fixme-connectfour-2: Spanish?
-        for fila in range(self.filas):
-            for col in range(self.columnas):
+    def check_win_horizontal(self):
+        for row in range(self.row):
+            for col in range(self.col):
                 if(
                     col <= 3 and
-                    self.board_status[fila][col] == self.ficha and
-                    self.board_status[fila][col + 1] == self.ficha and
-                    self.board_status[fila][col + 2] == self.ficha and
-                    self.board_status[fila][col + 3] == self.ficha
+                    self.board_status[row][col] == self.piece and
+                    self.board_status[row][col + 1] == self.piece and
+                    self.board_status[row][col + 2] == self.piece and
+                    self.board_status[row][col + 3] == self.piece
                 ):
                     return True
         return False
 
-    def win_vertical(self):
-        # fixme-connectfour-2: Spanish?
-        for fila in range(self.filas):
-            for col in range(self.columnas):
+    def check_win_vertical(self):
+        for row in range(self.row):
+            for col in range(self.col):
                 if(
-                    fila <= 2 and
-                    self.board_status[fila][col] == self.ficha and
-                    self.board_status[fila + 1][col] == self.ficha and
-                    self.board_status[fila + 2][col] == self.ficha and
-                    self.board_status[fila + 3][col] == self.ficha
+                    row <= 2 and
+                    self.board_status[row][col] == self.piece and
+                    self.board_status[row + 1][col] == self.piece and
+                    self.board_status[row + 2][col] == self.piece and
+                    self.board_status[row + 3][col] == self.piece
                 ):
                     return True
         return False
@@ -189,8 +175,8 @@ class ConnectFourGame(GameBase, GameWithTurns):
         return result
 
     def check_win(self):
-        return (self.win_diagonal_izquierdo() or
-                self.win_diagonal_derecho() or
-                self.win_horizontal() or
-                self.win_vertical()
+        return (self.check_win_left_diagonal() or
+                self.check_win_right_diagonal() or
+                self.check_win_horizontal() or
+                self.check_win_vertical()
                 )

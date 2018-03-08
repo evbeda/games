@@ -10,8 +10,7 @@ class TestConnectFourGame(unittest.TestCase):
     def test_initial_game_status(self):
         self.assertTrue(self.game.is_playing)
 
-    # fixme-connectfour-2: Spanish?
-    def test_turno(self):
+    def test_turn(self):
         turn_white = self.game.next_turn()
         self.assertEqual(turn_white, 'White plays')
 
@@ -19,12 +18,12 @@ class TestConnectFourGame(unittest.TestCase):
     def test_initial_Woard_status(self):
         self.assertEqual(
             self.game.board,
-            'EEEEEEE\n'
-            'EEEEEEE\n'
-            'EEEEEEE\n'
-            'EEEEEEE\n'
-            'EEEEEEE\n'
-            'EEEEEEE\n'
+            '       \n'
+            '       \n'
+            '       \n'
+            '       \n'
+            '       \n'
+            '       \n'
         )
 
     def test_first_move_first_column(self):
@@ -32,12 +31,12 @@ class TestConnectFourGame(unittest.TestCase):
         self.game.play(0)
         self.assertEqual(
             self.game.board,
-            'EEEEEEE\n'
-            'EEEEEEE\n'
-            'EEEEEEE\n'
-            'EEEEEEE\n'
-            'EEEEEEE\n'
-            'WEEEEEE\n',
+            '       \n'
+            '       \n'
+            '       \n'
+            '       \n'
+            '       \n'
+            'W      \n',
         )
 
     def test_second_move_first_column(self):
@@ -46,12 +45,12 @@ class TestConnectFourGame(unittest.TestCase):
         self.game.play(0)
         self.assertEqual(
             self.game.board,
-            'EEEEEEE\n'
-            'EEEEEEE\n'
-            'EEEEEEE\n'
-            'EEEEEEE\n'
-            'BEEEEEE\n'
-            'WEEEEEE\n',
+            '       \n'
+            '       \n'
+            '       \n'
+            '       \n'
+            'B      \n'
+            'W      \n',
         )
 
     def test_full_column(self):
@@ -74,12 +73,12 @@ class TestConnectFourGame(unittest.TestCase):
         self.assertEquals('You win', self.game.play(0))
         self.assertEqual(
             self.game.board,
-            'EEEEEEE\n'
-            'EEEEEEE\n'
-            'WEEEEEE\n'
-            'WBEEEEE\n'
-            'WBEEEEE\n'
-            'WBEEEEE\n',
+            '       \n'
+            '       \n'
+            'W      \n'
+            'WB     \n'
+            'WB     \n'
+            'WB     \n',
         )
 
     def test_win_horizontal(self):
@@ -92,12 +91,12 @@ class TestConnectFourGame(unittest.TestCase):
         self.assertEquals('You win', self.game.play(3))
         self.assertEqual(
             self.game.board,
-            'EEEEEEE\n'
-            'EEEEEEE\n'
-            'EEEEEEE\n'
-            'EEEEEEE\n'
-            'BBBEEEE\n'
-            'WWWWEEE\n',
+            '       \n'
+            '       \n'
+            '       \n'
+            '       \n'
+            'BBB    \n'
+            'WWWW   \n',
         )
 
     # fixme-connectfour-10: test name unclear
@@ -127,16 +126,15 @@ class TestConnectFourGame(unittest.TestCase):
 
         self.assertEqual(
             self.game.board,
-            'EEEEEEE\n'
-            'EEEEEEE\n'
-            'EEEWEEE\n'
-            'EEWWEEE\n'
-            'BWWBEEE\n'
-            'WBBBEEE\n',
+            '       \n'
+            '       \n'
+            '   W   \n'
+            '  WW   \n'
+            'BWWB   \n'
+            'WBBB   \n',
         )
 
-    # fixme-connectfour-2: Spanish?
-    def test_empate(self):
+    def test_tie(self):
 
         self.game.board_status = [
             ['W', 'W', 'B', 'W', 'B', 'B', 'B'],
@@ -147,46 +145,46 @@ class TestConnectFourGame(unittest.TestCase):
             ['W', 'B', 'W', 'B', 'B', 'B', 'W'],
         ]
 
-        self.assertEqual('Empate', self.game.play(0))
-        self.assertEqual(True, self.game.empate())
+        self.assertEqual('Tie', self.game.play(0))
+        self.assertEqual(True, self.game.tie())
         self.assertEqual(False, self.game.is_playing)
 
     def test_wrong_set_1(self):
-        self.assertEqual('Movimiento no permitido', self.game.play(-1))
+        self.assertEqual('Movement not allowed', self.game.play(-1))
         self.assertEqual(
             self.game.board,
-            'EEEEEEE\n'
-            'EEEEEEE\n'
-            'EEEEEEE\n'
-            'EEEEEEE\n'
-            'EEEEEEE\n'
-            'EEEEEEE\n'
+            '       \n'
+            '       \n'
+            '       \n'
+            '       \n'
+            '       \n'
+            '       \n'
         )
         self.assertEqual(True, self.game.is_playing)
 
     def test_wrong_set_2(self):
-        self.assertEqual('Movimiento no permitido', self.game.play(9))
+        self.assertEqual('Movement not allowed', self.game.play(9))
         self.assertEqual(
             self.game.board,
-            'EEEEEEE\n'
-            'EEEEEEE\n'
-            'EEEEEEE\n'
-            'EEEEEEE\n'
-            'EEEEEEE\n'
-            'EEEEEEE\n'
+            '       \n'
+            '       \n'
+            '       \n'
+            '       \n'
+            '       \n'
+            '       \n'
         )
         self.assertEqual(True, self.game.is_playing)
 
     def test_wrong_set_3(self):
-        self.assertEqual('Movimiento no permitido', self.game.play('a'))
+        self.assertEqual('Movement not allowed', self.game.play('a'))
         self.assertEqual(
             self.game.board,
-            'EEEEEEE\n'
-            'EEEEEEE\n'
-            'EEEEEEE\n'
-            'EEEEEEE\n'
-            'EEEEEEE\n'
-            'EEEEEEE\n'
+            '       \n'
+            '       \n'
+            '       \n'
+            '       \n'
+            '       \n'
+            '       \n'
         )
         self.assertEqual(True, self.game.is_playing)
 

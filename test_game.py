@@ -432,54 +432,54 @@ class TestGame(unittest.TestCase):
         self.assertEquals(
             self.output_collector.output_collector,
             [
-                'EEEEEEE\n'
-                'EEEEEEE\n'
-                'EEEEEEE\n'
-                'EEEEEEE\n'
-                'EEEEEEE\n'
-                'EEEEEEE\n',
+                '       \n'
+                '       \n'
+                '       \n'
+                '       \n'
+                '       \n'
+                '       \n',
                 'Keep playing',
-                'EEEEEEE\n'
-                'EEEEEEE\n'
-                'EEEEEEE\n'
-                'EEEEEEE\n'
-                'EEEEEEE\n'
-                'WEEEEEE\n',
+                '       \n'
+                '       \n'
+                '       \n'
+                '       \n'
+                '       \n'
+                'W      \n',
                 'Keep playing',
-                'EEEEEEE\n'
-                'EEEEEEE\n'
-                'EEEEEEE\n'
-                'EEEEEEE\n'
-                'EEEEEEE\n'
-                'WBEEEEE\n',
+                '       \n'
+                '       \n'
+                '       \n'
+                '       \n'
+                '       \n'
+                'WB     \n',
                 'Keep playing',
-                'EEEEEEE\n'
-                'EEEEEEE\n'
-                'EEEEEEE\n'
-                'EEEEEEE\n'
-                'WEEEEEE\n'
-                'WBEEEEE\n',
+                '       \n'
+                '       \n'
+                '       \n'
+                '       \n'
+                'W      \n'
+                'WB     \n',
                 'Keep playing',
-                'EEEEEEE\n'
-                'EEEEEEE\n'
-                'EEEEEEE\n'
-                'EEEEEEE\n'
-                'WBEEEEE\n'
-                'WBEEEEE\n',
+                '       \n'
+                '       \n'
+                '       \n'
+                '       \n'
+                'WB     \n'
+                'WB     \n',
                 'Keep playing',
-                'EEEEEEE\n'
-                'EEEEEEE\n'
-                'EEEEEEE\n'
-                'WEEEEEE\n'
-                'WBEEEEE\n'
-                'WBEEEEE\n',
+                '       \n'
+                '       \n'
+                '       \n'
+                'W      \n'
+                'WB     \n'
+                'WB     \n',
                 'Keep playing',
-                'EEEEEEE\n'
-                'EEEEEEE\n'
-                'EEEEEEE\n'
-                'WBEEEEE\n'
-                'WBEEEEE\n'
-                'WBEEEEE\n',
+                '       \n'
+                '       \n'
+                '       \n'
+                'WB     \n'
+                'WB     \n'
+                'WB     \n',
                 'You win',
             ],
         )
