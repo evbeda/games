@@ -57,10 +57,10 @@ class GameWithBoard(object):
     def get_board(self):
         return self._board
 
-    # fixme-8: char args?
-    def create_board(self):
+    def create_board(self, char):
         self._board = [[''] * self._col]
         self._board = self._board * self._row
+        self.fill_board(char)
 
     def get_value(self, x, y):
         return self._board[x][y]
@@ -71,15 +71,7 @@ class GameWithBoard(object):
     # fixme-7: separate in_board(x, y) & in_columns(col)
     def in_board(self, *args):
         count_args = len(args)
-
-        if count_args == 1:
-            if isinstance(args, int):
-                return (
-                    self.minimum <= args[0] < self.col
-                )
-            else:
-                return False
-        elif (count_args == 2):
+        if (count_args == 2):
             if isinstance(args, int):
                 return (
                     self.minimum <= args[0] < self.col and
@@ -88,7 +80,16 @@ class GameWithBoard(object):
             else:
                 return False
 
-    # fixme-8: link with create_board
+    def in_columns(self, *args):
+        count_args = len(args)
+        if count_args == 1:
+            if isinstance(args, int):
+                return (
+                    self.minimum <= args[0] < self.col
+                )
+            else:
+                return False
+
     def fill_board(self, char):
         for c in range(self._col):
             for r in range(self._row):
