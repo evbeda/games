@@ -12,6 +12,7 @@ class TestBuscamina(unittest.TestCase):
             (5, 3, ), (3, 5, ), (6, 1, ),
             (7, 2, ),
         ]
+        #fixme-buscaminas-13: no need to call it from here
         self.game.generate_board()
 
     def test_initial_status(self):
