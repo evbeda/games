@@ -50,7 +50,8 @@ class GameWithBoard(object):
     cols = 0
     rows = 0
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
+        super(GameWithBoard, self).__init__(*args, **kwargs)
         self._board = []
 
     @property
