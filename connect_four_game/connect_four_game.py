@@ -1,6 +1,7 @@
 from game_base import GameBase
 from game_base import GameWithTurns
 
+
 # fixme-connectfour-12: missing extends GameWithBoard
 class ConnectFourGame(GameBase, GameWithTurns):
 
@@ -85,19 +86,15 @@ class ConnectFourGame(GameBase, GameWithTurns):
     def set_board(self, column):
         # fixme-connectfour-8: for loops VERY similar. Could be refactorized.
         if self.actual_player == self.player_one:
-            for x in xrange(5, -1, -1):
-                if self.board_status[x][column] == ' ':
-                    self.board_status[x][column] = 'W'
-                    self.piece = 'W'
-                    self.change_turn()
-                    break
+            self.actual_piece = 'W'
         else:
-            for x in xrange(5, -1, -1):
-                if self.board_status[x][column] == ' ':
-                    self.board_status[x][column] = 'B'
-                    self.piece = 'B'
-                    self.change_turn()
-                    break
+            self.actual_piece = 'B'
+        for x in xrange(5, -1, -1):
+            if self.board_status[x][column] == ' ':
+                self.board_status[x][column] = self.actual_piece
+                self.piece = self.actual_piece
+                self.change_turn()
+                break
 
     def check_win_left_diagonal(self):
         for row in range(self.row):
