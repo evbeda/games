@@ -60,11 +60,11 @@ class GameWithBoard(object):
     def set_board(self, board):
         self._board = board
 
-    def create_board(self):
+    def create_board(self, char):
         for x in xrange(self.rows):
             columns = []
             for x in xrange(self.cols):
-                columns.append(' ')
+                columns.append(char)
             self._board.append(columns)
 
     def get_value(self, x, y):
