@@ -27,7 +27,7 @@ class TestDamaGame(unittest.TestCase):
             '7 w w w w\n'
         )
 
-    def test_initial_board_status(self):
+    def test_initial__board(self):
         self.assertEqual(
             self.game.board,
             ' 01234567\n'
@@ -123,7 +123,7 @@ class TestDamaGame(unittest.TestCase):
         self.assertEqual(self.game.player_one, self.game._turn)
 
     def test_is_dama_white(self):
-        self.game.board_status = [
+        self.game._board = [
             ['b', ' ', ' ', ' ', 'b', ' ', 'b', ' '],
             [' ', 'w', ' ', 'b', ' ', 'b', ' ', 'b'],
             ['b', ' ', 'b', ' ', 'b', ' ', 'b', ' '],
@@ -135,11 +135,11 @@ class TestDamaGame(unittest.TestCase):
         self.assertEqual(
             self.game.play(1, 1, 0, 2), 'you became a dama!')
         self.assertEqual(
-            self.game.board_status[0][2], 'W')
+            self.game._board[0][2], 'W')
 
     def test_is_dama_black(self):
         self.game._turn = self.game.player_two
-        self.game.board_status = [
+        self.game._board = [
             ['b', ' ', ' ', ' ', 'b', ' ', 'b', ' '],
             [' ', 'w', ' ', 'b', ' ', 'b', ' ', 'b'],
             ['b', ' ', 'b', ' ', 'b', ' ', 'b', ' '],
@@ -150,10 +150,10 @@ class TestDamaGame(unittest.TestCase):
             [' ', 'w', ' ', ' ', ' ', 'w', ' ', 'w']]
         self.assertEqual(
             self.game.play(6, 2, 7, 3), 'you became a dama!')
-        self.assertEqual(self.game.board_status[7][3], 'B')
+        self.assertEqual(self.game._board[7][3], 'B')
 
     def test_eat_move_white(self):
-        self.game.board_status = [
+        self.game._board = [
             ['b', ' ', ' ', ' ', 'b', ' ', 'b', ' '],
             [' ', 'w', ' ', 'b', ' ', 'b', ' ', 'b'],
             ['b', ' ', ' ', ' ', 'b', ' ', 'b', ' '],
@@ -163,11 +163,11 @@ class TestDamaGame(unittest.TestCase):
             ['w', ' ', 'b', ' ', 'w', ' ', 'w', ' '],
             [' ', 'w', ' ', ' ', ' ', 'w', ' ', 'w']]
         self.assertEqual(self.game.play(5, 1, 3, 3), None)
-        self.assertEqual(self.game.board_status[4][2], ' ')
+        self.assertEqual(self.game._board[4][2], ' ')
 
     def test_eat_move_black(self):
         self.game._turn = self.game.player_two
-        self.game.board_status = [
+        self.game._board = [
             ['b', ' ', ' ', ' ', 'b', ' ', 'b', ' '],
             [' ', 'w', ' ', 'b', ' ', 'b', ' ', 'b'],
             ['b', ' ', ' ', ' ', 'w', ' ', 'b', ' '],
@@ -177,10 +177,10 @@ class TestDamaGame(unittest.TestCase):
             ['w', ' ', 'b', ' ', 'w', ' ', 'w', ' '],
             [' ', 'w', ' ', ' ', ' ', 'w', ' ', 'w']]
         self.assertEqual(self.game.play(1, 3, 3, 5), None)
-        self.assertEqual(self.game.board_status[2][4], ' ')
+        self.assertEqual(self.game._board[2][4], ' ')
 
     def test_win_white(self):
-        self.game.board_status = [
+        self.game._board = [
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
             [' ', 'w', ' ', ' ', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
@@ -190,11 +190,11 @@ class TestDamaGame(unittest.TestCase):
             [' ', ' ', ' ', ' ', ' ', ' ', 'w', ' '],
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', 'w']]
         self.assertEqual(self.game.play(5, 1, 3, 3), None)
-        self.assertEqual(self.game.next_turn(), 'White wins.')
+        self.assertFalse(self.game._playing)
 
     def test_win_black(self):
         self.game._turn = self.game.player_two
-        self.game.board_status = [
+        self.game._board = [
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
@@ -204,7 +204,7 @@ class TestDamaGame(unittest.TestCase):
             [' ', ' ', ' ', ' ', ' ', ' ', 'b', ' '],
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']]
         self.assertEqual(self.game.play(4, 2, 6, 0), None)
-        self.assertEqual(self.game.next_turn(), 'Black wins.')
+        self.assertFalse(self.game._playing)
 
     def test_out_of_index(self):
         self.game.play(5, 1, 4, 2)
