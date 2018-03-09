@@ -1,9 +1,11 @@
-from game_base import GameBase
-from game_base import GameWithBoard
-from game_base import GameWithTurns
+from game_base import (
+    GameBase,
+    GameWithBoard,
+    GameWithTurns,
+)
 
 
-class ReversiGame(GameBase, GameWithTurns, GameWithBoard):
+class ReversiGame(GameWithTurns, GameWithBoard, GameBase):
 
     name = 'Reversi'
     input_args = 2
@@ -205,6 +207,17 @@ class ReversiGame(GameBase, GameWithTurns, GameWithBoard):
             result = 'Blacks are going ahead ' \
                 + str(self.blacks) + ' to ' + str(self.whites)
         return result
+
+    def poster(self):
+        poster = ''
+        poster += ' _______  _______           _______  _______  _______ _________\n'
+        poster += '(  ____ )(  ____ \|\     /|(  ____ \(  ____ )(  ____ \\__   __/\n'
+        poster += '| (    )|| (    \/| )   ( || (    \/| (    )|| (    \/   ) (   \n'
+        poster += '| (____)|| (__    | |   | || (__    | (____)|| (_____    | |   \n'
+        poster += '|     __)|  __)   ( (   ) )|  __)   |     __)(_____  )   | |   \n'
+        poster += '| (\ (   | (       \ \_/ / | (      | (\ (         ) |   | |   \n'
+        poster += '| ) \ \__| (____/\  \   /  | (____/\| ) \ \__/\____) |___) (___\n'
+        poster += '|/   \__/(_______/   \_/   (_______/|/   \__/\_______)\_______/\n'
 
     @property
     def board(self):
