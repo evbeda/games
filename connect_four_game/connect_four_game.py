@@ -67,19 +67,10 @@ class ConnectFourGame(GameBase, GameWithTurns):
     def tie(self):
         # fixme-connectfour-6: Remove not self.check_win() condition.
         # If check_win executed before 'tie()' in play() it's not necessary.
-        if (not self.check_win()):
-            count = 0
-            for col in range(self.col):
-                if (
-                    self.board_status[0][col] != ' '
-                ):
-                    count += 1
-            if (count == self.col):
-                return True
-            else:
-                return False
-        else:
-            return False
+        return all([
+                self.board_status[0][col] != ' '
+                for col in range(self.col)
+            ]) if (not self.check_win()) else False
 
     # fixme-connectfour-7: Method name is not clear.
     # Does it set the whole board?
