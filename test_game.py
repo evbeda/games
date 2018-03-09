@@ -342,7 +342,6 @@ class TestGame(unittest.TestCase):
             ' 01234567\n0      b \n1        \n2    b b \n3        \n4  b bB  \n5  B W   \n6 B  b   \n7        \n',
         )
 
-
     def test_play_buscaminas(self):
 
         class ControlInputValues(object):
@@ -424,10 +423,9 @@ class TestGame(unittest.TestCase):
                     return play
 
         with \
-            patch('game.Game.get_input', side_effect=ControlInputValues()), \
-            patch('game.Game.output', side_effect=self.output_collector):
+                patch('game.Game.get_input', side_effect=ControlInputValues()), \
+                patch('game.Game.output', side_effect=self.output_collector):
             self.game.play()
-
 
         self.assertEquals(
             self.output_collector.output_collector,
