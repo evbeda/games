@@ -9,10 +9,10 @@ class TestReversi(unittest.TestCase):
 
     def test_initial_status(self):
         self.assertTrue(self.game.is_playing)
-        self.assertEquals(self.game.matrix_board[3][3], 'B')
-        self.assertEquals(self.game.matrix_board[3][4], 'W')
-        self.assertEquals(self.game.matrix_board[4][3], 'W')
-        self.assertEquals(self.game.matrix_board[4][4], 'B')
+        self.assertEquals(self.game.get_value(3, 3), 'B')
+        self.assertEquals(self.game.get_value(3, 4), 'W')
+        self.assertEquals(self.game.get_value(4, 4), 'B')
+        self.assertEquals(self.game.get_value(4, 3), 'W')
 
     def test_initial_next_turn_whites(self):
         self.assertEquals(
@@ -38,7 +38,7 @@ class TestReversi(unittest.TestCase):
         self.assertEquals(result, self.game.find_possibility_pieces(3, 5))
 
     def test_get_directions_black(self):
-        self.game.matrix_board = [
+        self.game.set_board([
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
@@ -47,7 +47,7 @@ class TestReversi(unittest.TestCase):
             [' ', ' ', ' ', ' ', 'B', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-        ]
+        ])
 
         result = [
             [(3, 5, 'B')], [(3, 4, 'B')]
@@ -65,7 +65,7 @@ class TestReversi(unittest.TestCase):
         self.assertEquals([], self.game.find_possibility_pieces(7, 7))
 
     def test_get_all_directions_white(self):
-        self.game.matrix_board = [
+        self.game.set_board([
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
             [' ', ' ', 'W', 'W', 'W', 'W', 'W', ' '],
             [' ', ' ', 'W', 'B', 'B', 'B', 'W', ' '],
@@ -74,7 +74,7 @@ class TestReversi(unittest.TestCase):
             [' ', ' ', 'W', 'W', 'W', 'W', 'W', ' '],
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-        ]
+        ])
 
         result = [
             [(3, 3, 'B')], [(3, 5, 'B')],
@@ -85,7 +85,7 @@ class TestReversi(unittest.TestCase):
         self.assertEquals(result, self.game.find_possibility_pieces(3, 4))
 
     def test_get_all_directions_black(self):
-        self.game.matrix_board = [
+        self.game.set_board([
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
             [' ', ' ', 'B', 'B', 'B', 'B', 'B', ' '],
             [' ', ' ', 'B', 'W', 'W', 'W', 'B', ' '],
@@ -94,7 +94,7 @@ class TestReversi(unittest.TestCase):
             [' ', ' ', 'B', 'B', 'B', 'B', 'B', ' '],
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-        ]
+        ])
         self.game.change_turn()
         result = [
             [(3, 3, 'W')], [(3, 5, 'W')],
@@ -105,7 +105,7 @@ class TestReversi(unittest.TestCase):
         self.assertEquals(result, self.game.find_possibility_pieces(3, 4))
 
     def test_no_possibles(self):
-        self.game.matrix_board = [
+        self.game.set_board([
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
             [' ', ' ', 'B', 'B', 'B', 'B', ' ', ' '],
             [' ', ' ', 'B', 'W', 'W', 'W', ' ', ' '],
@@ -114,11 +114,11 @@ class TestReversi(unittest.TestCase):
             [' ', ' ', 'B', 'B', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-        ]
+        ])
         self.assertEqual(self.game.play(6, 6), 'No possibilities. Try again.')
 
     def test_reverse_possibles(self):
-        self.game.matrix_board = [
+        self.game.set_board([
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
             [' ', ' ', 'B', 'B', 'B', 'B', 'B', ' '],
             [' ', ' ', 'B', 'W', 'W', 'W', 'B', ' '],
@@ -127,7 +127,7 @@ class TestReversi(unittest.TestCase):
             [' ', ' ', 'B', 'B', 'B', 'B', 'B', ' '],
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-        ]
+        ])
         self.game.change_turn()
         possibles = self.game.find_possibility_pieces(3, 4)
 
@@ -142,10 +142,10 @@ class TestReversi(unittest.TestCase):
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
         ]
-        self.assertEquals(result, self.game.matrix_board)
+        self.assertEquals(result, self.game.get_board)
 
     def test_play_valid(self):
-        self.game.matrix_board = [
+        self.game.set_board([
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
             [' ', ' ', 'B', 'B', 'B', 'B', 'B', ' '],
             [' ', ' ', 'B', 'W', 'W', 'W', 'B', ' '],
@@ -154,7 +154,7 @@ class TestReversi(unittest.TestCase):
             [' ', ' ', 'B', 'B', 'B', 'B', 'B', ' '],
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-        ]
+        ])
         self.game.change_turn()
         self.game.play(3, 4)
         result = [
@@ -167,14 +167,14 @@ class TestReversi(unittest.TestCase):
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
         ]
-        self.assertEquals(result, self.game.matrix_board)
+        self.assertEquals(result, self.game.get_board)
         self.assertEquals(
             self.game.next_turn(),
             'White',
         )
 
     def test_graphic_board(self):
-        self.game.matrix_board = [
+        self.game.set_board([
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
             [' ', ' ', 'B', 'B', 'B', 'B', 'B', ' '],
             [' ', ' ', 'B', 'W', 'W', 'W', 'B', ' '],
@@ -183,7 +183,7 @@ class TestReversi(unittest.TestCase):
             [' ', ' ', 'B', 'B', 'B', 'B', 'B', ' '],
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-        ]
+        ])
         result = (
             '  | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |\n'
             '--+---+---+---+---+---+---+---+---+\n'
@@ -208,7 +208,7 @@ class TestReversi(unittest.TestCase):
         self.assertEquals(result, self.game.board)
 
     def test_play_finish(self):
-        self.game.matrix_board = [
+        self.game.set_board([
             ['W', 'W', 'W', 'W', 'W', 'W', 'W', 'W'],
             ['W', 'W', 'B', 'B', 'B', 'B', 'B', 'W'],
             ['W', 'W', 'B', 'W', 'W', 'W', 'B', 'W'],
@@ -217,7 +217,7 @@ class TestReversi(unittest.TestCase):
             ['W', ' ', 'W', 'B', 'B', 'B', 'B', 'W'],
             ['W', 'W', 'W', 'W', 'W', 'W', 'W', 'W'],
             ['W', 'W', 'W', 'W', 'W', 'W', 'W', 'W'],
-        ]
+        ])
 
         self.game.change_turn()
 
@@ -236,10 +236,11 @@ class TestReversi(unittest.TestCase):
             ['W', 'W', 'W', 'W', 'W', 'W', 'W', 'W'],
             ['W', 'W', 'W', 'W', 'W', 'W', 'W', 'W'],
         ]
-        self.assertEquals(result, self.game.matrix_board)
+
+        self.assertEquals(result, self.game.get_board)
 
     def test_change_turn_if_no_possibility(self):
-        self.game.matrix_board = [
+        self.game.set_board([
             [' ', 'W', 'W', 'W', 'W', 'W', 'W', 'W'],
             [' ', 'W', 'B', 'B', 'B', 'B', 'B', 'W'],
             [' ', 'W', 'B', 'W', 'W', 'W', 'B', 'W'],
@@ -248,14 +249,14 @@ class TestReversi(unittest.TestCase):
             [' ', 'W', 'W', 'B', 'B', 'B', 'B', 'W'],
             [' ', 'W', 'W', 'W', 'W', 'W', 'W', 'W'],
             [' ', 'W', 'W', 'W', 'W', 'W', 'W', 'W'],
-        ]
+        ])
         self.assertEquals(self.game.play(0, 0),
                           'No possible moves, turn changes')
 
         self.assertEquals(self.game.next_turn(), 'Black')
 
     def test_no_one_can_play(self):
-        self.game.matrix_board = [
+        self.game.set_board([
             [' ', 'W', 'W', 'W', 'W', 'W', 'W', 'W'],
             [' ', 'W', 'W', 'W', 'W', 'W', 'W', 'W'],
             [' ', 'W', 'W', 'W', 'W', 'W', 'W', 'W'],
@@ -264,7 +265,7 @@ class TestReversi(unittest.TestCase):
             [' ', 'W', 'W', 'W', 'W', 'W', 'W', 'W'],
             [' ', 'W', 'W', 'W', 'W', 'W', 'W', 'W'],
             [' ', 'W', 'W', 'W', 'W', 'W', 'W', 'W'],
-        ]
+        ])
         self.assertEquals(self.game.play(0, 0),
                           'Game over!')
 
