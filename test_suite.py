@@ -6,6 +6,7 @@ from buscaminas.test_buscaminas import TestBuscamina
 from test_game import TestGame
 from damas.test import TestDamaGame
 from tateti.test_tateti import TestTateti
+from test_game_base import TestGameBase
 
 
 def suite():
@@ -20,7 +21,7 @@ def suite():
     test_suite.addTest(unittest.makeSuite(TestGame))
     test_suite.addTest(unittest.makeSuite(TestDamaGame))
     test_suite.addTest(unittest.makeSuite(TestTateti))
-
+    test_suite.addTest(unittest.makeSuite(TestGameBase))
     return test_suite
 
 

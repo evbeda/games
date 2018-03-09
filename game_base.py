@@ -7,9 +7,9 @@ class GameBase(object):
         super(GameBase, self).__init__(*args, **kwargs)
         self._playing = True
 
-    @property
-    def board(self):
-        raise NotImplementedError("Subclass should implement this!")
+    # @property
+    # def board(self):
+    #     raise NotImplementedError("Subclass should implement this!")
 
     @property
     def is_playing(self):
@@ -47,8 +47,8 @@ class GameWithTurns(object):
 class GameWithBoard(object):
 
     minimum = 0
-    _col = 0
-    _row = 0
+    cols = 0
+    rows = 0
 
     def __init__(self):
         self._board = []
@@ -57,10 +57,15 @@ class GameWithBoard(object):
     def get_board(self):
         return self._board
 
-    def create_board(self, char):
-        self._board = [[''] * self._col]
-        self._board = self._board * self._row
-        self.fill_board(char)
+    def set_board(self, board):
+        self._board = board
+
+    def create_board(self):
+        for x in xrange(self.rows):
+            columns = []
+            for x in xrange(self.cols):
+                columns.append(' ')
+            self._board.append(columns)
 
     def get_value(self, x, y):
         return self._board[x][y]
@@ -68,30 +73,15 @@ class GameWithBoard(object):
     def set_value(self, x, y, value):
         self._board[x][y] = value
 
-    # fixme-7: separate in_board(x, y) & in_columns(col)
-    def in_board(self, *args):
-        count_args = len(args)
-        if (count_args == 2):
-            if isinstance(args, int):
-                return (
-                    self.minimum <= args[0] < self.col and
-                    self.minimum <= args[1] < self.row
-                )
-            else:
-                return False
+    def in_board(self, x, y):
+        return self.cols > x and self.cols > y and x >= 0 and y >= 0
 
     def in_columns(self, *args):
         count_args = len(args)
         if count_args == 1:
             if isinstance(args, int):
                 return (
-                    self.minimum <= args[0] < self.col
+                    self.minimum <= args[0] < self.cols
                 )
             else:
                 return False
-
-    def fill_board(self, char):
-        for c in range(self._col):
-            for r in range(self._row):
-                self._board[c][r] = char
-

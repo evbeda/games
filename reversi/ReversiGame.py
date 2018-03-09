@@ -1,70 +1,44 @@
 from game_base import GameBase
+from game_base import GameWithBoard
 from game_base import GameWithTurns
 
 
-# Fixme-Reversi-1: First mixin!!
-# Fixme-Reversi-2: Integration with gamewhitBoard
-class ReversiGame(GameBase, GameWithTurns):
+class ReversiGame(GameBase, GameWithTurns, GameWithBoard):
 
     name = 'Reversi'
     input_args = 2
 
-    max = 8
-    min = 0
+    cols = 8
+    rows = 8
     player_one = 'White'
     player_two = 'Black'
 
-    def __init__(self):
-        super(ReversiGame, self).__init__()
-        self.matrix_board = [
-            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', 'B', 'W', ' ', ' ', ' '],
-            [' ', ' ', ' ', 'W', 'B', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-        ]
-        # Fixme-Reversi-9: Remove
-        self.moves = []
+    def __init__(self, *args, **kwargs):
+        super(ReversiGame, self).__init__(*args, **kwargs)
+        self.create_board()
+        self.set_value(3, 3, 'B')
+        self.set_value(3, 4, 'W')
+        self.set_value(4, 4, 'B')
+        self.set_value(4, 3, 'W')
+        self.whites = 0
+        self.blacks = 0
 
-    # Fixme-Reversi-3: Return actual player!
     def next_turn(self):
-        if self.actual_player == self.player_one:
-            return 'White'
-        else:
-            return 'Black'
+        return self.actual_player
 
     def validate(self, x, y):
-        # Fixme-Reversi-4: Change validation to gamewithboard
-        if x > 7 or x < 0 or y > 7 or y < 0:
+        if not self.in_board(x, y):
             return 'Values must be between 0 and 7'
         else:
-            if(self.matrix_board[x][y] == ' '):
+            if self.get_value(x, y) == ' ':
                 return True
-            else:
-                return False
-
-    # Fixme-Reversi-5: Remove in_board, the same is in gamewithboard
-    def in_board(self, x, y):
-        if isinstance(x, int) and isinstance(y, int):
-            return not(
-                self.max <= x or
-                self.min > x or
-                self.max <= y or
-                self.min > y
-            )
-        else:
             return False
 
     def has_piece_to_change(self, x, y, piece):
-        # Fixme-Reversi-2: Integration with gamewhitBoard
         if (self.in_board(x, y) and
-                self.matrix_board[x][y] == piece):
+                self.get_value(x, y) == piece):
             return True
 
-    # Fixme-Reversi-6: Too many things here!
     def find_possibility_pieces(self, x, y):
         a = y
         b = x
@@ -150,22 +124,24 @@ class ReversiGame(GameBase, GameWithTurns):
             y += 1
         if direction and self.has_piece_to_change(x + 1, y + 1, my_piece):
             positions.append(direction)
-
         return positions
 
     def reverse_possibles(self, possibles):
         for direction in possibles:
             for x, y, piece in direction:
-                self.matrix_board[x][y] = 'W' \
-                    if self.player_one == self.actual_player else 'B'
+                if self.player_one == self.actual_player:
+                    self.set_value(x, y, 'W')
+                else:
+                    self.set_value(x, y, 'B')
 
     def play(self, x, y):
         if not self.check_can_play():
             self.change_turn()
             if not self.check_can_play():
+                self.finish()
                 return 'Game over!'
             return 'No possible moves, turn changes'
-        if not(self.validate(x, y)):
+        if not self.validate(x, y):
             return 'Movement not allowed. Try again.'
         else:
             possibles = self.find_possibility_pieces(x, y)
@@ -173,63 +149,77 @@ class ReversiGame(GameBase, GameWithTurns):
                 return 'No possibilities. Try again.'
             else:
                 self.reverse_possibles(possibles)
-                self.matrix_board[x][y] = 'W' \
-                    if self.player_one == self.actual_player else 'B'
-                # Fixme-Reversi-7: Create a separate method for check finish
-                has_empty = False
-                whites = 0
-                blacks = 0
-                for rows in self.matrix_board:
-                    for cell in rows:
-                        if cell == 'W':
-                            whites += 1
-                        elif cell == 'B':
-                            blacks += 1
-                        if cell == ' ':
-                            has_empty = True
-                if not has_empty:
+                if self.player_one == self.actual_player:
+                    self.set_value(x, y, 'W')
+                else:
+                    self.set_value(x, y, 'B')
+                self.whites = 0
+                self.blacks = 0
+                if not self.check_empty():
                     self.finish()
-                    # Fixme-Reversi-8: Create a separate method for check win or tie
-                    if whites > blacks:
-                        result = 'Whites win ' \
-                            + str(whites) + ' to ' + str(blacks)
-                    elif blacks > whites:
-                        result = 'Blacks win ' \
-                            + str(blacks) + ' to ' + str(whites)
-                    else:
-                        result = "It's a tie! --- Whites: " \
-                            + str(whites) + "; Blacks: " + str(blacks)
+                    result = self.show_result_finish()
                 else:
                     self.change_turn()
-                    if whites > blacks:
-                        result = 'Whites are going ahead ' \
-                            + str(whites) + ' a ' + str(blacks)
-                    else:
-                        result = 'Blacks are going ahead ' \
-                            + str(blacks) + ' to ' + str(whites)
-                # Fixme-Reversi-9: Remove
-                self.moves.append((x, y, ))
+                    result = self.show_partial_results()
                 return result
 
     def check_can_play(self):
         result = []
         for x in xrange(8):
             for y in xrange(8):
-                if self.matrix_board[x][y] == ' ':
+                if self.get_value(x, y) == ' ':
                     if self.find_possibility_pieces(x, y):
                         result.append(self.find_possibility_pieces(x, y))
+        return result
+
+    def check_empty(self):
+        has_empty = False
+        for rows in self.get_board:
+            for cell in rows:
+                if cell == 'W':
+                    self.whites += 1
+                elif cell == 'B':
+                    self.blacks += 1
+                if cell == ' ':
+                    has_empty = True
+        return has_empty
+
+    def show_result_finish(self):
+        if self.whites > self.blacks:
+            result = 'Whites win ' \
+                + str(self.whites) + ' to ' + str(self.blacks)
+        elif self.blacks > self.whites:
+            result = 'Blacks win ' \
+                + str(self.blacks) + ' to ' + str(self.whites)
+        else:
+            result = "It's a tie! --- Whites: " \
+                + str(self.whites) + "; Blacks: "\
+                + str(self.blacks)
+        return result
+
+    def show_partial_results(self):
+        if self.whites > self.blacks:
+            result = 'Whites are going ahead ' \
+                + str(self.whites) + ' a ' + str(self.blacks)
+        else:
+            result = 'Blacks are going ahead ' \
+                + str(self.blacks) + ' to ' + str(self.whites)
         return result
 
     @property
     def board(self):
         result = ''
-        result += '  | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |\n'
-        result += '--+---+---+---+---+---+---+---+---+\n'
+        result += '  |'
+        for x in xrange(self.cols):
+            result += ' ' + str(x) + ' |'
+        result += '\n--+'
+        for y in xrange(self.cols):
+            result += '---+'
+        result += '\n'
         for x in xrange(0, 8):
             result += str(x) + ' |'
             for y in xrange(0, 8):
-                # Fixme-Reversi-2: Integration with gamewhitBoard
-                result += ' ' + self.matrix_board[x][y] + ' |'
+                result += ' ' + self.get_value(x, y) + ' |'
             result += '\n'
             result += '--+---+---+---+---+---+---+---+---+\n'
         return result
