@@ -106,7 +106,7 @@ class TestDamaGame(unittest.TestCase):
 
     def test_check_initial_position_inside_board(self):
         self.assertEqual(self.game.play(-1, -1, 6, 6),
-                         "This position is outside our board")
+                         "you cant reach that place!")
 
     def test_check_final_position_inside_board(self):
         self.assertEqual(self.game.play(1, 1, 9, 8),
@@ -114,7 +114,7 @@ class TestDamaGame(unittest.TestCase):
 
     def test_wrong_choise(self):
         self.assertEqual(
-            self.game.play(4, 4, 3, 5), 'No white piece here to move !')
+            self.game.play(4, 4, 3, 5), 'This position is outside our board')
         self.assertEqual(self.game.player_one, self.game._turn)
 
     def test_unreachable_place(self):
