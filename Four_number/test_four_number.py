@@ -6,18 +6,17 @@ class TestFourNumber(unittest.TestCase):
 
     def setUp(self):
         self.game = FourNumber()
-        self.chose_number = 1234
+        self.game.chose_number = 1234
 
     def initial_status(self):
         self.assertTrue(self.game.is_playing)
 
     def test_play_smaller_number(self):
-        enter_number = self.game.valid_number(399)
-        self.assertEqual(enter_number, 'invalid number')
+        self.assertFalse(self.game.valid_number(399))
 
     def test_play_bigger_number(self):
         enter_number = self.game.valid_number(40000)
-        self.assertEquals(enter_number, 'invalid number')
+        self.assertFalse(enter_number, 'invalid number')
 
     def test_play_correct_number_equal(self):
         enter_number = self.game.play(1234)
