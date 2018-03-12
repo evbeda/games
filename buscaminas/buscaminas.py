@@ -42,10 +42,7 @@ class Buscaminas(GameBase):
         )
 
     def next_turn(self):
-        if self.is_playing:
-            return "Play"
-        else:
-            return '*********** Game Over ************'
+        return "Play" if self.is_playing else '*********** Game Over ************'
 
     def check_lose(self, x, y):
         if (x, y,) in self.bombs:
@@ -142,11 +139,11 @@ class Buscaminas(GameBase):
         ]
 
     def possible_clicks(self):
-        self.clicks = []
-        #fixme-buscaminas-10: use rows and columns instead
-        for x in range(self.max):
-            for y in range(self.max):
-                self.clicks.append((x, y, ))
+        self.clicks = [
+            (x, y, )
+            for x in range(self.max)
+            for y in range(self.max)
+        ]
         return self.clicks
 
     #fixme-buscaminas-11: delete this, used 'get_board' form parent

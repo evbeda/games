@@ -55,16 +55,12 @@ class ConnectFourGame(GameBase, GameWithTurns, GameWithBoard):
             return False
 
     def tie(self):
-        count = 0
-        for col in range(self.col):
-            if (
+        # fixme-connectfour-6: Remove not self.check_win() condition.
+        # If check_win executed before 'tie()' in play() it's not necessary.
+        return all([
                 self.board_status[0][col] != ' '
-            ):
-                count += 1
-        if (count == self.col):
-            return True
-        else:
-            return False
+                for col in range(self.col)
+            ]) if (not self.check_win()) else False
 
     def set_piece_in_board(self, column):
         if self.actual_player == self.player_one:
