@@ -55,12 +55,10 @@ class ConnectFourGame(GameBase, GameWithTurns, GameWithBoard):
             return False
 
     def tie(self):
-        # fixme-connectfour-6: Remove not self.check_win() condition.
-        # If check_win executed before 'tie()' in play() it's not necessary.
         return all([
-                self.board_status[0][col] != ' '
-                for col in range(self.col)
-            ]) if (not self.check_win()) else False
+            self.board_status[0][col] != ' '
+            for col in range(self.col)
+        ]) if (not self.check_win()) else False
 
     def set_piece_in_board(self, column):
         if self.actual_player == self.player_one:
@@ -75,56 +73,44 @@ class ConnectFourGame(GameBase, GameWithTurns, GameWithBoard):
                 break
 
     def check_win_left_diagonal(self):
-        for row in range(self.row):
-            for col in range(self.col):
-                if(
-                    3 <= row <= 5 and 0 <= col <= 3 and
+        return any([3 <= row <= 5 and 0 <= col <= 3 and
                     self.board_status[row][col] == self.piece and
                     self.board_status[row - 1][col + 1] == self.piece and
                     self.board_status[row - 2][col + 2] == self.piece and
                     self.board_status[row - 3][col + 3] == self.piece
-                ):
-                    return True
-        return False
+                    for row in range(self.row)
+                    for col in range(self.col)
+                    ])
 
     def check_win_right_diagonal(self):
-        for row in range(self.row):
-            for col in range(self.col):
-                if(
-                    3 <= row <= 5 and 3 <= col <= 6 and
+        return any([3 <= row <= 5 and 3 <= col <= 6 and
                     self.board_status[row][col] == self.piece and
                     self.board_status[row - 1][col - 1] == self.piece and
                     self.board_status[row - 2][col - 2] == self.piece and
                     self.board_status[row - 3][col - 3] == self.piece
-                ):
-                    return True
-        return False
+                    for row in range(self.row)
+                    for col in range(self.col)
+                    ])
 
     def check_win_horizontal(self):
-        for row in range(self.row):
-            for col in range(self.col):
-                if(
-                    col <= 3 and
+        return any([col <= 3 and
                     self.board_status[row][col] == self.piece and
                     self.board_status[row][col + 1] == self.piece and
                     self.board_status[row][col + 2] == self.piece and
                     self.board_status[row][col + 3] == self.piece
-                ):
-                    return True
-        return False
+                    for row in range(self.row)
+                    for col in range(self.col)
+                    ])
 
     def check_win_vertical(self):
-        for row in range(self.row):
-            for col in range(self.col):
-                if(
-                    row <= 2 and
+        return any([row <= 2 and
                     self.board_status[row][col] == self.piece and
                     self.board_status[row + 1][col] == self.piece and
                     self.board_status[row + 2][col] == self.piece and
                     self.board_status[row + 3][col] == self.piece
-                ):
-                    return True
-        return False
+                    for row in range(self.row)
+                    for col in range(self.col)
+                    ])
 
     def poster(self):
         poster = "\n"
