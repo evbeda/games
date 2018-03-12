@@ -32,7 +32,7 @@ class TestReversi(unittest.TestCase):
 
     def test_get_directions(self):
         result = [
-            [(3, 4, 'W')]
+            {'value': 'W', 'x': 3, 'y': 4},
         ]
         self.game.change_turn()
         self.assertEquals(result, self.game.find_possibility_pieces(3, 5))
@@ -50,11 +50,13 @@ class TestReversi(unittest.TestCase):
         ])
 
         result = [
-            [(3, 4, 'B')], [(3, 5, 'B')]
+            {'value': 'B', 'x': 3, 'y': 4},
+            {'value': 'B', 'x': 3, 'y': 5},
         ]
         self.assertEquals(result, self.game.find_possibility_pieces(2, 5))
         result = [
-            [(3, 3, 'B')], [(3, 4, 'B')]
+            {'value': 'B', 'x': 3, 'y': 3},
+            {'value': 'B', 'x': 3, 'y': 4},
         ]
         self.assertEquals(result, self.game.find_possibility_pieces(2, 3))
 
@@ -77,14 +79,30 @@ class TestReversi(unittest.TestCase):
         ])
 
         result = [
-            [(2, 3, 'B')],
-            [(2, 4, 'B')],
-            [(2, 5, 'B')],
-            [(3, 3, 'B')],
-            [(3, 5, 'B')],
-            [(4, 3, 'B')],
-            [(4, 4, 'B')],
-            [(4, 5, 'B')],
+            {'y': 3, 'x': 2, 'value': 'B'},
+            {'y': 4, 'x': 2, 'value': 'B'},
+            {'y': 5, 'x': 2, 'value': 'B'},
+            {'y': 3, 'x': 3, 'value': 'B'},
+            {'y': 5, 'x': 3, 'value': 'B'},
+            {'y': 3, 'x': 4, 'value': 'B'},
+            {'y': 4, 'x': 4, 'value': 'B'},
+            {'y': 5, 'x': 4, 'value': 'B'}
+        ]
+        self.assertEquals(result, self.game.find_possibility_pieces(3, 4))
+
+    def test_get_all_none_directions_white(self):
+        self.game.set_board([
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', 'B', 'B', 'B', 'B', 'B', ' '],
+            [' ', ' ', 'B', 'B', 'B', 'B', 'B', ' '],
+            [' ', ' ', 'B', 'B', ' ', 'B', 'B', ' '],
+            [' ', ' ', 'B', 'B', 'B', 'B', 'B', ' '],
+            [' ', ' ', 'B', 'B', 'B', 'B', 'B', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+        ])
+
+        result = [
         ]
         self.assertEquals(result, self.game.find_possibility_pieces(3, 4))
 
@@ -101,14 +119,22 @@ class TestReversi(unittest.TestCase):
         ])
 
         result = [
-            [(2, 3, 'B'), (1, 2, 'B')],
-            [(2, 4, 'B'), (1, 4, 'B')],
-            [(2, 5, 'B'), (1, 6, 'B')],
-            [(3, 3, 'B'), (3, 2, 'B')],
-            [(3, 5, 'B'), (3, 6, 'B')],
-            [(4, 3, 'B'), (5, 2, 'B')],
-            [(4, 4, 'B'), (5, 4, 'B')],
-            [(4, 5, 'B'), (5, 6, 'B')],
+            {'y': 3, 'x': 2, 'value': 'B'},
+            {'y': 2, 'x': 1, 'value': 'B'},
+            {'y': 4, 'x': 2, 'value': 'B'},
+            {'y': 4, 'x': 1, 'value': 'B'},
+            {'y': 5, 'x': 2, 'value': 'B'},
+            {'y': 6, 'x': 1, 'value': 'B'},
+            {'y': 3, 'x': 3, 'value': 'B'},
+            {'y': 2, 'x': 3, 'value': 'B'},
+            {'y': 5, 'x': 3, 'value': 'B'},
+            {'y': 6, 'x': 3, 'value': 'B'},
+            {'y': 3, 'x': 4, 'value': 'B'},
+            {'y': 2, 'x': 5, 'value': 'B'},
+            {'y': 4, 'x': 4, 'value': 'B'},
+            {'y': 4, 'x': 5, 'value': 'B'},
+            {'y': 5, 'x': 4, 'value': 'B'},
+            {'y': 6, 'x': 5, 'value': 'B'},
         ]
         self.assertEquals(result, self.game.find_possibility_pieces(3, 4))
 
@@ -125,14 +151,14 @@ class TestReversi(unittest.TestCase):
         ])
         self.game.change_turn()
         result = [
-            [(2, 3, 'W')],
-            [(2, 4, 'W')],
-            [(2, 5, 'W')],
-            [(3, 3, 'W')],
-            [(3, 5, 'W')],
-            [(4, 3, 'W')],
-            [(4, 4, 'W')],
-            [(4, 5, 'W')],
+            {'y': 3, 'x': 2, 'value': 'W'},
+            {'y': 4, 'x': 2, 'value': 'W'},
+            {'y': 5, 'x': 2, 'value': 'W'},
+            {'y': 3, 'x': 3, 'value': 'W'},
+            {'y': 5, 'x': 3, 'value': 'W'},
+            {'y': 3, 'x': 4, 'value': 'W'},
+            {'y': 4, 'x': 4, 'value': 'W'},
+            {'y': 5, 'x': 4, 'value': 'W'},
         ]
         self.assertEquals(result, self.game.find_possibility_pieces(3, 4))
 
@@ -252,7 +278,6 @@ class TestReversi(unittest.TestCase):
         ])
 
         self.game.change_turn()
-
         self.assertEquals(
             self.game.play(5, 1),
             'Whites win 47 to 17',
