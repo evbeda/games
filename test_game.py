@@ -380,6 +380,7 @@ class TestGame(unittest.TestCase):
                     6, 1,
                     7, 2,
                 )
+                #import ipdb; ipdb.set_trace()
                 return_value = random_values[self.random_count]
                 self.random_count += 1
                 return return_value
