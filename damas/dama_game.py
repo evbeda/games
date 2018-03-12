@@ -48,7 +48,7 @@ class DamaGameStart(GameWithTurns,  GameBase, GameWithBoard):
                     t = y - 1
                 if(self.get_value(k, t) == 'b' or
                         self.get_value(k, t) == 'B'):
-                    self.eat_piece(k, t)
+                    self.eat_piece(k, t, 'b')
                     return self.move(x, y, w, z, self.get_value(x, y))
                 else:
                     return 'you cant reach that place!'
@@ -56,32 +56,17 @@ class DamaGameStart(GameWithTurns,  GameBase, GameWithBoard):
         else:
             return 'No white piece here to move !'
 
-    def eat_piece(self, k, t):
+    def eat_piece(self, k, t, piece):
         self.set_value(k, t, ' ')
-        self.check_if_has_won()
+        self.check_if_has_won(piece)
 
-    def check_if_has_won(self):
+    def check_if_has_won(self, piece):
         if self._playing:
-            count = 0
-            if (self._turn == self.player_one):
-                # fixme-damas-6: use attributes _col _row
-                for x in range(0, 8):
-                    for y in range(0, 8):
-                        board_pos = self.get_value(x, y)
-                        if(board_pos == 'b' or board_pos == 'B'):
-                            count += 1
-                if (count == 0):
-                    self.finish()
-            else:
-                # fixme-damas-6: use attributes _col _row
-                for x in range(0, 8):
-                    for y in range(0, 8):
-                        board_pos = self.get_value(x, y)
-                        # fixme-damas-7: DRY attrinute board_pos
-                        if (board_pos == 'w' or board_pos == 'W'):
-                            count += 1
-                if (count == 0):
-                    self.finish()
+            if(
+                not any([x for x in range(self._col)
+                        for y in range(self._col)
+                        if (self.get_value(x, y).lower() == piece)])):
+                self.finish()
 
     # fixme-damas-9: many actions split them up
     def play_black(self, x, y, w, z):
@@ -106,7 +91,7 @@ class DamaGameStart(GameWithTurns,  GameBase, GameWithBoard):
                     t = y - 1
                 if(self.get_value(k, t) == 'w' or
                         self.get_value(k, t) == 'W'):
-                    self.eat_piece(k, t)
+                    self.eat_piece(k, t, 'w')
                     return self.move(x, y, w, z, self.get_value(x, y))
                 else:
                     return 'you cant reach that place!'
@@ -142,9 +127,9 @@ class DamaGameStart(GameWithTurns,  GameBase, GameWithBoard):
             result += '\n'
         return result
 
-    def move(self, x, y, w, z, pieza):
+    def move(self, x, y, w, z, piece):
         self.set_value(x, y, ' ')
-        self.set_value(w, z, pieza)
+        self.set_value(w, z, piece)
         self.change_turn()
 
     # fixme-damas-10: change metod with GameWithBoard's in_board
