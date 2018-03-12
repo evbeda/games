@@ -81,10 +81,7 @@ class Buscaminas(GameWithBoard, GameBase):
     def generate_random(self):
         x = randint(0, self.rows - 1)
         y = randint(0, self.cols - 1)
-        if self.get_value(x, y) != 'B':
-            return (x, y,)
-        else:
-            return self.generate_random()
+        return (x, y,) if self.get_value(x, y) != 'B' else self.generate_random()
 
     def check_position_used(self, x, y):
         return self.get_value(x, y) != ' ' and self.get_value(x, y) != 'B'
@@ -108,30 +105,21 @@ class Buscaminas(GameWithBoard, GameBase):
         for y in range(0, self.cols):
             for x in range(0, self.rows):
                 casilla = str(self.get_value(x, y))
+                if x % 8 == 0:
+                    output += str(y) + ' '
+
                 if casilla == 'B':
-                    # fixme-25: no need to use `x % 8` or `x % 7`...place code outside `for`
-                    if x % 8 == 0:
-                        output += str(y) + ' '
                     casilla = ' '
                     output += '|' + casilla
-                    # fixme-25: no need to use `x % 8` or `x % 7`...place code outside `for`
-                    if(x == 7):
-                        output += '|' + '\n'
+
                 elif casilla == '*':
-                    # fixme-25: no need to use `x % 8` or `x % 7`...place code outside `for`
-                    if x % 8 == 0:
-                        output += str(y) + ' '
                     casilla = '*'
                     output += '|' + casilla
-                    # fixme-25: no need to use `x % 8` or `x % 7`...place code outside `for`
-                    if(x == 7):
-                        output += '|' + '\n'
+
                 else:
-                    # fixme-25: no need to use `x % 8` or `x % 7`...place code outside `for`
-                    if x % 8 == 0:
-                        output += str(y) + ' '
                     output += '|' + casilla
-                    # fixme-25: no need to use `x % 8` or `x % 7`...place code outside `for`
-                    if(x == 7):
-                        output += '|' + '\n'
+
+                if(x == 7):
+                    output += '|' + '\n'
+
         return output
