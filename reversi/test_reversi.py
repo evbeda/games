@@ -50,7 +50,7 @@ class TestReversi(unittest.TestCase):
         ])
 
         result = [
-            [(3, 5, 'B')], [(3, 4, 'B')]
+            [(3, 4, 'B')], [(3, 5, 'B')]
         ]
         self.assertEquals(result, self.game.find_possibility_pieces(2, 5))
         result = [
@@ -77,10 +77,38 @@ class TestReversi(unittest.TestCase):
         ])
 
         result = [
-            [(3, 3, 'B')], [(3, 5, 'B')],
-            [(2, 4, 'B')], [(4, 4, 'B')],
-            [(2, 5, 'B')], [(2, 3, 'B')],
-            [(4, 3, 'B')], [(4, 5, 'B')]
+            [(2, 3, 'B')],
+            [(2, 4, 'B')],
+            [(2, 5, 'B')],
+            [(3, 3, 'B')],
+            [(3, 5, 'B')],
+            [(4, 3, 'B')],
+            [(4, 4, 'B')],
+            [(4, 5, 'B')],
+        ]
+        self.assertEquals(result, self.game.find_possibility_pieces(3, 4))
+
+    def test_get_all_x2_directions_white(self):
+        self.game.set_board([
+            [' ', 'W', 'W', 'W', 'W', 'W', 'W', 'W'],
+            [' ', ' ', 'B', 'B', 'B', 'B', 'B', ' '],
+            [' ', ' ', 'W', 'B', 'B', 'B', 'W', ' '],
+            [' ', 'W', 'B', 'B', ' ', 'B', 'B', 'W'],
+            [' ', ' ', 'W', 'B', 'B', 'B', 'W', ' '],
+            [' ', ' ', 'B', 'W', 'B', 'W', 'B', ' '],
+            [' ', 'W', ' ', ' ', 'W', ' ', ' ', 'W'],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+        ])
+
+        result = [
+            [(2, 3, 'B'), (1, 2, 'B')],
+            [(2, 4, 'B'), (1, 4, 'B')],
+            [(2, 5, 'B'), (1, 6, 'B')],
+            [(3, 3, 'B'), (3, 2, 'B')],
+            [(3, 5, 'B'), (3, 6, 'B')],
+            [(4, 3, 'B'), (5, 2, 'B')],
+            [(4, 4, 'B'), (5, 4, 'B')],
+            [(4, 5, 'B'), (5, 6, 'B')],
         ]
         self.assertEquals(result, self.game.find_possibility_pieces(3, 4))
 
@@ -97,10 +125,14 @@ class TestReversi(unittest.TestCase):
         ])
         self.game.change_turn()
         result = [
-            [(3, 3, 'W')], [(3, 5, 'W')],
-            [(2, 4, 'W')], [(4, 4, 'W')],
-            [(2, 5, 'W')], [(2, 3, 'W')],
-            [(4, 3, 'W')], [(4, 5, 'W')]
+            [(2, 3, 'W')],
+            [(2, 4, 'W')],
+            [(2, 5, 'W')],
+            [(3, 3, 'W')],
+            [(3, 5, 'W')],
+            [(4, 3, 'W')],
+            [(4, 4, 'W')],
+            [(4, 5, 'W')],
         ]
         self.assertEquals(result, self.game.find_possibility_pieces(3, 4))
 

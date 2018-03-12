@@ -1,9 +1,9 @@
 from game_base import GameBase
 from game_base import GameWithTurns
+from game_base import GameWithBoard
 
 
-# fixme-connectfour-12: missing extends GameWithBoard
-class ConnectFourGame(GameBase, GameWithTurns):
+class ConnectFourGame(GameBase, GameWithTurns, GameWithBoard):
 
     name = 'Cuatro en linea'
     input_args = 1
@@ -26,33 +26,23 @@ class ConnectFourGame(GameBase, GameWithTurns):
         ]
 
     def play(self, column):
-        # fixme-connectfour-4: Remove is_playing condition. Never used.
-        if(self.is_playing):
-            # fixme-connectfour-3: Should be after 'set_board'
-            if(self.tie()):
+        if(self.in_board(column)):
+            if(
+                self.board_status[0][column] != 'W' and
+                self.board_status[0][column] != 'B'
+            ):
+                self.set_piece_in_board(column)
+                if self.check_win():
+                    self.finish()
+                    return 'You win'
+                return 'Keep playing'
+            elif(self.tie()):
                 self.finish()
                 return 'Tie'
-            elif(self.in_board(column)):
-                if(
-                    self.board_status[0][column] != 'W' and
-                    self.board_status[0][column] != 'B'
-                ):
-
-                    self.set_board(column)
-
-                    if self.check_win():
-                        self.finish()
-                        return 'You win'
-
-                    return 'Keep playing'
-
-                else:
-                    return 'Full column'
             else:
-                return 'Movement not allowed'
-        # fixme-connectfour-4: Remove is_playing condition. Never used.
+                return 'Full column'
         else:
-            return 'Game Over'
+            return 'Movement not allowed'
 
     def in_board(self, column):
         # fixme-connectfour-5: Remove isinstance condition.
@@ -72,15 +62,12 @@ class ConnectFourGame(GameBase, GameWithTurns):
                 for col in range(self.col)
             ]) if (not self.check_win()) else False
 
-    # fixme-connectfour-7: Method name is not clear.
-    # Does it set the whole board?
-    def set_board(self, column):
-        # fixme-connectfour-8: for loops VERY similar. Could be refactorized.
+    def set_piece_in_board(self, column):
         if self.actual_player == self.player_one:
             self.actual_piece = 'W'
         else:
             self.actual_piece = 'B'
-        for x in xrange(5, -1, -1):
+        for x in range(5, -1, -1):
             if self.board_status[x][column] == ' ':
                 self.board_status[x][column] = self.actual_piece
                 self.piece = self.actual_piece
@@ -150,14 +137,14 @@ class ConnectFourGame(GameBase, GameWithTurns):
         return poster
 
     def next_turn(self):
-            return self.actual_player + ' plays'
+        return self.actual_player + ' plays'
 
     # fixme-connectfour-11: Can get better! Columns indistinguishable.
     @property
     def board(self):
         result = ''
-        for x in xrange(0, 6):
-            for y in xrange(0, 7):
+        for x in range(self.row):
+            for y in range(self.col):
                 result += self.board_status[x][y]
             result += '\n'
         return result
