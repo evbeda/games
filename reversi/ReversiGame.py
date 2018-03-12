@@ -65,61 +65,39 @@ class ReversiGame(GameWithTurns, GameWithBoard, GameBase):
 
     def longest_capture_prefix(self, positions, target):
         captured = []
-        capturable = []
         for position in positions:
             if position['value'] == target:
-                captured.extend(capturable)
-                capturable = []
+                captured.append(position)
             else:
-                capturable.append(position)
-        return captured
+                return captured
+        return []
 
     def captures(self, x, y, target):
         captured = []
         for dx, dy in self.all_directions():
-            for position_string in self.string_from(x, y, dx, dy):
-                if position_string['value'] == target:
-                    captured.append(position_string)
-                else:
-                    break
+            captured.extend(
+                self.longest_capture_prefix(
+                    self.string_from(x, y, dx, dy),
+                    target,
+                )
+            )
         return captured
 
     def find_possibility_pieces(self, x, y):
-        positions = []
         if self.player_one == self.actual_player:
             piece_to_change = 'B'
-            my_piece = 'W'
         else:
             piece_to_change = 'W'
-            my_piece = 'B'
-        # return self.captures(x, y, piece_to_change)
-        for x_sign_dir, y_sign_dir in self.all_directions():
-            direction = []
-            for count in xrange(1, 8):
-                ask_x = x + (count * x_sign_dir)
-                ask_y = y + (count * y_sign_dir)
-                if(
-                    self.has_piece_to_change(ask_x, ask_y, piece_to_change)
-                ):
-                    direction.append((ask_x, ask_y, piece_to_change,))
-                else:
-                    break
-            ask_x = x + (count * x_sign_dir)
-            ask_y = y + (count * y_sign_dir)
-            if(
-                len(direction) > 0 and
-                self.has_piece_to_change(ask_x, ask_y, my_piece)
-            ):
-                positions.append(direction)
-        return positions
+        return self.captures(x, y, piece_to_change)
 
     def reverse_possibles(self, possibles):
-        for direction in possibles:
-            for x, y, piece in direction:
-                if self.player_one == self.actual_player:
-                    self.set_value(x, y, 'W')
-                else:
-                    self.set_value(x, y, 'B')
+        for possible in possibles:
+            piece = 'W' if self.player_one == self.actual_player else 'B'
+            self.set_value(
+                possible['x'],
+                possible['y'],
+                piece,
+            )
 
     def play(self, x, y):
         if not self.check_can_play():
