@@ -8,8 +8,7 @@ class FourNumber(GameBase):
 
     def __init__(self):
         super(FourNumber, self).__init__()
-        self.chose_number = randint(102, 9876)
-        self.player_ = []
+        self.chose_number = self.chose_valid_number()
 
     def next_turn(self):
         if self.is_playing:
@@ -17,16 +16,28 @@ class FourNumber(GameBase):
         else:
             return 'Game over'
 
+    def chose_valid_number(self):
+        num = randint(102, 9876)
+        if self.valid_number(num):
+            return num
+        else:
+            return self.chose_valid_number()
+
+    def valid_number(self, number):
+        list_num = [int(x) for x in str(number).zfill(4)]
+        if set([x for x in list_num if list_num.count(x) > 1]) == set():
+            return True
+        else:
+            return False
+
     def same_enter_number(self, number):
-        if number in range(102, 9876):
-            list_num = [int(x) for x in str(number).zfill(4)]
-            if set([x for x in list_num if list_num.count(x) > 1]) == set():
-                return 'valid number'
+            if number in range(102, 9876):
+                if self.valid_number(number):
+                    return 'valid number'
+                else:
+                    return 'invalid number'
             else:
                 return 'invalid number'
-        else:
-            self.finish()
-            return 'incorrect number, try again'
 
     def play(self, number):
         if (self.is_playing):
