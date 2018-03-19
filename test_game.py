@@ -171,6 +171,34 @@ class TestGame(unittest.TestCase):
             ['[]', 'you win'],
         )
 
+    def test_play_four_number_game(self):
+
+        class ControlInputValues(object):
+            def __init__(self, *args, **kwargs):
+                self.played = False
+                self.play_count = 0
+
+            def __call__(self, console_output):
+                if 'Select Game' in console_output:
+                    if self.played:
+                        return '9'
+                    self.played = True
+                    return '0'
+                if 'Enter a four-digit number' in console_output:
+                    return '1234'
+
+        with \
+                patch(
+                    'game.Game.get_input', side_effect=ControlInputValues()), \
+                patch('game.Game.output', side_effect=self.output_collector), \
+                patch('four_number.four_number.randint', return_value=1234):
+            self.game.play()
+
+        self.assertEquals(
+            self.output_collector.output_collector,
+            ['[]', '4G, You win'],
+        )
+
     def test_play_tateti(self):
 
         class ControlInputValues(object):
