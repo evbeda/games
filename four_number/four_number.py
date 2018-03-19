@@ -3,7 +3,7 @@ from game_base import GameBase
 
 
 class FourNumber(GameBase):
-    name = 'Four_number'
+    name = 'Four number'
     input_args = 1
 
     def __init__(self):
@@ -70,3 +70,7 @@ class FourNumber(GameBase):
                     return '{}R'.format(counterR)
 
                 return '0 coincidence'
+
+    @property
+    def board(self):
+        return ''
