@@ -31,6 +31,9 @@ class TestFourNumber(unittest.TestCase):
         self.assertEquals(self.game.same_enter_number(40000), 'invalid number')
         self.assertTrue(self.game.is_playing)
 
+    def test_play_incorrect_number(self):
+        self.assertEquals(self.game.play(2222), 'invalid number')
+
     def test_play_correct_number_equal(self):
         self.assertEquals(self.game.play(1234), '4G, You win')
         self.assertFalse(self.game.is_playing)

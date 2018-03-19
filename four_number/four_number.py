@@ -41,7 +41,9 @@ class FourNumber(GameBase):
 
     def play(self, number):
         if (self.is_playing):
-            if self.same_enter_number(number):
+            if self.same_enter_number(number) == 'invalid number':
+                return 'invalid number'
+            else:
                 list_num = [int(x) for x in str(number).zfill(4)]
                 list_num_chose = [int(x)
                                   for x in str(self.chose_number).zfill(4)]
