@@ -40,6 +40,7 @@ class TestGame(unittest.TestCase):
             '3: Cuatro en linea\n'
             '4: Damas\n'
             '5: Reversi\n'
+            '6: Four number\n'
             '9: to quit\n'
         )
 
@@ -169,6 +170,32 @@ class TestGame(unittest.TestCase):
         self.assertEquals(
             self.output_collector.output_collector,
             ['[]', 'you win'],
+        )
+
+    def test_play_four_number(self):
+
+        class ControlInputValues(object):
+            def __init__(self, *args, **kwargs):
+                self.played = False
+
+            def __call__(self, console_output):
+                if 'Select Game' in console_output:
+                    if self.played:
+                        return '9'
+                    self.played = True
+                    return '6'
+                if 'Enter a four-digit number' in console_output:
+                    return '1234'
+
+        with \
+                patch('game.Game.get_input', side_effect=ControlInputValues()), \
+                patch('game.Game.output', side_effect=self.output_collector), \
+                patch('four_number.four_number.randint', return_value=1234):
+            self.game.play()
+
+        self.assertEquals(
+            self.output_collector.output_collector,
+            ['', '4G, You win'],
         )
 
     def test_play_tateti(self):

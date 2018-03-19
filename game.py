@@ -4,6 +4,7 @@ from buscaminas.buscaminas import Buscaminas
 from connect_four_game.connect_four_game import ConnectFourGame
 from damas.dama_game import DamaGameStart
 from reversi.ReversiGame import ReversiGame
+from four_number.four_number import FourNumber
 
 
 class Game(object):
@@ -17,6 +18,7 @@ class Game(object):
             ConnectFourGame,
             DamaGameStart,
             ReversiGame,
+            FourNumber,
         ]
 
     def output(self, text):
