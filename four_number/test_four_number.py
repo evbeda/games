@@ -12,8 +12,7 @@ class TestFourNumber(unittest.TestCase):
         self.assertTrue(self.game.is_playing)
 
     def test_play_smaller_number(self):
-        self.assertEquals(
-            self.game.same_enter_number(19), 'incorrect number, try again')
+        self.assertEquals(self.game.same_enter_number(19), 'invalid number')
         self.assertTrue(self.game.is_playing)
 
     def test_play_invalid_number(self):
@@ -29,8 +28,7 @@ class TestFourNumber(unittest.TestCase):
         self.assertEquals(self.game.same_enter_number(8145), 'valid number')
 
     def test_play_bigger_number(self):
-        self.assertEquals(
-            self.game.same_enter_number(40000), 'incorrect number, try again')
+        self.assertEquals(self.game.same_enter_number(40000), 'invalid number')
         self.assertTrue(self.game.is_playing)
 
     def test_play_correct_number_equal(self):
