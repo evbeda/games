@@ -31,13 +31,13 @@ class FourNumber(GameBase):
             return False
 
     def same_enter_number(self, number):
-            if number in range(102, 9876):
-                if self.valid_number(number):
-                    return 'valid number'
-                else:
-                    return 'invalid number'
+        if number in range(102, 9876):
+            if self.valid_number(number):
+                return 'valid number'
             else:
                 return 'invalid number'
+        else:
+            return 'invalid number'
 
     def play(self, number):
         if (self.is_playing):
@@ -46,6 +46,7 @@ class FourNumber(GameBase):
                 list_num_chose = [int(x)
                                   for x in str(self.chose_number).zfill(4)]
             if (list_num == list_num_chose):
+                self.finish()
                 return '4G, You win'
             else:
                 counterG = 0

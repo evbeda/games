@@ -33,7 +33,7 @@ class TestFourNumber(unittest.TestCase):
 
     def test_play_correct_number_equal(self):
         self.assertEquals(self.game.play(1234), '4G, You win')
-        self.assertTrue(self.game.is_playing)
+        self.assertFalse(self.game.is_playing)
 
     def test_play_correct_number_1(self):
         self.assertEquals(self.game.play(1240), '2G 1R')
