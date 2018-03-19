@@ -25,7 +25,6 @@ class FourNumber(GameBase):
             else:
                 return 'invalid number'
         else:
-            self.finish()
             return 'incorrect number, try again'
 
     def play(self, number):
@@ -35,6 +34,7 @@ class FourNumber(GameBase):
                 list_num_chose = [int(x)
                                   for x in str(self.chose_number).zfill(4)]
             if (list_num == list_num_chose):
+                self.finish()
                 return '4G, You win'
             else:
                 counterG = 0
