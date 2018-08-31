@@ -5,7 +5,7 @@ from connect_four_game.connect_four_game import ConnectFourGame
 from damas.dama_game import DamaGameStart
 from reversi.ReversiGame import ReversiGame
 from four_number.four_number import FourNumber
-
+from generala.game import Generala
 
 class Game(object):
 
@@ -19,6 +19,7 @@ class Game(object):
             DamaGameStart,
             ReversiGame,
             FourNumber,
+            Generala,
         ]
 
     def output(self, text):
@@ -42,7 +43,7 @@ class Game(object):
     def get_turn_input(self, text):
         input_args = ''
         expecting_str = (
-            'numbers separated with spaces'
+            'commands separated with spaces'
             if self.active_game.input_args > 1 else 'number'
         )
         while True:
@@ -53,10 +54,13 @@ class Game(object):
                 expecting_str,
             ))
             try:
-                input_args = [
-                    int(simple_arg)
-                    for simple_arg in inputs.split(' ')
-                ]
+                if self.active_game.input_are_ints:
+                    input_args = [
+                        int(simple_arg)
+                        for simple_arg in inputs.split(' ')
+                    ]
+                else:
+                    input_args = inputs.split(' ')
                 if len(input_args) == self.active_game.input_args:
                     break
                 else:
