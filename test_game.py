@@ -42,6 +42,7 @@ class TestGame(unittest.TestCase):
             '5: Reversi\n'
             '6: Four number\n'
             '7: Generala\n'
+            '8: Blackjack\n'
             '9: to quit\n'
         )
 

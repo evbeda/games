@@ -13,6 +13,12 @@ from generala.test_categories import test_categories
 from generala.test_player import test_player
 from generala.test_throw_class import test_throw_class
 from generala.test_throw_dice import test_throw_dice
+from blackjack.test_blackjack import (
+    TestBets,
+    TestDeck,
+    TestGame as TestBlackjackGame,
+    TestHands,
+)
 
 
 def suite():
@@ -34,6 +40,10 @@ def suite():
     test_suite.addTest(unittest.makeSuite(test_player))
     test_suite.addTest(unittest.makeSuite(test_throw_class))
     test_suite.addTest(unittest.makeSuite(test_throw_dice))
+    test_suite.addTest(unittest.makeSuite(TestBets))
+    test_suite.addTest(unittest.makeSuite(TestDeck))
+    test_suite.addTest(unittest.makeSuite(TestBlackjackGame))
+    test_suite.addTest(unittest.makeSuite(TestHands))
     return test_suite
 
 

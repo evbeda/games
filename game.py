@@ -6,6 +6,8 @@ from damas.dama_game import DamaGameStart
 from reversi.ReversiGame import ReversiGame
 from four_number.four_number import FourNumber
 from generala.game import Generala
+from blackjack.blackjack_game import BlackJackGame
+
 
 class Game(object):
 
@@ -20,6 +22,7 @@ class Game(object):
             ReversiGame,
             FourNumber,
             Generala,
+            BlackJackGame,
         ]
 
     def output(self, text):
