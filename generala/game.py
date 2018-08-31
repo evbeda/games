@@ -46,15 +46,15 @@ class Generala(GameBase):
 
     def should_keep_rolling(self):
         if self.throw.is_possible_to_roll():
-            return '{}\nTu tirada: {} \nIngrese CONSERVAR X, ANOTAR CATEGORIA\
- o TIRAR YA\nx'.format(
+            return '{}\nYour throw: {} \nEnter CROSSOUT (CATEGORY), KEEP\
+(1,2..) or THROW NOW\n'.format(
                 self.turno.name,
                 str(self.throw.dice),
             )
         else:
             return (
-                '{}\nTu tirada: {} \nElija la categoria\n\
-                 que desea llenar (Ej: POKER, GENERALA, ETC.)'.format(
+                '{}\nYour throw: {} \nPick a category\n\
+to cross out (e.g.: POKER, GENERALA, ETC.)'.format(
                     self.turno.name,
                     self.throw.dice,
                 )
@@ -62,9 +62,8 @@ class Generala(GameBase):
 
     def play(self, text_input, value):
         if (self.is_playing):
-            if 'CONSERVAR' == text_input:
+            if 'KEEP' == text_input:
                 dados_a_conservar = value.split(',')
-                #import ipdb; ipdb.set_trace()
                 self.which_to_roll = [0, 1, 2, 3, 4, ]
                 for dado_index in dados_a_conservar:
                     dice_to_check = int(dado_index)
@@ -72,42 +71,66 @@ class Generala(GameBase):
                         self.which_to_roll.remove(dice_to_check)
                 self.throw.roll(self.which_to_roll)
 
-            elif 'TIRAR' == text_input:
+            elif 'THROW' == text_input:
                 self.should_keep_rolling()
                 self.throw.roll([0, 1, 2, 3, 4, ])
-            elif 'ANOTAR' == text_input:
+            elif 'CROSSOUT' == text_input:
                 categoria = value
-                your_dices = self.throw.dice
-                points = check_throw(your_dices, categoria, self.throw.number)
-                is_possible = self.turno.choose_combination(categoria, points)
-                if is_possible:
-                    self.next_turn()
-                    self.dados = []
-                    self.throw = Throw()
-                    self.turno.tirada = 1
-                    if self.turno == self.player1:
-                        self.turno = self.player2
-                    else:
-                        self.turno = self.player1
-                    self.round += 1
-                    if self.finished():
-                        self.finish()
-                    return 'ANOTADO EN: {} - PUNTAJE: {}'.format(
-                        categoria,
-                        str(points),
+                possible_categories = [
+                    'GENERALA',
+                    'GENERALADOBLE',
+                    'POKER',
+                    'FULL',
+                    'ESCALERA',
+                    'GENERALASERVIDA',
+                    'FULLSERVIDO',
+                    'ESCALERASERVIDA',
+                    'UNO',
+                    'DOS',
+                    'TRES',
+                    'CUATRO',
+                    'CINCO',
+                    'SEIS',
+                ]
+                if categoria in possible_categories:
+                    your_dices = self.throw.dice
+                    points = check_throw(
+                        your_dices, categoria,
+                        self.throw.number,
                     )
+                    is_possible = self.turno.choose_combination(
+                        categoria,
+                        points,
+                    )
+                    if is_possible:
+                        self.next_turn()
+                        self.dados = []
+                        self.throw = Throw()
+                        self.turno.tirada = 1
+                        if self.turno == self.player1:
+                            self.turno = self.player2
+                        else:
+                            self.turno = self.player1
+                        self.round += 1
+                        if self.finished():
+                            self.finish()
+                        return 'ANOTADO EN: {} - PUNTAJE: {}'.format(
+                            categoria,
+                            str(points),
+                        )
+                    else:
+                        return '\n***That category has already been crossed out.***\n'
                 else:
-                    return 'Categoria ya asignada'
+                    return '\n***That category does not exist.***\n'
             else:
-                return 'Ingrese ANOTAR (TIRADA), CONSERVAR (1,2..), o TIRAR'
+                return 'Enter CROSSOUT (CATEGORY), KEEP (1,2..) or THROW NOW'
 
     @property
     def board(self):
-        return '{} TIENE {} PUNTOS \n{} TIENE {} PUNTOS\nRONDA {}'.format(
+        return '{} HAS {} POINTS \n{} HAS {} POINTS\nROUND {}'.format(
             self.player1.name,
             self.player1.score,
             self.player2.name,
             self.player2.score,
             self.round,
         )
-

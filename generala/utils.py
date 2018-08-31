@@ -16,7 +16,7 @@ def check_throw(throw_array, points_to_check, throw_number):
             if throw_array[index] != throw_array[index + 1]:
                 return 0
         if throw_number == 1:
-            return GENERALASERVIDA['score']
+            return SERVEDGENERALA['score']
         else:
             return GENERALA['score']
     elif points_to_check == POKER['name']:
@@ -28,27 +28,27 @@ def check_throw(throw_array, points_to_check, throw_number):
         if throw_array.count(1) == 3:
             if throw_array.count(2) == 2:
                 if throw_number == 1:
-                    return FULLSERVIDO['score']
+                    return SERVEDFULL['score']
                 else:
                     return FULL['score']
             elif throw_array.count(3) == 2:
                 if throw_number == 1:
-                    return FULLSERVIDO['score']
+                    return SERVEDFULL['score']
                 else:
                     return FULL['score']
             elif throw_array.count(4) == 2:
                 if throw_number == 1:
-                    return FULLSERVIDO['score']
+                    return SERVEDFULL['score']
                 else:
                     return FULL['score']
             elif throw_array.count(5) == 2:
                 if throw_number == 1:
-                    return FULLSERVIDO['score']
+                    return SERVEDFULL['score']
                 else:
                     return FULL['score']
             elif throw_array.count(6) == 2:
                 if throw_number == 1:
-                    return FULLSERVIDO['score']
+                    return SERVEDFULL['score']
                 else:
                     return FULL['score']
             else:
@@ -56,27 +56,27 @@ def check_throw(throw_array, points_to_check, throw_number):
         elif throw_array.count(2) == 3:
             if throw_array.count(1) == 2:
                 if throw_number == 1:
-                    return FULLSERVIDO['score']
+                    return SERVEDFULL['score']
                 else:
                     return FULL['score']
             elif throw_array.count(3) == 2:
                 if throw_number == 1:
-                    return FULLSERVIDO['score']
+                    return SERVEDFULL['score']
                 else:
                     return FULL['score']
             elif throw_array.count(4) == 2:
                 if throw_number == 1:
-                    return FULLSERVIDO['score']
+                    return SERVEDFULL['score']
                 else:
                     return FULL['score']
             elif throw_array.count(5) == 2:
                 if throw_number == 1:
-                    return FULLSERVIDO['score']
+                    return SERVEDFULL['score']
                 else:
                     return FULL['score']
             elif throw_array.count(6) == 2:
                 if throw_number == 1:
-                    return FULLSERVIDO['score']
+                    return SERVEDFULL['score']
                 else:
                     return FULL['score']
             else:
@@ -84,27 +84,27 @@ def check_throw(throw_array, points_to_check, throw_number):
         elif throw_array.count(3) == 3:
             if throw_array.count(1) == 2:
                 if throw_number == 1:
-                    return FULLSERVIDO['score']
+                    return SERVEDFULL['score']
                 else:
                     return FULL['score']
             elif throw_array.count(2) == 2:
                 if throw_number == 1:
-                    return FULLSERVIDO['score']
+                    return SERVEDFULL['score']
                 else:
                     return FULL['score']
             elif throw_array.count(4) == 2:
                 if throw_number == 1:
-                    return FULLSERVIDO['score']
+                    return SERVEDFULL['score']
                 else:
                     return FULL['score']
             elif throw_array.count(5) == 2:
                 if throw_number == 1:
-                    return FULLSERVIDO['score']
+                    return SERVEDFULL['score']
                 else:
                     return FULL['score']
             elif throw_array.count(6) == 2:
                 if throw_number == 1:
-                    return FULLSERVIDO['score']
+                    return SERVEDFULL['score']
                 else:
                     return FULL['score']
             else:
@@ -112,27 +112,27 @@ def check_throw(throw_array, points_to_check, throw_number):
         elif throw_array.count(4) == 3:
             if throw_array.count(1) == 2:
                 if throw_number == 1:
-                    return FULLSERVIDO['score']
+                    return SERVEDFULL['score']
                 else:
                     return FULL['score']
             elif throw_array.count(3) == 2:
                 if throw_number == 1:
-                    return FULLSERVIDO['score']
+                    return SERVEDFULL['score']
                 else:
                     return FULL['score']
             elif throw_array.count(2) == 2:
                 if throw_number == 1:
-                    return FULLSERVIDO['score']
+                    return SERVEDFULL['score']
                 else:
                     return FULL['score']
             elif throw_array.count(5) == 2:
                 if throw_number == 1:
-                    return FULLSERVIDO['score']
+                    return SERVEDFULL['score']
                 else:
                     return FULL['score']
             elif throw_array.count(6) == 2:
                 if throw_number == 1:
-                    return FULLSERVIDO['score']
+                    return SERVEDFULL['score']
                 else:
                     return FULL['score']
             else:
@@ -140,27 +140,27 @@ def check_throw(throw_array, points_to_check, throw_number):
         elif throw_array.count(5) == 3:
             if throw_array.count(1) == 2:
                 if throw_number == 1:
-                    return FULLSERVIDO['score']
+                    return SERVEDFULL['score']
                 else:
                     return FULL['score']
             elif throw_array.count(3) == 2:
                 if throw_number == 1:
-                    return FULLSERVIDO['score']
+                    return SERVEDFULL['score']
                 else:
                     return FULL['score']
             elif throw_array.count(4) == 2:
                 if throw_number == 1:
-                    return FULLSERVIDO['score']
+                    return SERVEDFULL['score']
                 else:
                     return FULL['score']
             elif throw_array.count(2) == 2:
                 if throw_number == 1:
-                    return FULLSERVIDO['score']
+                    return SERVEDFULL['score']
                 else:
                     return FULL['score']
             elif throw_array.count(6) == 2:
                 if throw_number == 1:
-                    return FULLSERVIDO['score']
+                    return SERVEDFULL['score']
                 else:
                     return FULL['score']
             else:
@@ -168,27 +168,27 @@ def check_throw(throw_array, points_to_check, throw_number):
         elif throw_array.count(6) == 3:
             if throw_array.count(1) == 2:
                 if throw_number == 1:
-                    return FULLSERVIDO['score']
+                    return SERVEDFULL['score']
                 else:
                     return FULL['score']
             elif throw_array.count(3) == 2:
                 if throw_number == 1:
-                    return FULLSERVIDO['score']
+                    return SERVEDFULL['score']
                 else:
                     return FULL['score']
             elif throw_array.count(4) == 2:
                 if throw_number == 1:
-                    return FULLSERVIDO['score']
+                    return SERVEDFULL['score']
                 else:
                     return FULL['score']
             elif throw_array.count(5) == 2:
                 if throw_number == 1:
-                    return FULLSERVIDO['score']
+                    return SERVEDFULL['score']
                 else:
                     return FULL['score']
             elif throw_array.count(2) == 2:
                 if throw_number == 1:
-                    return FULLSERVIDO['score']
+                    return SERVEDFULL['score']
                 else:
                     return FULL['score']
             else:
@@ -196,48 +196,48 @@ def check_throw(throw_array, points_to_check, throw_number):
         else:
             return 0
 
-    elif points_to_check == ESCALERA['name']:
+    elif points_to_check == STAIR['name']:
         orderedList = sorted(throw_array)
         if orderedList in ([1, 2, 3, 4, 5], [2, 3, 4, 5, 6], [1, 3, 4, 5, 6],):
             if throw_number == 1:
-                return ESCALERASERVIDA['score']
+                return SERVEDSTAIR['score']
             else:
-                return ESCALERA['score']
+                return STAIR['score']
         else:
             return 0
-    elif points_to_check == UNO['name']:
+    elif points_to_check == ONE['name']:
         sum = 0
         for index in range(0, len(throw_array)):
-            if throw_array[index] == UNO['score']:
-                sum += UNO['score']
+            if throw_array[index] == ONE['score']:
+                sum += ONE['score']
         return sum
-    elif points_to_check == DOS['name']:
+    elif points_to_check == TWO['name']:
         sum = 0
         for index in range(0, len(throw_array)):
-            if throw_array[index] == DOS['score']:
-                sum += DOS['score']
+            if throw_array[index] == TWO['score']:
+                sum += TWO['score']
         return sum
-    elif points_to_check == TRES['name']:
+    elif points_to_check == THREE['name']:
         sum = 0
         for index in range(0, len(throw_array)):
-            if throw_array[index] == TRES['score']:
-                sum += TRES['score']
+            if throw_array[index] == THREE['score']:
+                sum += THREE['score']
         return sum
-    elif points_to_check == CUATRO['name']:
+    elif points_to_check == FOUR['name']:
         sum = 0
         for index in range(0, len(throw_array)):
-            if throw_array[index] == CUATRO['score']:
-                sum += CUATRO['score']
+            if throw_array[index] == FOUR['score']:
+                sum += FOUR['score']
         return sum
-    elif points_to_check == CINCO['name']:
+    elif points_to_check == FIVE['name']:
         sum = 0
         for index in range(0, len(throw_array)):
-            if throw_array[index] == CINCO['score']:
-                sum += CINCO['score']
+            if throw_array[index] == FIVE['score']:
+                sum += FIVE['score']
         return sum
-    elif points_to_check == SEIS['name']:
+    elif points_to_check == SIX['name']:
         sum = 0
         for index in range(0, len(throw_array)):
-            if throw_array[index] == SEIS['score']:
-                sum += SEIS['score']
+            if throw_array[index] == SIX['score']:
+                sum += SIX['score']
         return sum
