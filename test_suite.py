@@ -8,6 +8,11 @@ from damas.test import TestDamaGame
 from tateti.test_tateti import TestTateti
 from test_game_base import TestGameBase
 from four_number.test_four_number import TestFourNumber
+from generala.test_game import test_generala as test_game_generala
+from generala.test_categories import test_categories
+from generala.test_player import test_player
+from generala.test_throw_class import test_throw_class
+from generala.test_throw_dice import test_throw_dice
 
 
 def suite():
@@ -24,6 +29,11 @@ def suite():
     test_suite.addTest(unittest.makeSuite(TestTateti))
     test_suite.addTest(unittest.makeSuite(TestGameBase))
     test_suite.addTest(unittest.makeSuite(TestFourNumber))
+    test_suite.addTest(unittest.makeSuite(test_game_generala))
+    test_suite.addTest(unittest.makeSuite(test_categories))
+    test_suite.addTest(unittest.makeSuite(test_player))
+    test_suite.addTest(unittest.makeSuite(test_throw_class))
+    test_suite.addTest(unittest.makeSuite(test_throw_dice))
     return test_suite
 
 

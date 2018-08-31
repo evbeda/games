@@ -41,6 +41,7 @@ class TestGame(unittest.TestCase):
             '4: Damas\n'
             '5: Reversi\n'
             '6: Four number\n'
+            '7: Generala\n'
             '9: to quit\n'
         )
 
@@ -382,7 +383,7 @@ class TestGame(unittest.TestCase):
                         return '9'
                     self.played = True
                     return '2'
-                if 'Play (expecting 2 numbers separated with spaces)' in console_output:
+                if 'Play (expecting 2 commands separated with spaces)' in console_output:
                     game_turns = (
                         '1 1',
                     )

@@ -2,6 +2,7 @@ class GameBase(object):
 
     name = 'Undefined'
     input_args = 0
+    input_are_ints = True
 
     def __init__(self, *args, **kwargs):
         super(GameBase, self).__init__(*args, **kwargs)
