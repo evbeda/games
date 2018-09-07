@@ -29,6 +29,7 @@ class BlackJackGame(GameBase):
         self.deck = Deck(cardsDictionary, colorDictionary)
         self.bet = 0
         self.bet_time = True
+        self.deck_counter = 1
         self.start_game()
 
     def start_game(self):
@@ -41,8 +42,18 @@ class BlackJackGame(GameBase):
     def reset_round(self):
         player_hand = Hand()
         self.dealer_hand = Hand()
-        player_hand.deal_card(self.deck.deal(2))
-        self.dealer_hand.deal_card(self.deck.deal(2))
+        player_deck_card_deal = self.deck.deal(2)
+        dealer_deck_card_deal = self.deck.deal(2)
+        if player_deck_card_deal == 'Out of cards!' or dealer_deck_card_deal == 'Out of cards!':
+            self.deck_counter += 1
+            if self.deck_counter < 7:
+                self.deck = Deck(cardsDictionary, colorDictionary)
+                player_deck_card_deal = self.deck.deal(2)
+                dealer_deck_card_deal = self.deck.deal(2)
+            else:
+                return 'Game Over! No more decks'
+        player_hand.deal_card(player_deck_card_deal)
+        self.dealer_hand.deal_card(dealer_deck_card_deal)
         self.player.hand = player_hand
 
     def check_you_can_bet(self):
@@ -174,7 +185,9 @@ class BlackJackGame(GameBase):
                     self.bet = bet
                     self.is_finished = False
                     self.bet_time = False
-                    self.reset_round()
+                    if self.reset_round() == 'Game Over! No more decks':
+                        self._playing = False
+                        return self.reset_round()
                 return result
             except Exception:
                 return 'Please enter a number or q to quit'

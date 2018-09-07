@@ -17,5 +17,8 @@ class Deck():
     def deal(self, amount):
         result = []
         for i in range(amount):
-            result.append(self.cards.pop())
+            try:
+                result.append(self.cards.pop())
+            except Exception:
+                return 'Out of cards!'
         return result
