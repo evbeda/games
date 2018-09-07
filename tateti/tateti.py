@@ -10,7 +10,7 @@ class Tateti(GameWithTurns, GameBase):
     player_two = 'O'
 
     def __init__(self, *args, **kwargs):
-        super(Tateti, self).__init__(*args, **kwargs)
+        super(Tateti, self).__init__(name=self.player_one, name2=self.player_two, *args, **kwargs)
         self.tablero = [
             [0, 0, 0],
             [0, 0, 0],

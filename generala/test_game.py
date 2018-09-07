@@ -6,7 +6,7 @@ from .game import Generala
 class test_generala(unittest.TestCase):
     def test_game_finished_true(self):
         game = Generala("Santi", "Beto")
-        game.player1.combinations = {
+        game.player_one.combinations = {
             'ONE': 1,
             'TWO': 2,
             'THREE': 3,
@@ -19,7 +19,7 @@ class test_generala(unittest.TestCase):
             'GENERALA': 50,
             'DOUBLEGENERALA': 60,
         }
-        game.player2.combinations = {
+        game.player_two.combinations = {
             'ONE': 1,
             'TWO': 2,
             'THREE': 3,
@@ -36,7 +36,7 @@ class test_generala(unittest.TestCase):
 
     def test_game_finished_p1_false(self):
         game = Generala("Santi", "Beto")
-        game.player1.combinations = {
+        game.player_one.combinations = {
             'ONE': '',
             'TWO': '',
             'THREE': 3,
@@ -49,7 +49,7 @@ class test_generala(unittest.TestCase):
             'GENERALA': 50,
             'DOUBLEGENERALA': 60,
         }
-        game.player2.combinations = {
+        game.player_two.combinations = {
             'ONE': '',
             'TWO': '',
             'THREE': 3,
@@ -66,7 +66,7 @@ class test_generala(unittest.TestCase):
 
     def test_game_finished_p2_false(self):
         game = Generala("Santi", "Beto")
-        game.player1.combinations = {
+        game.player_one.combinations = {
             'ONE': 3,
             'TWO': 4,
             'THREE': 3,
@@ -79,7 +79,7 @@ class test_generala(unittest.TestCase):
             'GENERALA': 50,
             'DOUBLEGENERALA': 60,
         }
-        game.player2.combinations = {
+        game.player_two.combinations = {
             'ONE': '',
             'TWO': '',
             'THREE': 3,
@@ -123,7 +123,7 @@ class test_generala(unittest.TestCase):
         game.throw.roll([0, 1, 2, 3, 4, ])
         self.assertEqual(game.should_keep_rolling(), '{}\nYour throw: {} \nEnter CROSSOUT (CATEGORY), KEEP\
 (1,2..) or THROW NOW\n'.format(
-            game.turno.name,
+            game.actual_player.name,
             game.throw.dice,
         ))
 
@@ -135,7 +135,7 @@ class test_generala(unittest.TestCase):
         game.throw.number = 5
         result = game.should_keep_rolling()
         self.assertEqual(result, '{}\nYour throw: {} \nPick a category\n\
-to cross out (e.g.: POKER, GENERALA, ETC.)'.format(game.turno.name, game.throw.dice,))
+to cross out (e.g.: POKER, GENERALA, ETC.)'.format(game.actual_player.name, game.throw.dice,))
 
     def test_conservar_1(self):
         game = Generala("Santi", "Beto")
@@ -151,6 +151,15 @@ to cross out (e.g.: POKER, GENERALA, ETC.)'.format(game.turno.name, game.throw.d
         game.play('THROW', 'NOW')
         self.assertEqual(game.throw.dice, [1, 1, 1, 1, 1])
 
+    def test_board(self):
+        game = Generala("Santi", "Beto")
+        #import ipdb; ipdb.set_trace()
+        self.assertEqual(
+            game.board,
+            'Santi HAS 0 POINTS \nBeto HAS 0 POINTS\nROUND 1',
+        )
+
+
     @mock.patch('random.randint')
     def test_anotar_generala(self, mock_rand_int):
         mock_rand_int.return_value = 1
@@ -158,7 +167,7 @@ to cross out (e.g.: POKER, GENERALA, ETC.)'.format(game.turno.name, game.throw.d
         game.throw.dice = [1, 1, 1, 1, 1]
         game.throw.number = 2
         game.play('CROSSOUT', 'GENERALA')
-        self.assertEqual(game.player1.score, 50)
+        self.assertEqual(game.player_one.score, 50)
         game.play('CROSSOUT', 'POKER')
         self.assertEqual(
             game.play('CROSSOUT', 'GENERALA'),
@@ -172,12 +181,6 @@ to cross out (e.g.: POKER, GENERALA, ETC.)'.format(game.turno.name, game.throw.d
             'Enter CROSSOUT (CATEGORY), KEEP (1,2..) or THROW NOW',
         )
 
-    def test_board(self):
-        game = Generala("Santi", "Beto")
-        self.assertEqual(
-            game.board,
-            'Santi HAS 0 POINTS \nBeto HAS 0 POINTS\nROUND 1',
-        )
 
     def test_keep_bad_comand(self):
         game = Generala("Santi", "Beto")
