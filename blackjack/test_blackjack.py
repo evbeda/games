@@ -499,7 +499,7 @@ class TestGame(unittest.TestCase):
         game.start_game()
         self.assertEqual(game.board, '')
 
-    @unittest.skip('skipped for problems with unicode')
+    # @unittest.skip('skipped for problems with unicode')
     def test_board_without_ten(self):
         game = BlackJackGame()
         game.bet_time = False
@@ -510,11 +510,10 @@ class TestGame(unittest.TestCase):
         game.dealer_hand.cards = ['9d', 'Kh']
         game.dealer_hand.value = 19
         result = game.board
-        self.assertEqual(result, ("\n\nDealer: ['9♦', 'K♥']"
-                                  "\nPlayer: ['K♥', 'Q♦']\n"
-                                  "Money: 100 \n\n"))
+        self.assertEqual(result, ('\n\nDealer: 9♦, K♥'
+                                  '\nPlayer: K♥, Q♦\n'
+                                  'Money: 100 \n\n').decode('utf-8'))
 
-    @unittest.skip('skipped for problems with unicode')
     def test_board_with_ten(self):
         game = BlackJackGame()
         game.bet_time = False
@@ -525,9 +524,9 @@ class TestGame(unittest.TestCase):
         game.dealer_hand.cards = ['9d', 'Th']
         game.dealer_hand.value = 19
         result = game.board
-        self.assertEqual(result, ("\n\nDealer: ['9♦', '10♥']"
-                                  "\nPlayer: ['10♥', 'Q♦']\n"
-                                  "Money: 100 \n\n"))
+        self.assertEqual(result, ("\n\nDealer: 9♦, 10♥"
+                                  "\nPlayer: 10♥, Q♦\n"
+                                  "Money: 100 \n\n").decode('utf-8'))
 
     def test_game_quit_bet_time(self):
         game = BlackJackGame()

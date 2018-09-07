@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 cards_colors = {
-    's': u'♠',
-    'h': u'♥',
-    'd': u'♦',
-    'c': u'♣',
+    's': '♠',
+    'h': '♥',
+    'd': '♦',
+    'c': '♣',
 }
 
 cardsDictionary = {

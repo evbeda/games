@@ -126,24 +126,28 @@ class BlackJackGame(GameBase):
     @property
     def board(self):
         if not self.bet_time:
-            dealer_cards = []
-            player_cards = []
+            dealer_cards = ''
+            player_cards = ''
             for card in self.dealer_hand.cards:
-                card_encode = cards_colors[card[1]].encode('utf-8')
+                card_encode = cards_colors[card[1]].decode('utf-8')
+                # print(type(card_encode))
                 if(card[0] == 'T'):
-                    dealer_cards.append('10' + card_encode.decode('utf-8'))
+                    dealer_cards += '10' + card_encode + ', '
                 else:
-                    dealer_cards.append(card[0] + card_encode.decode('utf-8'))
+                    dealer_cards += card[0] + card_encode + ', '
 
             for card in self.player.hand.cards:
-                card_encode = cards_colors[card[1]].encode('utf-8')
+                card_encode = cards_colors[card[1]].decode('utf-8')
                 if(card[0] == 'T'):
-                    player_cards.append('10' + card_encode.decode('utf-8'))
+                    player_cards += '10' + card_encode + ', '
                 else:
-                    player_cards.append(card[0] + card_encode.decode('utf-8'))
+                    player_cards += card[0] + card_encode + ', '
+
+            player_cards = player_cards[:-2]
+            dealer_cards = dealer_cards[:-2]
 
             return ('\n\nDealer: {dealer_cards}'
-                    '\nPlayer: {player_cards}\n'
+                    '\nPlayer: ' + player_cards + '\n'
                     'Money: {player_money} \n\n').format(
                 dealer_cards=dealer_cards,
                 player_cards=player_cards,
