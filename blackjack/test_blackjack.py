@@ -566,6 +566,34 @@ class TestGame(unittest.TestCase):
                         return_value=['Ac']):
             self.assertEqual(game.play('='), 'Dealer Wins!')
 
+    def test_deck_empty(self):
+        game = BlackJackGame()
+        game.bet_time = False
+        game.is_finished = False
+        game.start_game()
+        game.deck.cards = []
+        self.assertEqual(game.deck.deal(1), 'Out of cards!')
+
+    def test_deck_6_empty_reset_round(self):
+        game = BlackJackGame()
+        game.bet_time = False
+        game.start_game()
+        game.deck.cards = []
+        game.is_finished = True
+        game.deck_counter = 6
+        self.assertEqual(game.play("20"), 'Game Over! No more decks')
+        self.assertFalse(game._playing)
+
+    def test_deck_1_empty_reset_round(self):
+        game = BlackJackGame()
+        game.bet_time = False
+        game.start_game()
+        game.deck.cards = []
+        game.is_finished = True
+        game.deck_counter = 1
+        self.assertEqual(game.play("20"), 'NEW ROUND!')
+        self.assertTrue(game._playing)
+
 
 if __name__ == "__main__":
     unittest.main()
