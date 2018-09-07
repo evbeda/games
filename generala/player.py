@@ -4,17 +4,20 @@ class Player(object):
         self.name = name
         self.tirada = 1
         self.combinations = {
-            'UNO': '',
-            'DOS': '',
-            'TRES': '',
-            'CUATRO': '',
-            'CINCO': '',
-            'SEIS': '',
-            'ESCALERA': '',
+            'ONE': '',
+            'TWO': '',
+            'THREE': '',
+            'FOUR': '',
+            'FIVE': '',
+            'SIX': '',
+            'STAIR': '',
             'FULL': '',
             'POKER': '',
             'GENERALA': '',
-            'GENERALADOBLE': '',
+            'DOUBLEGENERALA': '',
+            'SERVEDSTAIR': '',
+            'SERVEDFULL': '',
+            'SERVEDPOKER': '',
         }
         self.score = 0
 

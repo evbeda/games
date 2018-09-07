@@ -16,7 +16,7 @@ class ReversiGame(GameWithTurns, GameWithBoard, GameBase):
     player_two = 'Black'
 
     def __init__(self, *args, **kwargs):
-        super(ReversiGame, self).__init__(*args, **kwargs)
+        super(ReversiGame, self).__init__(name=self.player_one, name2=self.player_two, *args, **kwargs)
         self.create_board(' ')
         self.set_value(3, 3, 'B')
         self.set_value(3, 4, 'W')

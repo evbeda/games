@@ -27,11 +27,11 @@ class GameBase(object):
 
 
 class GameWithTurns(object):
-    player_one = 'Undefined'
-    player_two = 'Undefined'
-
-    def __init__(self, *args, **kwargs):
+    def __init__(self, name='Undefined', name2='Undefined', *args, **kwargs):
         super(GameWithTurns, self).__init__(*args, **kwargs)
+        self.player_one = name
+        self.player_two = name2
+
         self._turn = self.player_one
 
     def change_turn(self):

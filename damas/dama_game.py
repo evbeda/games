@@ -12,7 +12,7 @@ class DamaGameStart(GameWithTurns,  GameBase, GameWithBoard):
     player_two = 'Black'
 
     def __init__(self):
-        super(DamaGameStart, self).__init__()
+        super(DamaGameStart, self).__init__(name=self.player_one, name2=self.player_two)
 
         self.set_board([
             ['b', ' ', 'b', ' ', 'b', ' ', 'b', ' '],

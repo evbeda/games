@@ -11,7 +11,7 @@ class ConnectFourGame(GameBase, GameWithTurns, GameWithBoard):
     player_two = 'Black'
 
     def __init__(self):
-        super(ConnectFourGame, self).__init__()
+        super(ConnectFourGame, self).__init__(name=self.player_one, name2=self.player_two)
         self.piece = ''
         self.row = 6
         self.min = 0

@@ -1,24 +1,20 @@
 from .player import Player
 from .utils import check_throw
 from .throw import Throw
-from game_base import GameBase
+from game_base import GameBase, GameWithTurns
 import random
 
 
-class Generala(GameBase):
+class Generala(GameBase, GameWithTurns):
 
     name = 'Generala'
     input_args = 2
     input_are_ints = False
 
     def __init__(self, name='Santi', name2='Beto'):
-        super(Generala, self).__init__()
-        self.player1 = Player(name)
-        self.player2 = Player(name2)
-        self.turno = self.player1
+        super(Generala, self).__init__(Player(name), Player(name2))
         self.dados = []
         self.dados_desordenados = []
-        #self.is_playing = True
         self.round = 1
         self.which_to_roll = [0, 1, 2, 3, 4, ]
         self.throw = Throw()
@@ -30,17 +26,17 @@ class Generala(GameBase):
             return 'Game over'
 
     def finished(self):
-        if self.player1.score >= 3000:
+        if self.player_one.score >= 3000:
                 return True
 
-        if self.player2.score >= 3000:
+        if self.player_two.score >= 3000:
                 return True
 
-        for key, value in self.player1.combinations.items():
-            if self.player1.combinations[key] == '':
+        for key, value in self.player_one.combinations.items():
+            if self.player_one.combinations[key] == '':
                 return False
-        for key, value in self.player2.combinations.items():
-            if self.player2.combinations[key] == '':
+        for key, value in self.player_two.combinations.items():
+            if self.player_two.combinations[key] == '':
                 return False
         return True
 
@@ -48,19 +44,20 @@ class Generala(GameBase):
         if self.throw.is_possible_to_roll():
             return '{}\nYour throw: {} \nEnter CROSSOUT (CATEGORY), KEEP\
 (1,2..) or THROW NOW\n'.format(
-                self.turno.name,
+                self.actual_player.name,
                 str(self.throw.dice),
             )
         else:
             return (
                 '{}\nYour throw: {} \nPick a category\n\
 to cross out (e.g.: POKER, GENERALA, ETC.)'.format(
-                    self.turno.name,
+                    self.actual_player.name,
                     self.throw.dice,
                 )
             )
 
     def play(self, text_input, value):
+        #import ipdb; ipdb.set_trace()
         if (self.is_playing):
             if 'KEEP' == text_input:
                 dados_a_conservar = value.split(',')
@@ -78,19 +75,19 @@ to cross out (e.g.: POKER, GENERALA, ETC.)'.format(
                 categoria = value
                 possible_categories = [
                     'GENERALA',
-                    'GENERALADOBLE',
+                    'DOUBLEGENERALA',
                     'POKER',
                     'FULL',
-                    'ESCALERA',
-                    'GENERALASERVIDA',
-                    'FULLSERVIDO',
-                    'ESCALERASERVIDA',
-                    'UNO',
-                    'DOS',
-                    'TRES',
-                    'CUATRO',
-                    'CINCO',
-                    'SEIS',
+                    'STAIR',
+                    'SERVEDGENERALA',
+                    'SERVEDFULL',
+                    'SERVEDSTAIR',
+                    'ONE',
+                    'TWO',
+                    'THREE',
+                    'FOUR',
+                    'FIVE',
+                    'SIX',
                 ]
                 if categoria in possible_categories:
                     your_dices = self.throw.dice
@@ -98,7 +95,7 @@ to cross out (e.g.: POKER, GENERALA, ETC.)'.format(
                         your_dices, categoria,
                         self.throw.number,
                     )
-                    is_possible = self.turno.choose_combination(
+                    is_possible = self.actual_player.choose_combination(
                         categoria,
                         points,
                     )
@@ -106,15 +103,12 @@ to cross out (e.g.: POKER, GENERALA, ETC.)'.format(
                         self.next_turn()
                         self.dados = []
                         self.throw = Throw()
-                        self.turno.tirada = 1
-                        if self.turno == self.player1:
-                            self.turno = self.player2
-                        else:
-                            self.turno = self.player1
+                        self.change_turn()
+                        self.actual_player.tirada = 1
                         self.round += 1
                         if self.finished():
                             self.finish()
-                        return 'ANOTADO EN: {} - PUNTAJE: {}'.format(
+                        return 'YOU CROSSED OUT: {} - SCORE: {}'.format(
                             categoria,
                             str(points),
                         )
@@ -128,9 +122,9 @@ to cross out (e.g.: POKER, GENERALA, ETC.)'.format(
     @property
     def board(self):
         return '{} HAS {} POINTS \n{} HAS {} POINTS\nROUND {}'.format(
-            self.player1.name,
-            self.player1.score,
-            self.player2.name,
-            self.player2.score,
+            self.player_one.name,
+            self.player_one.score,
+            self.player_two.name,
+            self.player_two.score,
             self.round,
         )
