@@ -15,7 +15,7 @@ messages_player_human = {
 
 class GameBattleship(GameBase):
 
-    name = 'Battle Ship Game'
+    name = 'Battleship'
     input_args = 3
     input_are_ints = False
 
