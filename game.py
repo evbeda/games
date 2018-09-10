@@ -7,7 +7,7 @@ from reversi.ReversiGame import ReversiGame
 from four_number.four_number import FourNumber
 from generala.game import Generala
 from blackjack.blackjack_game import BlackJackGame
-
+from battleship.game import GameBattleship
 
 class Game(object):
 
@@ -23,6 +23,7 @@ class Game(object):
             FourNumber,
             Generala,
             BlackJackGame,
+            GameBattleship,
         ]
 
     def output(self, text):
@@ -40,7 +41,7 @@ class Game(object):
                 game.name,
             )
             option_number += 1
-        game_inputs += '9: to quit\n'
+        game_inputs += '99: to quit\n'
         return game_inputs
 
     def get_turn_input(self, text):
@@ -85,7 +86,7 @@ class Game(object):
     def play(self):
         while True:
             game_selection = self.select_game()
-            if game_selection == 9:
+            if game_selection == 99:
                 break
             if game_selection < len(self.games):
                 self.active_game = self.games[game_selection]()
