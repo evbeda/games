@@ -20,7 +20,7 @@ class TestGame(unittest.TestCase):
     def tearDown(self):
         pass
 
-    @patch('game.Game.get_input', return_value='9')
+    @patch('game.Game.get_input', return_value='99')
     def test_quit_game(self, mock_input):
         with patch('game.Game.output', side_effect=self.output_collector):
             self.game.play()
@@ -43,7 +43,8 @@ class TestGame(unittest.TestCase):
             '6: Four number\n'
             '7: Generala\n'
             '8: Blackjack\n'
-            '9: to quit\n'
+            '9: Battleship\n'
+            '99: to quit\n'
         )
 
     def test_play_reversi(self):
@@ -56,7 +57,7 @@ class TestGame(unittest.TestCase):
             def __call__(self, console_output):
                 if 'Select Game' in console_output:
                     if self.played:
-                        return '9'
+                        return '99'
                     self.played = True
                     return '5'
                 if '' in console_output:
@@ -157,7 +158,7 @@ class TestGame(unittest.TestCase):
             def __call__(self, console_output):
                 if 'Select Game' in console_output:
                     if self.played:
-                        return '9'
+                        return '99'
                     self.played = True
                     return '0'
                 if 'Give me a number from 0 to 100' in console_output:
@@ -183,7 +184,7 @@ class TestGame(unittest.TestCase):
             def __call__(self, console_output):
                 if 'Select Game' in console_output:
                     if self.played:
-                        return '9'
+                        return '99'
                     self.played = True
                     return '6'
                 if 'Enter a four-digit number' in console_output:
@@ -210,7 +211,7 @@ class TestGame(unittest.TestCase):
             def __call__(self, console_output):
                 if 'Select Game' in console_output:
                     if self.played:
-                        return '9'
+                        return '99'
                     self.played = True
                     return '1'
                 if '' in console_output:
@@ -257,7 +258,7 @@ class TestGame(unittest.TestCase):
             def __call__(self, console_output):
                 if 'Select Game' in console_output:
                     if self.played:
-                        return '9'
+                        return '99'
                     self.played = True
                     return '4'
                 if '' in console_output:
@@ -381,7 +382,7 @@ class TestGame(unittest.TestCase):
             def __call__(self, console_output):
                 if 'Select Game' in console_output:
                     if self.played:
-                        return '9'
+                        return '99'
                     self.played = True
                     return '2'
                 if 'Play (expecting 2 commands separated with spaces)' in console_output:
@@ -434,7 +435,7 @@ class TestGame(unittest.TestCase):
             def __call__(self, console_output):
                 if 'Select Game' in console_output:
                     if self.played:
-                        return '9'
+                        return '99'
                     self.played = True
                     return '3'
                 if '' in console_output:
