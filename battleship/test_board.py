@@ -1,6 +1,6 @@
 import unittest
 
-from battleship.board import Board
+from board import Board
 
 
 class test_board(unittest.TestCase):
@@ -111,7 +111,7 @@ class test_board(unittest.TestCase):
 
     def test_board_mark_shoot_hit(self):
         board = Board()
-        board.mark_shoot(0, 0, True)
+        board.mark_shoot(True, 0, 0)
         board_expected = [
             ['x', 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
