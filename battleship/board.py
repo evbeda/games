@@ -5,7 +5,7 @@ class Board(object):
 
     def __init__(self):
         self.sunked = []
-        self.boats = [0, 0, 0, 0, 0, 0]
+        self.boats = [0, 0, 0, 0, 0]
         self.board = [
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -31,42 +31,58 @@ class Board(object):
         ):
             if (orientation == "horizontal") and ((boat + column) <= 10):
                 value = self.check_boat(boat)
-                for index in range(0, boat):
-                    self.board[row][column + index] = value
-                return True
+                # import ipdb; ipdb.set_trace()
+                if value == 9:
+                    return False
+                else:
+                    for index in range(0, boat):
+                        self.board[row][column + index] = value
+                    return True
             elif (orientation == "vertical") and ((boat + row) <= 10):
                 value = self.check_boat(boat)
-                for index in range(0, boat):
-                    self.board[row + index][column] = value
-                return True
+                if value == 9:
+                    return False
+                else:
+                    for index in range(0, boat):
+                        self.board[row + index][column] = value
+                    return True
         else:
             return False
 
     def check_boat(self, boat):
-        sum_boats = 0
         if boat == 1:
-            self.boats[0] = 1
-            return 1
+            if self.boats[0] == 0:
+                self.boats[0] = 1
+                return 1
+            else:
+                return 9
         elif boat == 2:
-            self.boats[1] = 1
-            return 2
+            if self.boats[1] == 0:
+                self.boats[1] = 1
+                return 2
+            else:
+                return 9
         elif boat == 3:
             if self.boats[2] == 0:
                 self.boats[2] = 1
                 return 31
-            else:
-                self.boats[3] = 1
+            elif self.boats[2] == 1:
+                self.boats[2] = 2
                 return 32
+            else:
+                return 9
         elif boat == 4:
-            self.boats[4] = 1
-            return 4
+            if self.boats[3] == 0:
+                self.boats[3] = 1
+                return 4
+            else:
+                return 9
         elif boat == 5:
-            self.boats[5] = 1
-            return 5
-        for i in range(0, len(self.boats) - 1):
-            sum_boats += self.boats[i]
-        if sum_boats == 6:
-            self.boats = [0, 0, 0, 0, 0]
+            if self.boats[4] == 0:
+                self.boats[4] = 1
+                return 5
+            else:
+                return 9
 
     def check_position(self, row, column, boat, orientation):
         if (column >= 0 and column < 10) and (row >= 0 and row < 10):
@@ -129,7 +145,7 @@ class Board(object):
         return False
 
     def is_ready_to_war(self):
-        if self.boats == [1, 1, 1, 1, 1, 1, ]:
+        if self.boats == [1, 1, 2, 1, 1]:
             self.state = board_states[1]
             return True
         else:
