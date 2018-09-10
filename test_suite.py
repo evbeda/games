@@ -23,6 +23,8 @@ from poker.test_poker import (
     PokerTest,
     PokerGameTest,
 )
+from battleship.test_battleship import TestBattleship
+from battleship.test_board import TestBoard
 
 
 def suite():
@@ -50,6 +52,8 @@ def suite():
     test_suite.addTest(unittest.makeSuite(TestHands))
     test_suite.addTest(unittest.makeSuite(PokerTest))
     test_suite.addTest(unittest.makeSuite(PokerGameTest))
+    test_suite.addTest(unittest.makeSuite(TestBattleship))
+    test_suite.addTest(unittest.makeSuite(TestBoard))
     return test_suite
 
 

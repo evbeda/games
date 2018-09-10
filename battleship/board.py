@@ -1,27 +1,22 @@
-board_states = ['empty', 'ready_to_war', 'in_war']
+from game_base import GameWithBoard
 
 
-class Board(object):
+class Board(GameWithBoard):
+
+    board_states = ['empty', 'ready_to_war', 'in_war']
 
     def __init__(self):
+        super(Board, self).__init__()
         self.sunked = []
         self.boats = [0, 0, 0, 0, 0]
-        self.board = [
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        ]
-        self.state = board_states[0]
+        self.cols = 10
+        self.rows = 10
+        self.create_board(0)
+        self.state = self.board_states[0]
 
-    def get_board(self):
-        return self.board
+    @property
+    def board(self):
+        return self.get_board
 
     def set_boat(self, row, column, boat, orientation):
         if (
@@ -36,7 +31,7 @@ class Board(object):
                     return False
                 else:
                     for index in range(0, boat):
-                        self.board[row][column + index] = value
+                        self.set_value(row, column + index, value)
                     return True
             elif (orientation == "vertical") and ((boat + row) <= 10):
                 value = self.check_boat(boat)
@@ -44,7 +39,7 @@ class Board(object):
                     return False
                 else:
                     for index in range(0, boat):
-                        self.board[row + index][column] = value
+                        self.set_value(row + index, column, value)
                     return True
         else:
             return False
@@ -88,12 +83,12 @@ class Board(object):
         if (column >= 0 and column < 10) and (row >= 0 and row < 10):
             if (orientation == "horizontal") and ((boat + column) <= 10):
                 for index in range(0, boat):
-                    if self.board[row][column + index] != 0:
+                    if self.get_value(row, column + index) != 0:
                         return False
                 return True
             elif (orientation == "vertical") and ((boat + row) <= 10):
                 for index in range(0, boat):
-                    if self.board[row + index][column] != 0:
+                    if self.get_value(row + index, column) != 0:
                         return False
                 return True
         else:
@@ -130,13 +125,15 @@ class Board(object):
                 return "hit"
 
     def shoot(self, row, column):
-        if self.board[row][column] == 0:
+        #import ipdb; ipdb.set_trace()
+        if self.get_value(row, column) == 0:
+            self.set_value(row, column, '-')
             return "water"
-        elif self.board[row][column] == 9:
+        elif self.get_value(row, column) == 9 or self.get_value(row, column) == "-":
             return "already shoot"
-        elif self.board[row][column] != 0 and self.board[row][column] != 9:
-            result = self.check_cross(self.board[row][column])
-            self.board[row][column] = 9
+        elif self.get_value(row, column) != 0 and self.get_value(row, column) != 9:
+            result = self.check_cross(self.get_value(row, column))
+            self.set_value(row, column, 9)
             return result
 
     def turn_decision_hit(self, result):
@@ -146,22 +143,22 @@ class Board(object):
 
     def is_ready_to_war(self):
         if self.boats == [1, 1, 2, 1, 1]:
-            self.state = board_states[1]
+            self.state = self.board_states[1]
             return True
         else:
             return False
 
-    def mark_shoot(self, is_hit, row, column):
-        if self.board[row][column] == 0:
+    def mark_shoot(self, row, column, is_hit):
+        if self.get_value(row, column) == 0:
             if is_hit:
                 character = 'x'
             else:
                 character = '-'
-            self.board[row][column] = character
+            self.set_value(row, column, character)
 
     def there_are_boats(self):
-        for i in range(len(self.board)):
-            for x in range(len(self.board[0])):
-                if self.board[i][x] != 0 and self.board[i][x] != 9:
+        for i in range(self.rows):
+            for x in range(self.cols):
+                if self.get_value(i, x) != 0 and self.get_value(i, x) != 9:
                     return True
         return False

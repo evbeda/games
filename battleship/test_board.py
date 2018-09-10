@@ -1,79 +1,47 @@
 import unittest
+from game import GameBattleship
 
 from board import Board
 
 
-class test_board(unittest.TestCase):
+class TestBoard(unittest.TestCase):
     def test_inicial(self):
         board = Board()
-        result = board.get_board()
-        board_expected = [
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        ]
-        self.assertEqual(result, board_expected)
+        cont = 0
+        for y in range(0, board.cols):
+            for x in range(0, board.rows):
+                cont += board.get_value(x, y)
+        self.assertEqual(cont, 0)
 
     def test_insert(self):
         board = Board()
         board.set_boat(2, 3, 1, "horizontal")
-        board_expected = [
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        ]
-        result = board.get_board()
-        self.assertEqual(result, board_expected)
+        result = board.get_value(2, 3)
+        self.assertEqual(result, 1)
 
     def test_insert_three_horizontal_ship(self):
         board = Board()
         board.set_boat(0, 7, 3, "horizontal")
-        board_expected = [
-            [0, 0, 0, 0, 0, 0, 0, 31, 31, 31],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        ]
-        result = board.get_board()
-        self.assertEqual(result, board_expected)
+        result1 = board.get_value(0, 7)
+        result2 = board.get_value(0, 8)
+        result3 = board.get_value(0, 9)
+        self.assertEqual(result1, 31)
+        self.assertEqual(result2, 31)
+        self.assertEqual(result3, 31)
 
     def test_insert_five_vertifcal_ship(self):
         board = Board()
         board.set_boat(3, 4, 5, "vertical")
-        board_expected = [
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 5, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 5, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 5, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 5, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 5, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        ]
-        result = board.get_board()
-        self.assertEqual(result, board_expected)
+        result1 = board.get_value(3, 4)
+        result2 = board.get_value(4, 4)
+        result3 = board.get_value(5, 4)
+        result4 = board.get_value(6, 4)
+        result5 = board.get_value(7, 4)
+        self.assertEqual(result1, 5)
+        self.assertEqual(result2, 5)
+        self.assertEqual(result3, 5)
+        self.assertEqual(result4, 5)
+        self.assertEqual(result5, 5)
 
     def test_error_position(self):
         board = Board()
@@ -111,7 +79,7 @@ class test_board(unittest.TestCase):
 
     def test_board_mark_shoot_hit(self):
         board = Board()
-        board.mark_shoot(True, 0, 0)
+        board.mark_shoot(0, 0, True)
         board_expected = [
             ['x', 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],

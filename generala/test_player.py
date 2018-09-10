@@ -21,4 +21,3 @@ class test_player(unittest.TestCase):
         result = player01.choose_combination('GENERALA', 50)
         # assert
         self.assertFalse(result)
-
