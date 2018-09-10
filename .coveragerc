@@ -7,8 +7,14 @@ source =
     guess_number_game
     reversi
     four_number
+    blackjack
+    generala
     game.py
     game_base.py
+
+omit =
+    env/*
+    */test*
 
 [report]
 exclude_lines =
@@ -20,8 +26,5 @@ exclude_lines =
     if __name__ == '__main__':
     def suite
 
-[run]
-omit =
-    env/*
-    */test*
+
 
