@@ -1,5 +1,8 @@
+import sys
+sys.path.insert(0, '../')
 from player import PlayerCPU, PlayerHuman
-
+from game_base import GameBase
+from board import Board
 game_states = ['init', 'war', 'cpu_win', 'player_win']
 possible_turn = ['human', 'cpu']
 messages_player_human = {
@@ -10,16 +13,19 @@ messages_player_human = {
 }
 
 
-class GameBattleship():
+class GameBattleship(GameBase):
 
     name = 'Battle Ship Game'
+    input_args = 3
+    input_are_ints = False
 
     def __init__(self):
+        super(GameBattleship, self).__init__()
         self.turn = possible_turn[0]
         self.player_cpu = PlayerCPU()
         self.player_human = PlayerHuman()
         self.state = game_states[0]
-        self.is_playing = True
+        #self.is_playing = True
 
     def get_players(self):
         return [self.player_cpu, self.player_human]
@@ -91,6 +97,7 @@ class GameBattleship():
                 self.state = game_states[3]
                 self.player_human.messages.append('You Win')
                 result = self.player_human.messages
+                self.finish()
             return result
         else:
             return "error, mas parametros de los requeridos (2)"
@@ -124,6 +131,7 @@ class GameBattleship():
             self.state = game_states[2]
             self.player_cpu.messages.append('You lose.')
             result = self.player_cpu.messages
+            self.finish()
             return result
         else:
             return result
@@ -149,3 +157,7 @@ class GameBattleship():
             return self.war_human(text_input)
         elif self.state == game_states[1] and self.turn == possible_turn[1]:
             return self.war_cpu()
+
+    @property
+    def board(self):
+        return self.player_human.board_own
