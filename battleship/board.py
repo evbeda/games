@@ -135,7 +135,7 @@ class Board(object):
         else:
             return False
 
-    def mark_shoot(self, row, column, is_hit):
+    def mark_shoot(self, is_hit, row, column):
         if self.board[row][column] == 0:
             if is_hit:
                 character = 'x'

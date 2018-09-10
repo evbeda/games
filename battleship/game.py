@@ -1,4 +1,4 @@
-from battleship.player import PlayerCPU, PlayerHuman
+from player import PlayerCPU, PlayerHuman
 
 game_states = ['init', 'war', 'cpu_win', 'player_win']
 possible_turn = ['human', 'cpu']
@@ -100,23 +100,23 @@ class GameBattleship():
         result = self.player_human.board_own.shoot(*coordenate)
         if result == 'water':
             self.player_cpu.board_opponent.mark_shoot(
-                *coordenate,
-                False
+                False,
+                *coordenate
             )
             self.turn = possible_turn[0]
             self.player_cpu.messages.append('Water! Now is your turn.')
             result = self.player_cpu.messages
         elif result == 'sunked':
             self.player_cpu.board_opponent.mark_shoot(
-                *coordenate,
-                True
+                True,
+                *coordenate
             )
             self.player_cpu.messages.append('Your boat was sunk.')
             result = self.player_cpu.messages
         elif result == 'hit':
             self.player_cpu.board_opponent.mark_shoot(
-                *coordenate,
-                True
+                True,
+                *coordenate
             )
             self.player_cpu.messages.append('Your boat was hit.')
             result = self.player_cpu.messages

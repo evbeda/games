@@ -1,6 +1,6 @@
-from battleship.board import Board
+from board import Board
 from random import randint, choice
-from . import orientation
+from __init__ import orientation
 
 
 class PlayerCPU(object):
