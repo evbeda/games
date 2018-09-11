@@ -19,6 +19,10 @@ from blackjack.test_blackjack import (
     TestGame as TestBlackjackGame,
     TestHands,
 )
+from poker.test_poker import (
+    PokerTest,
+    PokerGameTest,
+)
 
 
 def suite():
@@ -44,6 +48,8 @@ def suite():
     test_suite.addTest(unittest.makeSuite(TestDeck))
     test_suite.addTest(unittest.makeSuite(TestBlackjackGame))
     test_suite.addTest(unittest.makeSuite(TestHands))
+    test_suite.addTest(unittest.makeSuite(PokerTest))
+    test_suite.addTest(unittest.makeSuite(PokerGameTest))
     return test_suite
 
 
