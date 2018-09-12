@@ -159,6 +159,7 @@ class Board(GameWithBoard):
     def there_are_boats(self):
         for i in range(self.rows):
             for x in range(self.cols):
-                if self.get_value(i, x) != 0 and self.get_value(i, x) != 9:
+                # import pdb; pdb.set_trace()
+                if self.get_value(i, x) in [1, 2, 31, 32, 4, 5]:
                     return True
         return False
