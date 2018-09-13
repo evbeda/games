@@ -26,21 +26,20 @@ class Board(GameWithBoard):
         ):
             if (orientation == "horizontal") and ((boat + column) <= 10):
                 value = self.check_boat(boat)
-                # import ipdb; ipdb.set_trace()
                 if value == 9:
                     return False
-                else:
-                    for index in range(0, boat):
-                        self.set_value(row, column + index, value)
-                    return True
+                for index in range(0, boat):
+                    self.set_value(row, column + index, value)
+                return True
             elif (orientation == "vertical") and ((boat + row) <= 10):
                 value = self.check_boat(boat)
                 if value == 9:
                     return False
-                else:
-                    for index in range(0, boat):
-                        self.set_value(row + index, column, value)
-                    return True
+                for index in range(0, boat):
+                    self.set_value(row + index, column, value)
+                return True
+            else:
+                return False
         else:
             return False
 

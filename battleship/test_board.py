@@ -43,6 +43,11 @@ class TestBoard(unittest.TestCase):
         self.assertEqual(result4, 5)
         self.assertEqual(result5, 5)
 
+    def test_check_position_false(self):
+        board = Board()
+        result = board.check_position(10, 10, 1, "horizontal")
+        self.assertFalse(result)
+
     def test_error_position(self):
         board = Board()
         result = board.set_boat(10, 10, 1, "horizontal")
@@ -69,6 +74,35 @@ class TestBoard(unittest.TestCase):
         board.set_boat(2, 2, 4, "horizontal")
         result = board.set_boat(2, 3, 2, "vertical")
         self.assertFalse(result)
+
+    def test_error_position_not_vertical_position(self):
+        board = Board()
+        result = board.set_boat(8, 8, 5, "vertical")
+        self.assertFalse(result)
+
+    def test_error_position_not_horizontal_position(self):
+        board = Board()
+        result = board.set_boat(8, 8, 5, "horizontal")
+        self.assertFalse(result)
+
+    def test_error_boat_already_set(self):
+        board = Board()
+        board.set_boat(0, 0, 1, "horizontal")
+        board.set_boat(1, 1, 2, "horizontal")
+        board.set_boat(2, 2, 3, "horizontal")
+        board.set_boat(3, 3, 3, "horizontal")
+        board.set_boat(4, 4, 4, "horizontal")
+        board.set_boat(5, 5, 5, "horizontal")
+        result1 = board.check_boat(1)
+        result2 = board.check_boat(2)
+        result3 = board.check_boat(3)
+        result4 = board.check_boat(4)
+        result5 = board.check_boat(5)
+        self.assertEqual(result1, 9)
+        self.assertEqual(result2, 9)
+        self.assertEqual(result3, 9)
+        self.assertEqual(result4, 9)
+        self.assertEqual(result5, 9)
 
     def test_turn_hit(self):
         board = Board()

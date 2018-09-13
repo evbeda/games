@@ -221,22 +221,9 @@ class GameBattleship(GameBase, GameWithBoard):
         for y in range(0, self.cols):
             for x in range(0, self.rows):
                 casilla = str(self.player_human.board_opponent.board[y][x])
-
                 if x % 10 == 0:
                     output += str(y) + ' '
-
-                if casilla == '32':
-                    casilla = '3'
-                    output += '|' + casilla
-
-                elif casilla == '31':
-                    casilla = '3'
-                    output += '|' + casilla
-
-                else:
-                    output += '|' + casilla
-
+                output += '|' + casilla
                 if(x == 9):
                     output += '|' + '\n'
-
         return output

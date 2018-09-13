@@ -119,11 +119,13 @@ class TestBattleship(unittest.TestCase):
         result = p1.board_own.state
         self.assertEqual(result, 'ready_to_war')
 
-    # def test_own_board_is_ready_human(self):
-    #     p1 = PlayerHuman()
-    #     p1.fill_own_board()
-    #     result = p1.board_own.state
-    #     self.assertEqual(result, board_states[1])
+    def test_own_board_false(self):
+        p1 = PlayerCPU()
+        board = Board()
+        p1.board_own = board
+        p1.board_own.state = board.board_states[1]
+        result = p1.fill_own_board()
+        self.assertFalse(result)
 
     def test_game_state_init(self):
         game = GameBattleship()
@@ -394,6 +396,26 @@ class TestBattleship(unittest.TestCase):
         expected = ['You only hit water! CPU turn', 'Your boat was sunk.']
         self.assertEqual(result, expected)
 
+    def test_play_human_wrong_param_amount_of(self):
+        board = [
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        ]
+        self.game.player_cpu.board_own.set_board(board)
+        self.game.state = game_states[1]
+        self.game.turn = 'human'
+        result = self.game.war_human([0, 0, 0])
+        expected = 'error, mas parametros de los requeridos (2)'
+        self.assertEqual(result, expected)
+
     def test_play_human_already_shoot(self):
         board = [
             [9, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -437,18 +459,17 @@ class TestBattleship(unittest.TestCase):
         self.assertFalse(self.game.player_cpu.board_own.there_are_boats())
 
     def test_board_shown(self):
-        game = GameBattleship()
-        result = game.board
+        result = self.game.board
         expected = '\n'\
                    'Own Board (Player)\n'\
                    ' y 0 1 2 3 4 5 6 7 8 9\n'\
                    'x  \n'\
                    '0 |0|0|0|0|0|0|0|0|0|0|\n'\
-                   '1 |0|0|0|0|0|0|0|0|0|0|\n'\
-                   '2 |0|0|0|0|0|0|0|0|0|0|\n'\
-                   '3 |0|0|0|0|0|0|0|0|0|0|\n'\
-                   '4 |0|0|0|0|0|0|0|0|0|0|\n'\
-                   '5 |0|0|0|0|0|0|0|0|0|0|\n'\
+                   '1 |0|1|2|3|3|4|5|0|0|0|\n'\
+                   '2 |0|0|2|3|3|4|5|0|0|0|\n'\
+                   '3 |0|0|0|3|3|4|5|0|0|0|\n'\
+                   '4 |0|0|0|0|0|4|5|0|0|0|\n'\
+                   '5 |0|0|0|0|0|0|5|0|0|0|\n'\
                    '6 |0|0|0|0|0|0|0|0|0|0|\n'\
                    '7 |0|0|0|0|0|0|0|0|0|0|\n'\
                    '8 |0|0|0|0|0|0|0|0|0|0|\n'\
