@@ -729,13 +729,13 @@ class PokerGameTest(unittest.TestCase):
         game = PokerGame()
         game.hand.last_action = NONE
         result = game.next_turn()
-        self.assertEqual(result, ' check(ch)\n bet(be) your bet\n')
+        self.assertEqual(result, ' check\n bet your bet\n')
 
     def test_next_turn_possibles_actions_2(self):
         game = PokerGame()
         game.hand.last_action = BET
         result = game.next_turn()
-        self.assertEqual(result, ' call(ca)\n raise(ra) your bet\n fold(fo)\n')
+        self.assertEqual(result, ' call\n raise your bet\n fold\n' )
 
     def test_next_turn_show_down(self):
         game = PokerGame()

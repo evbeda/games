@@ -1,3 +1,4 @@
+import random
 from .deck import Deck
 from .poker import PREFLOP, FLOP, TURN, RIVER
 from .poker import CHECK, CALL, BET, RAISE, FOLD, NONE
@@ -37,6 +38,12 @@ class Hand():
             self.common_cards = self.deck.deal(3)
         elif self.stage == TURN or self.stage == RIVER:
             self.common_cards.append(self.deck.deal(1)[0])
+
+    def possibles_actions(self):
+        if self.last_action == NONE or self.last_action == CHECK:
+            return [CHECK, BET]
+        if self.last_action == BET or self.last_action == RAISE:
+            return [CALL, RAISE, FOLD]
 
     def next_stage(self):
         if(self.stage < 4):
@@ -109,9 +116,15 @@ class Hand():
                     return "You must raise at least twice last bet"
         return action + ' done!'
 
-
-    def possibles_actions(self):
-        if self.last_action == NONE or self.last_action == CHECK:
-            return [CHECK, BET]
-        if self.last_action == BET or self.last_action == RAISE:
-            return [CALL, RAISE, FOLD]
+    def play_as_cpu(self):
+        amount = 0
+        cpu_action = random.choice(self.possibles_actions())
+        if cpu_action == BET:
+            amount = random.randint(1, self.players[1].money)
+        elif cpu_action == RAISE:
+            min_raise = self.last_bet * 2
+            if min_raise > self.players[1].money:
+                amount = random.randint(min_raise, self.players[1].money)
+            else:
+                amount = self.players[1].money
+        return self.take_action(cpu_action, amount)
