@@ -436,6 +436,39 @@ class TestBattleship(unittest.TestCase):
         self.assertEqual(result, expected)
         self.assertFalse(self.game.player_cpu.board_own.there_are_boats())
 
+    def test_board_shown(self):
+        game = GameBattleship()
+        result = game.board
+        expected = '\n'\
+                   'Own Board (Player)\n'\
+                   ' y 0 1 2 3 4 5 6 7 8 9\n'\
+                   'x  \n'\
+                   '0 |0|0|0|0|0|0|0|0|0|0|\n'\
+                   '1 |0|0|0|0|0|0|0|0|0|0|\n'\
+                   '2 |0|0|0|0|0|0|0|0|0|0|\n'\
+                   '3 |0|0|0|0|0|0|0|0|0|0|\n'\
+                   '4 |0|0|0|0|0|0|0|0|0|0|\n'\
+                   '5 |0|0|0|0|0|0|0|0|0|0|\n'\
+                   '6 |0|0|0|0|0|0|0|0|0|0|\n'\
+                   '7 |0|0|0|0|0|0|0|0|0|0|\n'\
+                   '8 |0|0|0|0|0|0|0|0|0|0|\n'\
+                   '9 |0|0|0|0|0|0|0|0|0|0|\n'\
+                   '\n'\
+                   'Opponent Board (CPU)\n'\
+                   ' y 0 1 2 3 4 5 6 7 8 9\n'\
+                   'x  \n'\
+                   '0 |0|0|0|0|0|0|0|0|0|0|\n'\
+                   '1 |0|0|0|0|0|0|0|0|0|0|\n'\
+                   '2 |0|0|0|0|0|0|0|0|0|0|\n'\
+                   '3 |0|0|0|0|0|0|0|0|0|0|\n'\
+                   '4 |0|0|0|0|0|0|0|0|0|0|\n'\
+                   '5 |0|0|0|0|0|0|0|0|0|0|\n'\
+                   '6 |0|0|0|0|0|0|0|0|0|0|\n'\
+                   '7 |0|0|0|0|0|0|0|0|0|0|\n'\
+                   '8 |0|0|0|0|0|0|0|0|0|0|\n'\
+                   '9 |0|0|0|0|0|0|0|0|0|0|\n'
+        self.assertEqual(result, expected)
+
 
 if __name__ == "__main__":
     unittest.main()
