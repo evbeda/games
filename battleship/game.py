@@ -44,6 +44,7 @@ class GameBattleship(GameBase, GameWithBoard):
                     int(params[2]),
                     params[3],
                 )
+                # import pdb; pdg.set_trace()
                 # Si ya seteo todos los barcos de su tablero inicial
                 if self.player_human.board_own.is_ready_to_war():
                     # Llenar el tablero de la cpu

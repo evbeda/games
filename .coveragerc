@@ -9,9 +9,9 @@ source =
     four_number
     blackjack
     generala
+    battleship
     game.py
     game_base.py
-
 omit =
     env/*
     */test*

@@ -141,14 +141,19 @@ class TestBattleship(unittest.TestCase):
         result = self.game.state
         self.assertEqual(result, 'war')
 
+    def test_turn_init_player_boat_not_set_that_position(self):
+        game = GameBattleship()
+        result = game.set_boat([9, 9, 5, 'vertical'])
+        self.assertEqual(result, 'Your boat could not be set in that position')
+
     def test_turn_init_player_wrong_param_amount_of(self):
         game = GameBattleship()
-        result = game.set_boat('1 1 1 vertical extrabadparam')
+        result = game.set_boat([1, 1, 1, 'vertical', 'hdgsjhgdashjd'])
         self.assertEqual(result, 'error, mas parametros de los requeridos (4)')
 
     def test_turn_war_player(self):
         game = GameBattleship()
-        result = game.set_boat('1 2 1 vertical')
+        result = game.set_boat([1, 2, 1, 'vertical'])
         self.assertTrue(result)
 
     def test_turn_war_player_wrong_param_letter(self):
@@ -301,8 +306,9 @@ class TestBattleship(unittest.TestCase):
         self.game.player_human.board_own = board_human
         self.game_states = game_states[1]
         self.game.turn = 'cpu'
-        result = self.game.player_human.board_own.shoot(0, 0)
-        self.assertEqual('sunked', result)
+        mock_pick_coordenate.return_value = [0, 0]
+        result = self.game.play()
+        self.assertEqual(['Your boat was sunk.', 'You lose.'], result)
 
 
 
@@ -352,6 +358,18 @@ class TestBattleship(unittest.TestCase):
         self.game.turn = 'human'
         result = self.game.next_turn()
         expected = 'shoot (x y)'
+        self.assertEqual(expected, result)
+
+    def test_next_turn_cpu_win(self):
+        self.game.state = game_states[2]
+        result = self.game.next_turn()
+        expected = 'gano el cpu'
+        self.assertEqual(expected, result)
+
+    def test_next_turn_human_win(self):
+        self.game.state = game_states[3]
+        result = self.game.next_turn()
+        expected = 'ganaste'
         self.assertEqual(expected, result)
 
     @mock.patch('battleship.player.PlayerCPU.pick_coordenate')
@@ -412,9 +430,9 @@ class TestBattleship(unittest.TestCase):
         self.game.player_cpu.board_own.set_board(board)
         self.game.state = game_states[1]
         self.game.turn = 'human'
-        self.game.player_cpu.board_own.shoot(5, 5)
-        result = self.game.player_cpu.board_own.shoot(5, 6)
-        expected = 'sunked'
+        self.game.play(5, 5)
+        result = self.game.play(5, 6)
+        expected = ['Congratulations! You sunk a boat.', 'You Win']
         self.assertEqual(result, expected)
         self.assertFalse(self.game.player_cpu.board_own.there_are_boats())
 
