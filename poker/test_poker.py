@@ -268,7 +268,8 @@ class PokerTest(unittest.TestCase):
     def test_straight_flush_hand(self):
         combination = combine_card(['6d', 'Ac', 'Td', 'Ts', '7d', '8d', '9d'])
         result = better_hand(combination)
-        self.assertEqual(result, (STRAIGHT_FLUSH, ['6d', 'Ac', 'Td', 'Ts', '9d']))
+        self.assertEqual(
+            result, (STRAIGHT_FLUSH, ['6d', 'Ac', 'Td', 'Ts', '9d']))
 
     def test_full_house_6_T_hand(self):
         combination = combine_card(['6d', '6c', '6h', 'Ts', 'Td', '8d', '9d'])
@@ -278,7 +279,7 @@ class PokerTest(unittest.TestCase):
     def test_full_house_6_3_hand(self):
         combination = combine_card(['6d', '6c', '6h', '3s', '3d', '8d', '9d'])
         result = better_hand(combination)
-        self.assertEqual(result, (FULL_HOUSE, ['6d', '6c', '6h', '3s', '3d']) )
+        self.assertEqual(result, (FULL_HOUSE, ['6d', '6c', '6h', '3s', '3d']))
 
     def test_one_pair_hand(self):
         combination = combine_card(['Jd', 'Jc', '6h', '2s', '7h', '8d', 'Ts'])
@@ -303,7 +304,8 @@ class PokerTest(unittest.TestCase):
         self.assertEqual(result, 'TIE')
 
     def test_transform_card_to_str(self):
-        cards = [Card(1, 'h'), Card(2, 'h'), Card(3, 'h'), Card(4, 'h'), Card(5, 'h')]
+        cards = [Card(1, 'h'), Card(2, 'h'), Card(
+            3, 'h'), Card(4, 'h'), Card(5, 'h')]
         expected = ['1h', '2h', '3h', '4h', '5h']
         result = transform_cards_to_str(cards)
         self.assertEqual(result, expected)
@@ -729,19 +731,58 @@ class PokerGameTest(unittest.TestCase):
         game = PokerGame()
         game.hand.last_action = NONE
         result = game.next_turn()
-        self.assertEqual(result, ' check\n bet your bet\n')
+        self.assertEqual(result, ' check\n bet,your bet\nq to quit')
 
     def test_next_turn_possibles_actions_2(self):
         game = PokerGame()
         game.hand.last_action = BET
         result = game.next_turn()
-        self.assertEqual(result, ' call\n raise your bet\n fold\n' )
+        self.assertEqual(result, ' call\n raise,your bet\n fold\nq to quit')
 
     def test_next_turn_show_down(self):
         game = PokerGame()
+        game.hand.common_cards = []
+        game.hand.cpu_cards = ['4c', '7d']
+        game.hand.player_cards = ['Jh', '6h']
         game.hand.stage = 5
         result = game.next_turn()
-        self.assertEqual(result, 'Show Down!')
+        self.assertEqual(result, "\nWINNER: None\nPOT: 0\nPLAYER: ['Jh', '6h'] \n\nCPU: ['4c', '7d'] \nCOMMON CARDS: [] \nPLAYER MONEY: 100 \nCPU MONEY: 100 \n\n")
+
+    def test_play_with_bet(self):
+        def side_effect(cpu_action):
+            return CALL
+        with mock.patch('poker.hand.random.choice', side_effect):
+            game = PokerGame()
+            game.hand.turn = 'player'
+            self.assertEqual(game.play('bet,50'),
+                             'player: bet done!\ncpu: call done!')
+
+    def test_play_with_bet_bad_number(self):
+        def side_effect(cpu_action):
+            return CALL
+        with mock.patch('poker.hand.random.choice', side_effect):
+            game = PokerGame()
+            game.hand.turn = 'player'
+            self.assertEqual(game.play('bet,NONUMBER'),
+                             'Please enter a number to bet')
+
+    def test_play_with_call(self):
+        def side_effect(cpu_action):
+            return BET
+        with mock.patch('poker.hand.random.choice', side_effect):
+            game = PokerGame()
+            game.hand.turn = 'player'
+            game.hand.stage = 1
+            game.play('check')
+            game.play('call')
+            self.assertEqual(game.hand.stage, 2)
+            self.assertEqual(game.hand.last_action, NONE)
+
+    def test_play_with_fold_bad_command(self):
+        game = PokerGame()
+        game.hand.turn = 'player'
+        self.assertEqual(game.play('BADCOMMAND'),
+                         'Invalid action')
 
 
 if __name__ == "__main__":

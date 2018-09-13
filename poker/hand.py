@@ -22,7 +22,7 @@ class Hand():
     def __init__(self, players, first = PLAYER):
         self.pot = 0
         self.deck = Deck()
-        self.stage = 0
+        self.stage = 1
         self.player_cards = self.deck.deal(2)
         self.cpu_cards = self.deck.deal(2)
         self.common_cards = []
@@ -31,6 +31,8 @@ class Hand():
         self.last_action = NONE
         self.last_bet = 0
         self.players = players
+        self.all_in_value = False
+        self.winner = None
 
 
     def deal_cards(self):
@@ -40,14 +42,17 @@ class Hand():
             self.common_cards.append(self.deck.deal(1)[0])
 
     def possibles_actions(self):
-        if self.last_action == NONE or self.last_action == CHECK:
+        if self.all_in_value:
+            return [CALL, FOLD]
+        elif self.last_action == NONE or self.last_action == CHECK or self.last_action == CALL:
             return [CHECK, BET]
-        if self.last_action == BET or self.last_action == RAISE:
+        elif self.last_action == BET or self.last_action == RAISE:
             return [CALL, RAISE, FOLD]
 
     def next_stage(self):
-        if(self.stage < 4):
+        if self.stage < 5:
             self.stage += 1
+            self.turn = self.first
             self.deal_cards()
             self.last_action = NONE
             self.last_bet = 0
@@ -56,15 +61,18 @@ class Hand():
             b = transform_cards_to_str(self.cpu_cards) + transform_cards_to_str(self.common_cards)
             player_game = better_hand(combine_card(a))
             cpu_game = better_hand(combine_card(b))
+            self.winner = PLAYER
             return [player_game, cpu_game]
 
     def take_action(self, action, bet=0):
         if action == CHECK:
             if self.last_action == CHECK:
-                self.next_stage()
+                result = self.next_stage()
+                if result:
+                    return result
             else:
                 self.last_action = action
-            self.turn = PLAYER if (self.turn == CPU) else CPU
+                self.turn = PLAYER if (self.turn == CPU) else CPU
         elif action == BET:
             if self.last_action == RAISE:
                 return "You can't bet now"
@@ -75,10 +83,17 @@ class Hand():
                 self.pot += bet
                 self.last_bet = bet
                 if self.turn == PLAYER:
-                    self.players[0].money -= bet
+                    if self.players[0].money == bet:
+                        self.all_in_value = True
+                        self.players[0].money -= bet
+                        self.turn = PLAYER if (self.turn == CPU) else CPU
+                        return 'All In Done'
+                    else:
+                        self.players[0].money -= bet
                 else:
                     self.players[1].money -= bet
                 self.turn = PLAYER if (self.turn == CPU) else CPU
+
         elif action == CALL:
             if self.last_action == BET or self.last_action == RAISE:
                 if self.turn == PLAYER:
@@ -86,8 +101,12 @@ class Hand():
                 elif self.turn == CPU:
                     self.players[1].money -= self.last_bet
                 self.pot += self.last_bet
-                self.next_stage()
-                self.turn = PLAYER if (self.turn == CPU) else CPU
+                if self.all_in_value:
+                    self.all_in()
+                else:
+                    result = self.next_stage()
+                    if result:
+                        return result
             else:
                 return "You can't CALL now"
         elif action == FOLD:
@@ -101,9 +120,15 @@ class Hand():
                 return "You can't FOLD now"
         elif action == RAISE:
             if self.last_action == BET or self.last_action == RAISE:
+                turn_money = None
+                if self.turn == PLAYER:
+                    turn_money == self.players[0].money
+                else:
+                    turn_money == self.players[1].money
+
                 if self.turn == PLAYER and self.players[0].money < bet:
                     return "You don't have enough money"
-                elif bet >= 2 * self.last_bet:
+                elif bet >= (2 * self.last_bet):
                     self.last_action = action
                     self.pot += bet
                     self.last_bet = bet - self.last_bet
@@ -112,6 +137,15 @@ class Hand():
                     else:
                         self.players[1].money -= bet
                     self.turn = PLAYER if (self.turn == CPU) else CPU
+                elif bet < (2 * self.last_bet) and bet == turn_money:
+                    self.last_action = action
+                    self.pot += turn_money
+                    self.last_bet = turn_money
+                    if self.turn == PLAYER:
+                        self.players[0].money -= turn_money
+                    else:
+                        self.players[1].money -= turn_money
+                    self.all_in()
                 else:
                     return "You must raise at least twice last bet"
         return action + ' done!'
@@ -123,8 +157,15 @@ class Hand():
             amount = random.randint(1, self.players[1].money)
         elif cpu_action == RAISE:
             min_raise = self.last_bet * 2
-            if min_raise > self.players[1].money:
-                amount = random.randint(min_raise, self.players[1].money)
+            if min_raise < self.players[1].money:
+                amount = self.last_bet + random.randint(min_raise, self.players[1].money)
             else:
                 amount = self.players[1].money
         return self.take_action(cpu_action, amount)
+
+    def all_in(self):
+        self.all_in_value = True
+        while self.stage < 5:
+            result = self.next_stage()
+
+        return 'All In' + result
