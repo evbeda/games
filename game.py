@@ -8,6 +8,8 @@ from four_number.four_number import FourNumber
 from generala.game import Generala
 from blackjack.blackjack_game import BlackJackGame
 from battleship.game import GameBattleship
+from poker.game import PokerGame
+
 
 class Game(object):
 
@@ -24,6 +26,8 @@ class Game(object):
             Generala,
             BlackJackGame,
             GameBattleship,
+            PokerGame,
+
         ]
 
     def output(self, text):
