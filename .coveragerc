@@ -10,6 +10,7 @@ source =
     blackjack
     generala
     battleship
+    poker
     game.py
     game_base.py
 omit =
