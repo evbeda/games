@@ -25,8 +25,8 @@ class PokerGame(GameBase):
         self.hand = Hand([self.player, self.cpu])
 
     def next_turn(self):
-        if self.player_no_money():
-            return self.player_no_money()
+        # if self.player_no_money():
+        #    return self.player_no_money()
         if self._playing:
             actions = self.hand.possibles_actions()
             if self.hand.turn == PLAYER:
@@ -40,6 +40,7 @@ class PokerGame(GameBase):
                     return_string += 'q to quit'
                     return return_string
                 else:
+                    self._playing = False
                     return self.show_down()
                     # TODO: VER SI LA CPU SI TIENE PLATA PARA EL RAISE
 
@@ -72,6 +73,12 @@ class PokerGame(GameBase):
                             return result
                     else:
                         return 'Invalid action'
+        else:
+            if not(self.player_no_money()):
+                self._playing = True
+                self.hand = Hand([self.player, self.cpu])
+            else:
+                return self.player_no_money()
 
     @property
     def board(self):
@@ -90,21 +97,23 @@ class PokerGame(GameBase):
             )
 
     def show_down(self):
-            return ('\nWINNER: {winner}'
-                    '\nPOT: {pot}'
-                    '\nPLAYER: {player_cards} \n'
-                    '\nCPU: {cpu_cards} \n'
-                    'COMMON CARDS: {common_cards} \n'
-                    'PLAYER MONEY: {money_player} \n'
-                    'CPU MONEY: {money_cpu} \n\n').format(
-                winner=self.hand.winner,
-                pot=self.hand.pot,
-                player_cards=self.hand.player_cards,
-                cpu_cards=self.hand.cpu_cards,
-                common_cards=self.hand.common_cards,
-                money_player=self.player.money,
-                money_cpu=self.cpu.money,
-            )
+        result = self.hand.next_stage()
+        msg = ('\n{winner}'
+               '\nLAST POT: {pot}'
+               '\nPLAYER: {player_cards} \n'
+               '\nCPU: {cpu_cards} \n'
+               'COMMON CARDS: {common_cards} \n'
+               'PLAYER MONEY: {money_player} \n'
+               'CPU MONEY: {money_cpu} \n\n').format(
+            winner=result,
+            pot=self.hand.pot,
+            player_cards=self.hand.player_cards,
+            cpu_cards=self.hand.cpu_cards,
+            common_cards=self.hand.common_cards,
+            money_player=self.player.money,
+            money_cpu=self.cpu.money,
+        )
+        return msg
 
     def player_no_money(self):
         if self.player.money == 0:

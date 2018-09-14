@@ -14,12 +14,13 @@ from .poker import (
     find_straight,
     sort_cards_by_number,
     get_value,
+    compare_hands,
     PLAYER, CPU,
 )
 
 
 class Hand():
-    def __init__(self, players, first = PLAYER):
+    def __init__(self, players, first=PLAYER):
         self.pot = 0
         self.deck = Deck()
         self.stage = 1
@@ -32,8 +33,6 @@ class Hand():
         self.last_bet = 0
         self.players = players
         self.all_in_value = False
-        self.winner = None
-
 
     def deal_cards(self):
         if self.stage == FLOP:
@@ -57,12 +56,28 @@ class Hand():
             self.last_action = NONE
             self.last_bet = 0
         else:
-            a = transform_cards_to_str(self.player_cards) + transform_cards_to_str(self.common_cards)
-            b = transform_cards_to_str(self.cpu_cards) + transform_cards_to_str(self.common_cards)
+            a = transform_cards_to_str(
+                self.player_cards) + transform_cards_to_str(self.common_cards)
+            b = transform_cards_to_str(
+                self.cpu_cards) + transform_cards_to_str(self.common_cards)
             player_game = better_hand(combine_card(a))
             cpu_game = better_hand(combine_card(b))
-            self.winner = PLAYER
-            return [player_game, cpu_game]
+            result = compare_hands(player_game, cpu_game)
+
+            def split_pot(winner):
+                game = ''
+                if winner == 'PLAYER WINS!':
+                    self.players[0].money += self.pot
+                    game = ' with: ' + player_game[0].upper()
+                elif winner == 'CPU WINS!':
+                    self.players[1].money += self.pot
+                    game = ' with: ' + cpu_game[0].upper()
+                else:
+                    self.players[0].money += int(self.pot / 2)
+                    self.players[1].money += int(self.pot / 2)
+                return winner + game
+            result = split_pot(result)
+            return result
 
     def take_action(self, action, bet=0):
         if action == CHECK:
@@ -158,7 +173,8 @@ class Hand():
         elif cpu_action == RAISE:
             min_raise = self.last_bet * 2
             if min_raise < self.players[1].money:
-                amount = self.last_bet + random.randint(min_raise, self.players[1].money)
+                amount = self.last_bet + \
+                    random.randint(min_raise, self.players[1].money)
             else:
                 amount = self.players[1].money
         return self.take_action(cpu_action, amount)
