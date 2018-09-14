@@ -1,11 +1,11 @@
 from collections import defaultdict
 
 # Stages
-PREFLOP = 0
-FLOP = 1
-TURN = 2
-RIVER = 3
-SHOWDOWN = 4
+PREFLOP = 1
+FLOP = 2
+TURN = 3
+RIVER = 4
+SHOWDOWN = 5
 
 FIRST = 'first'
 SECOND = 'second'

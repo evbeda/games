@@ -44,6 +44,7 @@ class GameBattleship(GameBase, GameWithBoard):
                     int(params[2]),
                     params[3],
                 )
+                # import pdb; pdg.set_trace()
                 # Si ya seteo todos los barcos de su tablero inicial
                 if self.player_human.board_own.is_ready_to_war():
                     # Llenar el tablero de la cpu
@@ -68,7 +69,6 @@ class GameBattleship(GameBase, GameWithBoard):
         self.player_human.messages = []
         self.player_cpu.messages = []
         if len(params) == 2:
-            #import ipdb; ipdb.set_trace()
             result = self.player_cpu.board_own.shoot(
                 int(params[0]),
                 int(params[1])
@@ -98,6 +98,13 @@ class GameBattleship(GameBase, GameWithBoard):
                 self.player_human.messages.append(
                     'Congratulations! You sunk a boat.')
                 result = self.player_human.messages
+                # import pdb; pdb.set_trace()
+                if not self.player_cpu.board_own.there_are_boats():
+                    self.state = game_states[3]
+                    self.player_human.messages.append('You Win')
+                    result = self.player_human.messages
+                    self.finish()
+                return result
             elif result == 'hit':
                 self.player_human.board_opponent.mark_shoot(
                     int(params[0]),
@@ -106,11 +113,6 @@ class GameBattleship(GameBase, GameWithBoard):
                 )
                 self.player_human.messages.append('You hit a boat')
                 result = self.player_human.messages
-                if not self.player_cpu.board_own.there_are_boats():
-                    self.state = game_states[3]
-                    self.player_human.messages.append('You Win')
-                    result = self.player_human.messages
-                    self.finish()
             return result
         else:
             return "error, mas parametros de los requeridos (2)"
@@ -118,7 +120,6 @@ class GameBattleship(GameBase, GameWithBoard):
     def war_cpu(self):
         coordenate = self.player_cpu.pick_coordenate()
         result = self.player_human.board_own.shoot(*coordenate)
-        #import ipdb; ipdb.set_trace()
         if result == 'water':
             self.player_cpu.board_opponent.mark_shoot(
                 False,
@@ -135,8 +136,8 @@ class GameBattleship(GameBase, GameWithBoard):
             )
             self.player_cpu.messages.append('Your boat was sunk.')
             result = self.player_cpu.messages
-            #import ipdb; ipdb.set_trace()
             if not self.player_human.board_own.there_are_boats():
+                # import pdb; pdb.set_trace()
                 self.state = game_states[2]
                 self.player_cpu.messages.append('You lose.')
                 result = self.player_cpu.messages
@@ -170,6 +171,10 @@ class GameBattleship(GameBase, GameWithBoard):
                 self.input_args = 2
                 self.input_are_ints = True
                 return messages_player_human['shoot']
+            elif self.state == game_states[2]:
+                return messages_player_human['cpu_win']
+            elif self.state == game_states[3]:
+                return messages_player_human['player_win']
 
     def play(self, lat=0, lon=0, boat=0, orientation=0):
         if self.state == game_states[0]:
@@ -216,22 +221,9 @@ class GameBattleship(GameBase, GameWithBoard):
         for y in range(0, self.cols):
             for x in range(0, self.rows):
                 casilla = str(self.player_human.board_opponent.board[y][x])
-
                 if x % 10 == 0:
                     output += str(y) + ' '
-
-                if casilla == '32':
-                    casilla = '3'
-                    output += '|' + casilla
-
-                elif casilla == '31':
-                    casilla = '3'
-                    output += '|' + casilla
-
-                else:
-                    output += '|' + casilla
-
+                output += '|' + casilla
                 if(x == 9):
                     output += '|' + '\n'
-
         return output

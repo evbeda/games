@@ -9,6 +9,7 @@ from generala.game import Generala
 from blackjack.blackjack_game import BlackJackGame
 from battleship.game import GameBattleship
 from truco.game import GameTruco
+from poker.game import PokerGame
 
 class Game(object):
 
@@ -26,6 +27,7 @@ class Game(object):
             BlackJackGame,
             GameBattleship,
             GameTruco,
+            PokerGame,
         ]
 
     def output(self, text):

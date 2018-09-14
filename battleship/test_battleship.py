@@ -119,11 +119,13 @@ class TestBattleship(unittest.TestCase):
         result = p1.board_own.state
         self.assertEqual(result, 'ready_to_war')
 
-    # def test_own_board_is_ready_human(self):
-    #     p1 = PlayerHuman()
-    #     p1.fill_own_board()
-    #     result = p1.board_own.state
-    #     self.assertEqual(result, board_states[1])
+    def test_own_board_false(self):
+        p1 = PlayerCPU()
+        board = Board()
+        p1.board_own = board
+        p1.board_own.state = board.board_states[1]
+        result = p1.fill_own_board()
+        self.assertFalse(result)
 
     def test_game_state_init(self):
         game = GameBattleship()
@@ -141,14 +143,19 @@ class TestBattleship(unittest.TestCase):
         result = self.game.state
         self.assertEqual(result, 'war')
 
+    def test_turn_init_player_boat_not_set_that_position(self):
+        game = GameBattleship()
+        result = game.set_boat([9, 9, 5, 'vertical'])
+        self.assertEqual(result, 'Your boat could not be set in that position')
+
     def test_turn_init_player_wrong_param_amount_of(self):
         game = GameBattleship()
-        result = game.set_boat('1 1 1 vertical extrabadparam')
+        result = game.set_boat([1, 1, 1, 'vertical', 'hdgsjhgdashjd'])
         self.assertEqual(result, 'error, mas parametros de los requeridos (4)')
 
     def test_turn_war_player(self):
         game = GameBattleship()
-        result = game.set_boat('1 2 1 vertical')
+        result = game.set_boat([1, 2, 1, 'vertical'])
         self.assertTrue(result)
 
     def test_turn_war_player_wrong_param_letter(self):
@@ -301,8 +308,9 @@ class TestBattleship(unittest.TestCase):
         self.game.player_human.board_own = board_human
         self.game_states = game_states[1]
         self.game.turn = 'cpu'
-        result = self.game.player_human.board_own.shoot(0, 0)
-        self.assertEqual('sunked', result)
+        mock_pick_coordenate.return_value = [0, 0]
+        result = self.game.play()
+        self.assertEqual(['Your boat was sunk.', 'You lose.'], result)
 
 
 
@@ -354,6 +362,18 @@ class TestBattleship(unittest.TestCase):
         expected = 'shoot (x y)'
         self.assertEqual(expected, result)
 
+    def test_next_turn_cpu_win(self):
+        self.game.state = game_states[2]
+        result = self.game.next_turn()
+        expected = 'gano el cpu'
+        self.assertEqual(expected, result)
+
+    def test_next_turn_human_win(self):
+        self.game.state = game_states[3]
+        result = self.game.next_turn()
+        expected = 'ganaste'
+        self.assertEqual(expected, result)
+
     @mock.patch('battleship.player.PlayerCPU.pick_coordenate')
     def test_play_human_water(self, mock_pick_coordenate):
         board = [
@@ -374,6 +394,26 @@ class TestBattleship(unittest.TestCase):
         mock_pick_coordenate.return_value = [1, 1]
         result = self.game.play(0, 0)
         expected = ['You only hit water! CPU turn', 'Your boat was sunk.']
+        self.assertEqual(result, expected)
+
+    def test_play_human_wrong_param_amount_of(self):
+        board = [
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        ]
+        self.game.player_cpu.board_own.set_board(board)
+        self.game.state = game_states[1]
+        self.game.turn = 'human'
+        result = self.game.war_human([0, 0, 0])
+        expected = 'error, mas parametros de los requeridos (2)'
         self.assertEqual(result, expected)
 
     def test_play_human_already_shoot(self):
@@ -412,11 +452,43 @@ class TestBattleship(unittest.TestCase):
         self.game.player_cpu.board_own.set_board(board)
         self.game.state = game_states[1]
         self.game.turn = 'human'
-        self.game.player_cpu.board_own.shoot(5, 5)
-        result = self.game.player_cpu.board_own.shoot(5, 6)
-        expected = 'sunked'
+        self.game.play(5, 5)
+        result = self.game.play(5, 6)
+        expected = ['Congratulations! You sunk a boat.', 'You Win']
         self.assertEqual(result, expected)
         self.assertFalse(self.game.player_cpu.board_own.there_are_boats())
+
+    def test_board_shown(self):
+        result = self.game.board
+        expected = '\n'\
+                   'Own Board (Player)\n'\
+                   ' y 0 1 2 3 4 5 6 7 8 9\n'\
+                   'x  \n'\
+                   '0 |0|0|0|0|0|0|0|0|0|0|\n'\
+                   '1 |0|1|2|3|3|4|5|0|0|0|\n'\
+                   '2 |0|0|2|3|3|4|5|0|0|0|\n'\
+                   '3 |0|0|0|3|3|4|5|0|0|0|\n'\
+                   '4 |0|0|0|0|0|4|5|0|0|0|\n'\
+                   '5 |0|0|0|0|0|0|5|0|0|0|\n'\
+                   '6 |0|0|0|0|0|0|0|0|0|0|\n'\
+                   '7 |0|0|0|0|0|0|0|0|0|0|\n'\
+                   '8 |0|0|0|0|0|0|0|0|0|0|\n'\
+                   '9 |0|0|0|0|0|0|0|0|0|0|\n'\
+                   '\n'\
+                   'Opponent Board (CPU)\n'\
+                   ' y 0 1 2 3 4 5 6 7 8 9\n'\
+                   'x  \n'\
+                   '0 |0|0|0|0|0|0|0|0|0|0|\n'\
+                   '1 |0|0|0|0|0|0|0|0|0|0|\n'\
+                   '2 |0|0|0|0|0|0|0|0|0|0|\n'\
+                   '3 |0|0|0|0|0|0|0|0|0|0|\n'\
+                   '4 |0|0|0|0|0|0|0|0|0|0|\n'\
+                   '5 |0|0|0|0|0|0|0|0|0|0|\n'\
+                   '6 |0|0|0|0|0|0|0|0|0|0|\n'\
+                   '7 |0|0|0|0|0|0|0|0|0|0|\n'\
+                   '8 |0|0|0|0|0|0|0|0|0|0|\n'\
+                   '9 |0|0|0|0|0|0|0|0|0|0|\n'
+        self.assertEqual(result, expected)
 
 
 if __name__ == "__main__":
