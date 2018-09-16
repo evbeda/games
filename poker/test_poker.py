@@ -717,16 +717,6 @@ class PokerGameTest(unittest.TestCase):
         game = PokerGame()
         self.assertFalse(game.player_no_money())
 
-    def test_next_turn_player_no_money(self):
-        game = PokerGame()
-        game.player.money = 0
-        self.assertEqual(game.next_turn(), 'Player loses')
-
-    def test_next_turn_cpu_no_money(self):
-        game = PokerGame()
-        game.cpu.money = 0
-        self.assertEqual(game.next_turn(), 'CPU loses')
-
     def test_next_turn_possibles_actions(self):
         game = PokerGame()
         game.hand.last_action = NONE
@@ -738,15 +728,6 @@ class PokerGameTest(unittest.TestCase):
         game.hand.last_action = BET
         result = game.next_turn()
         self.assertEqual(result, ' call\n raise,your bet\n fold\nq to quit')
-
-    def test_next_turn_show_down(self):
-        game = PokerGame()
-        game.hand.common_cards = []
-        game.hand.cpu_cards = ['4c', '7d']
-        game.hand.player_cards = ['Jh', '6h']
-        game.hand.stage = 5
-        result = game.next_turn()
-        self.assertEqual(result, "\nWINNER: None\nPOT: 0\nPLAYER: ['Jh', '6h'] \n\nCPU: ['4c', '7d'] \nCOMMON CARDS: [] \nPLAYER MONEY: 100 \nCPU MONEY: 100 \n\n")
 
     def test_play_with_bet(self):
         def side_effect(cpu_action):

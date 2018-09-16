@@ -25,8 +25,8 @@ class PokerGame(GameBase):
         self.hand = Hand([self.player, self.cpu])
 
     def next_turn(self):
-        if self.player_no_money():
-            return self.player_no_money()
+        # if self.player_no_money():
+        #    return self.player_no_money()
         if self._playing:
             actions = self.hand.possibles_actions()
             if self.hand.turn == PLAYER:
@@ -90,21 +90,22 @@ class PokerGame(GameBase):
             )
 
     def show_down(self):
-            return ('\nWINNER: {winner}'
-                    '\nPOT: {pot}'
-                    '\nPLAYER: {player_cards} \n'
-                    '\nCPU: {cpu_cards} \n'
-                    'COMMON CARDS: {common_cards} \n'
-                    'PLAYER MONEY: {money_player} \n'
-                    'CPU MONEY: {money_cpu} \n\n').format(
-                winner=self.hand.winner,
-                pot=self.hand.pot,
-                player_cards=self.hand.player_cards,
-                cpu_cards=self.hand.cpu_cards,
-                common_cards=self.hand.common_cards,
-                money_player=self.player.money,
-                money_cpu=self.cpu.money,
-            )
+        result = self.hand.next_stage()
+        return ('\n{winner}'
+                '\nLAST POT: {pot}'
+                '\nPLAYER: {player_cards} \n'
+                '\nCPU: {cpu_cards} \n'
+                'COMMON CARDS: {common_cards} \n'
+                'PLAYER MONEY: {money_player} \n'
+                'CPU MONEY: {money_cpu} \n\n').format(
+            winner=result,
+            pot=self.hand.pot,
+            player_cards=self.hand.player_cards,
+            cpu_cards=self.hand.cpu_cards,
+            common_cards=self.hand.common_cards,
+            money_player=self.player.money,
+            money_cpu=self.cpu.money,
+        )
 
     def player_no_money(self):
         if self.player.money == 0:
