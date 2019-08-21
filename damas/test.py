@@ -1,5 +1,5 @@
 import unittest
-from dama_game import DamaGameStart
+from .dama_game import DamaGameStart
 
 
 class TestDamaGame(unittest.TestCase):

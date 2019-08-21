@@ -1,5 +1,5 @@
 import unittest
-import mock
+from unittest.mock import patch
 from .poker import (
     combine_card,
     better_hand,
@@ -213,7 +213,7 @@ class PokerTest(unittest.TestCase):
 
         def side_effect(cards):
             return cards
-        with mock.patch('poker.deck.shuffle', side_effect):
+        with patch('poker.deck.shuffle', side_effect):
             deck = Deck()
         player1.cards.append(deck.cards[48])
         player1.cards.append(deck.cards[49])
@@ -751,7 +751,7 @@ class PokerGameTest(unittest.TestCase):
     def test_play_with_bet(self):
         def side_effect(cpu_action):
             return CALL
-        with mock.patch('poker.hand.random.choice', side_effect):
+        with patch('poker.hand.random.choice', side_effect):
             game = PokerGame()
             game.hand.turn = 'player'
             self.assertEqual(game.play('bet,50'),
@@ -760,7 +760,7 @@ class PokerGameTest(unittest.TestCase):
     def test_play_with_bet_bad_number(self):
         def side_effect(cpu_action):
             return CALL
-        with mock.patch('poker.hand.random.choice', side_effect):
+        with patch('poker.hand.random.choice', side_effect):
             game = PokerGame()
             game.hand.turn = 'player'
             self.assertEqual(game.play('bet,NONUMBER'),
@@ -769,7 +769,7 @@ class PokerGameTest(unittest.TestCase):
     def test_play_with_call(self):
         def side_effect(cpu_action):
             return BET
-        with mock.patch('poker.hand.random.choice', side_effect):
+        with patch('poker.hand.random.choice', side_effect):
             game = PokerGame()
             game.hand.turn = 'player'
             game.hand.stage = 1

@@ -1,5 +1,5 @@
 import unittest
-from ReversiGame import ReversiGame
+from .ReversiGame import ReversiGame
 
 
 class TestReversi(unittest.TestCase):
@@ -9,25 +9,25 @@ class TestReversi(unittest.TestCase):
 
     def test_initial_status(self):
         self.assertTrue(self.game.is_playing)
-        self.assertEquals(self.game.get_value(3, 3), 'B')
-        self.assertEquals(self.game.get_value(3, 4), 'W')
-        self.assertEquals(self.game.get_value(4, 4), 'B')
-        self.assertEquals(self.game.get_value(4, 3), 'W')
+        self.assertEqual(self.game.get_value(3, 3), 'B')
+        self.assertEqual(self.game.get_value(3, 4), 'W')
+        self.assertEqual(self.game.get_value(4, 4), 'B')
+        self.assertEqual(self.game.get_value(4, 3), 'W')
 
     def test_initial_next_turn_whites(self):
-        self.assertEquals(
+        self.assertEqual(
             self.game.next_turn(),
             'White',
         )
 
     def test_wrong_movement_empty(self):
-        self.assertEquals(self.game.play(1, 1), 'No possibilities. Try again.')
+        self.assertEqual(self.game.play(1, 1), 'No possibilities. Try again.')
 
     def test_no_posibilities(self):
-        self.assertEquals(self.game.play(7, 7), 'No possibilities. Try again.')
+        self.assertEqual(self.game.play(7, 7), 'No possibilities. Try again.')
 
     def test_wrong_movement_occupied(self):
-        self.assertEquals(self.game.play(3, 4),
+        self.assertEqual(self.game.play(3, 4),
                           'Movement not allowed. Try again.')
 
     def test_get_directions(self):
@@ -35,7 +35,7 @@ class TestReversi(unittest.TestCase):
             {'value': 'W', 'x': 3, 'y': 4},
         ]
         self.game.change_turn()
-        self.assertEquals(result, self.game.find_possibility_pieces(3, 5))
+        self.assertEqual(result, self.game.find_possibility_pieces(3, 5))
 
     def test_get_directions_black(self):
         self.game.set_board([
@@ -53,18 +53,18 @@ class TestReversi(unittest.TestCase):
             {'value': 'B', 'x': 3, 'y': 4},
             {'value': 'B', 'x': 3, 'y': 5},
         ]
-        self.assertEquals(result, self.game.find_possibility_pieces(2, 5))
+        self.assertEqual(result, self.game.find_possibility_pieces(2, 5))
         result = [
             {'value': 'B', 'x': 3, 'y': 3},
             {'value': 'B', 'x': 3, 'y': 4},
         ]
-        self.assertEquals(result, self.game.find_possibility_pieces(2, 3))
+        self.assertEqual(result, self.game.find_possibility_pieces(2, 3))
 
     def test_find_possibilities_limits_min(self):
-        self.assertEquals([], self.game.find_possibility_pieces(0, 0))
+        self.assertEqual([], self.game.find_possibility_pieces(0, 0))
 
     def test_find_possibilities_limits_max(self):
-        self.assertEquals([], self.game.find_possibility_pieces(7, 7))
+        self.assertEqual([], self.game.find_possibility_pieces(7, 7))
 
     def test_get_all_directions_white(self):
         self.game.set_board([
@@ -88,7 +88,7 @@ class TestReversi(unittest.TestCase):
             {'y': 4, 'x': 4, 'value': 'B'},
             {'y': 5, 'x': 4, 'value': 'B'}
         ]
-        self.assertEquals(result, self.game.find_possibility_pieces(3, 4))
+        self.assertEqual(result, self.game.find_possibility_pieces(3, 4))
 
     def test_get_all_none_directions_white(self):
         self.game.set_board([
@@ -104,7 +104,7 @@ class TestReversi(unittest.TestCase):
 
         result = [
         ]
-        self.assertEquals(result, self.game.find_possibility_pieces(3, 4))
+        self.assertEqual(result, self.game.find_possibility_pieces(3, 4))
 
     def test_get_all_x2_directions_white(self):
         self.game.set_board([
@@ -136,7 +136,7 @@ class TestReversi(unittest.TestCase):
             {'y': 5, 'x': 4, 'value': 'B'},
             {'y': 6, 'x': 5, 'value': 'B'},
         ]
-        self.assertEquals(result, self.game.find_possibility_pieces(3, 4))
+        self.assertEqual(result, self.game.find_possibility_pieces(3, 4))
 
     def test_get_all_directions_black(self):
         self.game.set_board([
@@ -160,7 +160,7 @@ class TestReversi(unittest.TestCase):
             {'y': 4, 'x': 4, 'value': 'W'},
             {'y': 5, 'x': 4, 'value': 'W'},
         ]
-        self.assertEquals(result, self.game.find_possibility_pieces(3, 4))
+        self.assertEqual(result, self.game.find_possibility_pieces(3, 4))
 
     def test_no_possibles(self):
         self.game.set_board([
@@ -200,7 +200,7 @@ class TestReversi(unittest.TestCase):
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
         ]
-        self.assertEquals(result, self.game.get_board)
+        self.assertEqual(result, self.game.get_board)
 
     def test_play_valid(self):
         self.game.set_board([
@@ -225,8 +225,8 @@ class TestReversi(unittest.TestCase):
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
         ]
-        self.assertEquals(result, self.game.get_board)
-        self.assertEquals(
+        self.assertEqual(result, self.game.get_board)
+        self.assertEqual(
             self.game.next_turn(),
             'White',
         )
@@ -263,7 +263,7 @@ class TestReversi(unittest.TestCase):
             '--+---+---+---+---+---+---+---+---+\n'
         )
 
-        self.assertEquals(result, self.game.board)
+        self.assertEqual(result, self.game.board)
 
     def test_play_finish(self):
         self.game.set_board([
@@ -278,7 +278,7 @@ class TestReversi(unittest.TestCase):
         ])
 
         self.game.change_turn()
-        self.assertEquals(
+        self.assertEqual(
             self.game.play(5, 1),
             'Whites win 47 to 17',
         )
@@ -294,7 +294,7 @@ class TestReversi(unittest.TestCase):
             ['W', 'W', 'W', 'W', 'W', 'W', 'W', 'W'],
         ]
 
-        self.assertEquals(result, self.game.get_board)
+        self.assertEqual(result, self.game.get_board)
 
     def test_change_turn_if_no_possibility(self):
         self.game.set_board([
@@ -307,10 +307,10 @@ class TestReversi(unittest.TestCase):
             [' ', 'W', 'W', 'W', 'W', 'W', 'W', 'W'],
             [' ', 'W', 'W', 'W', 'W', 'W', 'W', 'W'],
         ])
-        self.assertEquals(self.game.play(0, 0),
+        self.assertEqual(self.game.play(0, 0),
                           'No possible moves, turn changes')
 
-        self.assertEquals(self.game.next_turn(), 'Black')
+        self.assertEqual(self.game.next_turn(), 'Black')
 
     def test_no_one_can_play(self):
         self.game.set_board([
@@ -323,7 +323,7 @@ class TestReversi(unittest.TestCase):
             [' ', 'W', 'W', 'W', 'W', 'W', 'W', 'W'],
             [' ', 'W', 'W', 'W', 'W', 'W', 'W', 'W'],
         ])
-        self.assertEquals(self.game.play(0, 0),
+        self.assertEqual(self.game.play(0, 0),
                           'Game over!')
 
 

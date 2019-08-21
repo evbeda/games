@@ -1,9 +1,9 @@
 import unittest
-import mock
+from unittest.mock import patch
 from game import GameBattleship
-from player import PlayerCPU, PlayerHuman
-from game import game_states, possible_turn
-from board import Board
+from .player import PlayerCPU, PlayerHuman
+from .game import game_states, possible_turn
+from .board import Board
 
 
 class TestBattleship(unittest.TestCase):
@@ -194,8 +194,7 @@ class TestBattleship(unittest.TestCase):
         result = self.game.play(0, 0)
         self.assertEqual(expected, result)
 
-    @mock.patch('battleship.player.PlayerCPU.pick_coordenate')
-
+    @patch('battleship.player.PlayerCPU.pick_coordenate')
     def test_game_war_player_can_water_boat_player_cpu(self, mock_pick_coordenate):
         board_cpu = Board()
         board = [
@@ -260,7 +259,7 @@ class TestBattleship(unittest.TestCase):
         self.game.play(1, 2)
         self.assertEqual(expected, self.game.state)
 
-    @mock.patch('battleship.player.PlayerCPU.pick_coordenate')
+    @patch('battleship.player.PlayerCPU.pick_coordenate')
     def test_game_check_cpu_sunk(self, mock_pick_coordenate):
         self.game.state = game_states[1]
         self.game.turn = 'cpu'
@@ -268,7 +267,7 @@ class TestBattleship(unittest.TestCase):
         result = self.game.player_human.board_own.shoot(2, 2)
         self.assertEqual('sunked', result)
 
-    @mock.patch('battleship.player.PlayerCPU.pick_coordenate')
+    @patch('battleship.player.PlayerCPU.pick_coordenate')
     def test_game_check_cpu_hit(self, mock_pick_coordenate):
         self.game.state = game_states[1]
         self.game.turn = 'cpu'
@@ -289,7 +288,7 @@ class TestBattleship(unittest.TestCase):
         result = self.game.play()
         self.assertEqual(['Your boat was hit.'], result)
 
-    @mock.patch('battleship.player.PlayerCPU.pick_coordenate')
+    @patch('battleship.player.PlayerCPU.pick_coordenate')
     def test_game_check_cpu_wins(self, mock_pick_coordenate):
         board_human = Board()
         board_table = [
@@ -314,7 +313,7 @@ class TestBattleship(unittest.TestCase):
 
 
 
-    @mock.patch('battleship.player.PlayerCPU.pick_coordenate')
+    @patch('battleship.player.PlayerCPU.pick_coordenate')
     def test_game_check_cpu_water(self, mock_pick_coordenate):
         self.game.state = game_states[1]
         self.game.turn = 'cpu'
@@ -334,7 +333,7 @@ class TestBattleship(unittest.TestCase):
         result = board_cpu.shoot(0, 1)
         self.assertEqual(result, 'already shoot')
 
-    @mock.patch('battleship.player.PlayerCPU.pick_coordenate')
+    @patch('battleship.player.PlayerCPU.pick_coordenate')
     def test_player_cpu_return_messages(self, mock_pick_coordenate):
         self.game.state = game_states[1]
         self.game.turn = 'cpu'
@@ -374,7 +373,7 @@ class TestBattleship(unittest.TestCase):
         expected = 'ganaste'
         self.assertEqual(expected, result)
 
-    @mock.patch('battleship.player.PlayerCPU.pick_coordenate')
+    @patch('battleship.player.PlayerCPU.pick_coordenate')
     def test_play_human_water(self, mock_pick_coordenate):
         board = [
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],

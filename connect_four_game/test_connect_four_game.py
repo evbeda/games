@@ -1,5 +1,5 @@
 import unittest
-from connect_four_game import ConnectFourGame
+from .connect_four_game import ConnectFourGame
 
 
 class TestConnectFourGame(unittest.TestCase):
@@ -70,7 +70,7 @@ class TestConnectFourGame(unittest.TestCase):
         self.game.play(1)
         self.game.play(0)
         self.game.play(1)
-        self.assertEquals('You win', self.game.play(0))
+        self.assertEqual('You win', self.game.play(0))
         self.assertEqual(
             self.game.board,
             '       \n'
@@ -88,7 +88,7 @@ class TestConnectFourGame(unittest.TestCase):
         self.game.play(1)
         self.game.play(2)
         self.game.play(2)
-        self.assertEquals('You win', self.game.play(3))
+        self.assertEqual('You win', self.game.play(3))
         self.assertEqual(
             self.game.board,
             '       \n'
@@ -122,7 +122,7 @@ class TestConnectFourGame(unittest.TestCase):
 
         self.game.play(0)
 
-        self.assertEquals('You win', self.game.play(3))
+        self.assertEqual('You win', self.game.play(3))
 
         self.assertEqual(
             self.game.board,

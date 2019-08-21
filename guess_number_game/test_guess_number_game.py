@@ -1,5 +1,5 @@
 import unittest
-from guess_number_game import GuessNumberGame
+from .guess_number_game import GuessNumberGame
 
 
 class TestGuessNumberGame(unittest.TestCase):
@@ -13,46 +13,46 @@ class TestGuessNumberGame(unittest.TestCase):
 
     def test_play_lower(self):
         play_result = self.game.play(10)
-        self.assertEquals(play_result, 'too low')
+        self.assertEqual(play_result, 'too low')
         self.assertTrue(self.game.is_playing)
 
     def test_play_higher(self):
         play_result = self.game.play(80)
-        self.assertEquals(play_result, 'too high')
+        self.assertEqual(play_result, 'too high')
         self.assertTrue(self.game.is_playing)
 
     def test_play_equal(self):
         play_result = self.game.play(50)
-        self.assertEquals(play_result, 'you win')
+        self.assertEqual(play_result, 'you win')
         self.assertFalse(self.game.is_playing)
 
     def test_initial_next_turn(self):
-        self.assertEquals(
+        self.assertEqual(
             self.game.next_turn(),
             'Give me a number from 0 to 100',
         )
 
     def test_next_turn_after_play(self):
         self.game.play(10)
-        self.assertEquals(
+        self.assertEqual(
             self.game.next_turn(),
             'Give me a number from 0 to 100',
         )
 
     def test_next_turn_after_win(self):
         self.game.play(50)
-        self.assertEquals(
+        self.assertEqual(
             self.game.next_turn(),
             'Game Over',
         )
 
     def test_get_board(self):
-        self.assertEquals(
+        self.assertEqual(
             self.game.board,
             '[]'
         )
         self.game.play(10)
-        self.assertEquals(
+        self.assertEqual(
             self.game.board,
             '[10]'
         )

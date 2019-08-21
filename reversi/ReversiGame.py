@@ -44,8 +44,8 @@ class ReversiGame(GameWithTurns, GameWithBoard, GameBase):
     def all_directions(self):
         return (
             (x_sign_dir, y_sign_dir)
-            for x_sign_dir in xrange(-1, 2)
-            for y_sign_dir in xrange(-1, 2)
+            for x_sign_dir in range(-1, 2)
+            for y_sign_dir in range(-1, 2)
             if x_sign_dir != 0 or y_sign_dir != 0
         )
 
@@ -129,8 +129,8 @@ class ReversiGame(GameWithTurns, GameWithBoard, GameBase):
                 return result
 
     def check_can_play(self):
-        for x in xrange(8):
-            for y in xrange(8):
+        for x in range(8):
+            for y in range(8):
                 if self.get_value(x, y) == ' ':
                     if self.find_possibility_pieces(x, y):
                         return True
@@ -185,15 +185,15 @@ class ReversiGame(GameWithTurns, GameWithBoard, GameBase):
     def board(self):
         result = ''
         result += '  |'
-        for x in xrange(self.cols):
+        for x in range(self.cols):
             result += ' ' + str(x) + ' |'
         result += '\n--+'
-        for y in xrange(self.cols):
+        for y in range(self.cols):
             result += '---+'
         result += '\n'
-        for x in xrange(0, 8):
+        for x in range(0, 8):
             result += str(x) + ' |'
-            for y in xrange(0, 8):
+            for y in range(0, 8):
                 result += ' ' + self.get_value(x, y) + ' |'
             result += '\n'
             result += '--+---+---+---+---+---+---+---+---+\n'

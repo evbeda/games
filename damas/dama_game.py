@@ -120,9 +120,9 @@ class DamaGameStart(GameWithTurns,  GameBase, GameWithBoard):
     @property
     def board(self):
         result = ' 01234567\n'
-        for x in xrange(0, self._col):
+        for x in range(0, self._col):
             result += str(x)
-            for y in xrange(0, self._row):
+            for y in range(0, self._row):
                 result += self.get_value(x, y)
             result += '\n'
         return result

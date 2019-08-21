@@ -31,7 +31,7 @@ class Game(object):
         ]
 
     def output(self, text):
-        print text
+        print(text)
 
     def get_input(self, text):
         return raw_input(text)
@@ -109,7 +109,7 @@ class Game(object):
                             self.active_game.next_turn(),
                         )
                         self.output(self.active_game.play(*game_input))
-                except Exception, e:
+                except Exception as e:
                     self.output('Sorry... {}'.format(e))
 
 
