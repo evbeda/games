@@ -1,4 +1,4 @@
-import mock
+from unittest.mock import patch
 import unittest
 from .game import Generala
 
@@ -107,7 +107,7 @@ class test_generala(unittest.TestCase):
         game.play('CROSSOUT', 'GENERALA')
         self.assertTrue(game.finished())
 
-    @mock.patch('random.randint')
+    @patch('random.randint')
     def test_tirar_select_1(self, mock_rand_int):
         mock_rand_int.return_value = 1
         result = [1, 1, 1, 1, 1]
@@ -116,7 +116,7 @@ class test_generala(unittest.TestCase):
         game.throw.roll([0, 1, 2, 3, 4, ])
         self.assertEqual(game.throw.dice, result)
 
-    @mock.patch('random.randint')
+    @patch('random.randint')
     def test_should_keep_rolling_possible(self, mock_rand_int):
         mock_rand_int.return_value = 1
         game = Generala("Santi", "Beto")
@@ -127,7 +127,7 @@ class test_generala(unittest.TestCase):
             game.throw.dice,
         ))
 
-    @mock.patch('random.randint')
+    @patch('random.randint')
     def test_should_keep_rolling_not_possible(self, mock_rand_int):
         mock_rand_int.return_value = 1
         game = Generala("Santi", "Beto")
@@ -143,7 +143,7 @@ to cross out (e.g.: POKER, GENERALA, ETC.)'.format(game.actual_player.name, game
         game.play('KEEP', '1')
         self.assertEqual(game.throw.dice[1], 5)
 
-    @mock.patch('random.randint')
+    @patch('random.randint')
     def test_tirar_ya(self, mock_rand_int):
         mock_rand_int.return_value = 1
         game = Generala("Santi", "Beto")
@@ -153,14 +153,12 @@ to cross out (e.g.: POKER, GENERALA, ETC.)'.format(game.actual_player.name, game
 
     def test_board(self):
         game = Generala("Santi", "Beto")
-        #import ipdb; ipdb.set_trace()
         self.assertEqual(
             game.board,
             'Santi HAS 0 POINTS \nBeto HAS 0 POINTS\nROUND 1',
         )
 
-
-    @mock.patch('random.randint')
+    @patch('random.randint')
     def test_anotar_generala(self, mock_rand_int):
         mock_rand_int.return_value = 1
         game = Generala("Santi", "Beto")
@@ -180,7 +178,6 @@ to cross out (e.g.: POKER, GENERALA, ETC.)'.format(game.actual_player.name, game
             game.play('HOLAQUETAL', 'POKER'),
             'Enter CROSSOUT (CATEGORY), KEEP (1,2..) or THROW NOW',
         )
-
 
     def test_keep_bad_comand(self):
         game = Generala("Santi", "Beto")

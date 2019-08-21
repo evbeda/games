@@ -1,11 +1,11 @@
 language: python
 python:
-  - "2.7"
+  - "3.6"
+script:
+  - coverage run test_suite.py
 
 install:
-  - pip install -r requeriments.txt
-
-script: coverage run test_suite.py
+  - pip3 install -r requeriments.txt
 
 after_success:
   - coveralls

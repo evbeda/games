@@ -1,5 +1,5 @@
 import unittest
-from buscaminas import Buscaminas
+from .buscaminas import Buscaminas
 
 
 class TestBuscamina(unittest.TestCase):
@@ -31,8 +31,8 @@ class TestBuscamina(unittest.TestCase):
         )
 
     def test_check_win(self):
-        for i in xrange(8):
-            for j in xrange(8):
+        for i in range(8):
+            for j in range(8):
                 if self.game.get_value(i, j) != 'B':
                     self.game.play(i, j)
         # self.game.set_value(7, 7, ' ')
@@ -83,7 +83,7 @@ class TestBuscamina(unittest.TestCase):
         #     [' ', ' ', 'B', ' ', ' ', ' ', ' ', ' '],
         # ]
 
-        self.assertEquals('3', self.game.get_value(2, 2))
+        self.assertEqual('3', self.game.get_value(2, 2))
 
     def test_check_invalid_movement(self):
         with self.assertRaises(Exception) as e:

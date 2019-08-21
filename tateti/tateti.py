@@ -52,8 +52,8 @@ class Tateti(GameWithTurns, GameBase):
     @property
     def board(self):
         result = '\n'
-        for x in xrange(0, 3):
-            for y in xrange(0, 3):
+        for x in range(0, 3):
+            for y in range(0, 3):
                 result += str(self.tablero[x][y])
             result += '\n'
         return result
@@ -66,7 +66,7 @@ class Tateti(GameWithTurns, GameBase):
 
     # check horizontal
     def check_win_hor(self, x1, y1):
-        for column in xrange(0, 3):
+        for column in range(0, 3):
 
             if self.tablero[x1][column] != self.actual_player:
                 return False
@@ -81,7 +81,7 @@ class Tateti(GameWithTurns, GameBase):
 
     # check vertical
     def check_win_vertical(self, x1, y1):
-        for row in xrange(0, 3):
+        for row in range(0, 3):
             if self.tablero[row][y1] != self.actual_player:
                 return False
         return True

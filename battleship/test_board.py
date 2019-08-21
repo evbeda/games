@@ -1,7 +1,7 @@
 import unittest
 from game import GameBattleship
 
-from board import Board
+from .board import Board
 
 
 class TestBoard(unittest.TestCase):

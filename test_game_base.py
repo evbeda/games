@@ -22,14 +22,14 @@ class TestGameBase(unittest.TestCase):
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
         ]
         self.game_with_board.create_board(' ')
-        self.assertEquals(result, self.game_with_board.get_board)
+        self.assertEqual(result, self.game_with_board.get_board)
 
     def test_set_get_value(self):
         self.game_with_board.cols = 3
         self.game_with_board.rows = 3
         self.game_with_board.create_board(' ')
         self.game_with_board.set_value(1, 1, 'P')
-        self.assertEquals('P', self.game_with_board.get_value(1, 1))
+        self.assertEqual('P', self.game_with_board.get_value(1, 1))
 
     def test_out_board_max(self):
         self.game_with_board.cols = 3

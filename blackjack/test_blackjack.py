@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
-import mock
+from unittest.mock import patch
 from . import cardsDictionary, colorDictionary
 from .blackjack_game import BlackJackGame
 from .player import Player
@@ -269,7 +269,7 @@ class TestGame(unittest.TestCase):
         game.player.hand.value = 19
         game.dealer_hand.cards = ['Kd', 'Th']
         game.dealer_hand.value = 20
-        with mock.patch('blackjack.deck.Deck.deal',
+        with patch('blackjack.deck.Deck.deal',
                         return_value=['3d']):
             self.assertEqual(game.play('+'), 'Dealer Wins!')
 
@@ -334,7 +334,7 @@ class TestGame(unittest.TestCase):
         game.player.hand.value = 16
         game.dealer_hand.cards = ['Kd', '5h']
         game.dealer_hand.value = 15
-        with mock.patch('blackjack.deck.Deck.deal',
+        with patch('blackjack.deck.Deck.deal',
                         return_value=['2d']):
             self.assertEqual(game.play('+'), 'CONTINUE')
 
@@ -358,7 +358,7 @@ class TestGame(unittest.TestCase):
         game.dealer_hand.cards = ['4d', '5h']
         game.dealer_hand.value = 9
         game.player.hand.counter_as = 1
-        with mock.patch('blackjack.deck.Deck.deal',
+        with patch('blackjack.deck.Deck.deal',
                         return_value=['9d']):
             self.assertEqual(game.play('+'), 'CONTINUE')
             self.assertEqual(game.player.hand.value, 14)
@@ -374,7 +374,7 @@ class TestGame(unittest.TestCase):
         game.dealer_hand.cards = ['4d', '5h']
         game.dealer_hand.value = 9
         game.player.hand.counter_as = 2
-        with mock.patch('blackjack.deck.Deck.deal',
+        with patch('blackjack.deck.Deck.deal',
                         return_value=['8d']):
             self.assertEqual(game.play('+'), 'CONTINUE')
 
@@ -387,7 +387,7 @@ class TestGame(unittest.TestCase):
         game.player.hand.value = 14
         game.dealer_hand.cards = ['4d', '5h']
         game.dealer_hand.value = 9
-        with mock.patch('blackjack.deck.Deck.deal',
+        with patch('blackjack.deck.Deck.deal',
                         return_value=['8d']):
             game.play('+')
             self.assertEqual(game.player.hand.cards, ['4h', 'Ad', '9d', '8d'])
@@ -403,7 +403,7 @@ class TestGame(unittest.TestCase):
         game.dealer_hand.cards = ['4d', '5h']
         game.dealer_hand.value = 9
         game.player.hand.counter_as = 2
-        with mock.patch('blackjack.deck.Deck.deal',
+        with patch('blackjack.deck.Deck.deal',
                         return_value=['Ac']):
             self.assertEqual(game.play('+'), 'CONTINUE')
 
@@ -417,7 +417,7 @@ class TestGame(unittest.TestCase):
         game.dealer_hand.cards = ['4d', '5h']
         game.dealer_hand.value = 9
         game.player.hand.counter_as = 3
-        with mock.patch('blackjack.deck.Deck.deal',
+        with patch('blackjack.deck.Deck.deal',
                         return_value=['Ac']):
             self.assertEqual(game.play('+'), 'CONTINUE')
 
@@ -431,7 +431,7 @@ class TestGame(unittest.TestCase):
         game.dealer_hand.cards = ['4d', '5h']
         game.dealer_hand.value = 9
         game.player.hand.counter_as = 2
-        with mock.patch('blackjack.deck.Deck.deal',
+        with patch('blackjack.deck.Deck.deal',
                         return_value=['Ac']):
             self.assertEqual(game.play('+'), 'CONTINUE')
             self.assertEqual(game.player.hand.value, 13)
@@ -446,7 +446,7 @@ class TestGame(unittest.TestCase):
         game.dealer_hand.cards = ['4d', '5h']
         game.dealer_hand.value = 9
         game.player.hand.counter_as = 3
-        with mock.patch('blackjack.deck.Deck.deal',
+        with patch('blackjack.deck.Deck.deal',
                         return_value=['Ac']):
             self.assertEqual(game.play('+'), 'CONTINUE')
 
@@ -512,7 +512,7 @@ class TestGame(unittest.TestCase):
         result = game.board
         self.assertEqual(result, ('\n\nDealer: 9♦, K♥'
                                   '\nPlayer: K♥, Q♦\n'
-                                  'Money: 100 \n\n').decode('utf-8'))
+                                  'Money: 100 \n\n'))
 
     def test_board_with_ten(self):
         game = BlackJackGame()
@@ -526,7 +526,7 @@ class TestGame(unittest.TestCase):
         result = game.board
         self.assertEqual(result, ("\n\nDealer: 9♦, 10♥"
                                   "\nPlayer: 10♥, Q♦\n"
-                                  "Money: 100 \n\n").decode('utf-8'))
+                                  "Money: 100 \n\n"))
 
     def test_game_quit_bet_time(self):
         game = BlackJackGame()
@@ -562,7 +562,7 @@ class TestGame(unittest.TestCase):
         game.dealer_hand.cards = ['4d', '5h']
         game.dealer_hand.value = 9
         game.player.hand.counter_as = 3
-        with mock.patch('blackjack.deck.Deck.deal',
+        with patch('blackjack.deck.Deck.deal',
                         return_value=['Ac']):
             self.assertEqual(game.play('='), 'Dealer Wins!')
 

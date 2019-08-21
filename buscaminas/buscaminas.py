@@ -27,8 +27,8 @@ class Buscaminas(GameWithBoard, GameBase):
     def check_win(self):
         return all(
             [self.get_value(col, row) != ' '
-             for col in xrange(self.cols)
-             for row in xrange(self.rows)]
+             for col in range(self.cols)
+             for row in range(self.rows)]
         )
 
     def keep_playing(self, x, y):

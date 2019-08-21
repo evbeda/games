@@ -1,8 +1,8 @@
 import sys
 sys.path.insert(0, '../')
-from player import PlayerCPU, PlayerHuman
+from .player import PlayerCPU, PlayerHuman
 from game_base import GameBase, GameWithBoard
-from board import Board
+from .board import Board
 
 
 game_states = ['init', 'war', 'cpu_win', 'player_win']

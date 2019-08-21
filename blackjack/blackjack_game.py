@@ -140,7 +140,7 @@ class BlackJackGame(GameBase):
             dealer_cards = ''
             player_cards = ''
             for card in self.dealer_hand.cards:
-                card_encode = cards_colors[card[1]].decode('utf-8')
+                card_encode = cards_colors[card[1]]
                 # print(type(card_encode))
                 if(card[0] == 'T'):
                     dealer_cards += '10' + card_encode + ', '
@@ -148,7 +148,7 @@ class BlackJackGame(GameBase):
                     dealer_cards += card[0] + card_encode + ', '
 
             for card in self.player.hand.cards:
-                card_encode = cards_colors[card[1]].decode('utf-8')
+                card_encode = cards_colors[card[1]]
                 if(card[0] == 'T'):
                     player_cards += '10' + card_encode + ', '
                 else:

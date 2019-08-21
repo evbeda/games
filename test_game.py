@@ -1,4 +1,4 @@
-from mock import patch
+from unittest.mock import patch
 import unittest
 from game import Game
 
@@ -25,13 +25,13 @@ class TestGame(unittest.TestCase):
         with patch('game.Game.output', side_effect=self.output_collector):
             self.game.play()
 
-        self.assertEquals(
+        self.assertEqual(
             self.output_collector.output_collector,
             [],
         )
 
     def test_game_selection(self):
-        self.assertEquals(
+        self.assertEqual(
             self.game.game_inputs(),
             'Select Game\n'
             '0: Guess Number Game\n'
@@ -123,11 +123,11 @@ class TestGame(unittest.TestCase):
                 patch('game.Game.output', side_effect=self.output_collector):
             self.game.play()
 
-        self.assertEquals(
+        self.assertEqual(
             self.output_collector.output_collector[-3],
             'Blacks are going ahead 31 to 23',
         )
-        self.assertEquals(
+        self.assertEqual(
             self.output_collector.output_collector[-2],
             '  | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |\n'
             '--+---+---+---+---+---+---+---+---+\n'
@@ -171,7 +171,7 @@ class TestGame(unittest.TestCase):
                 patch('guess_number_game.guess_number_game.randint', return_value=50):
             self.game.play()
 
-        self.assertEquals(
+        self.assertEqual(
             self.output_collector.output_collector,
             ['[]', 'you win'],
         )
@@ -197,7 +197,7 @@ class TestGame(unittest.TestCase):
                 patch('four_number.four_number.randint', return_value=1234):
             self.game.play()
 
-        self.assertEquals(
+        self.assertEqual(
             self.output_collector.output_collector,
             ['', '4G, You win'],
         )
@@ -233,7 +233,7 @@ class TestGame(unittest.TestCase):
                 patch('game.Game.output', side_effect=self.output_collector):
             self.game.play()
 
-        self.assertEquals(
+        self.assertEqual(
             self.output_collector.output_collector,
             [
                 '\n000\n000\n000\n',
@@ -368,7 +368,7 @@ class TestGame(unittest.TestCase):
                 patch('game.Game.output', side_effect=self.output_collector):
             self.game.play()
 
-        self.assertEquals(
+        self.assertEqual(
             self.output_collector.output_collector[-2],
             ' 01234567\n0      b \n1        \n2    b b \n3        \n4  b bB  \n5  B W   \n6 B  b   \n7        \n',
         )
@@ -458,7 +458,7 @@ class TestGame(unittest.TestCase):
                 patch('game.Game.output', side_effect=self.output_collector):
             self.game.play()
 
-        self.assertEquals(
+        self.assertEqual(
             self.output_collector.output_collector,
             [
                 '       \n'

@@ -1,5 +1,5 @@
 import unittest
-from tateti import Tateti
+from .tateti import Tateti
 
 
 class TestTateti(unittest.TestCase):
@@ -12,19 +12,19 @@ class TestTateti(unittest.TestCase):
 
     def test_piezas_play_0(self):
         self.tateti.play(0, 1)
-        self.assertEquals(
+        self.assertEqual(
             str(self.tateti.tablero),
             "[[0, 'X', 0], [0, 0, 0], [0, 0, 0]]",
         )
 
     def test_piezas_play_1(self):
         self.tateti.play(2, 1)
-        self.assertEquals(
+        self.assertEqual(
             str(self.tateti.tablero),
             "[[0, 0, 0], [0, 0, 0], [0, 'X', 0]]",
         )
         self.tateti.play(0, 0)
-        self.assertEquals(
+        self.assertEqual(
             str(self.tateti.tablero),
             "[['O', 0, 0], [0, 0, 0], [0, 'X', 0]]",
         )
@@ -54,7 +54,7 @@ class TestTateti(unittest.TestCase):
 
     def test_repeat_movement(self):
         self.tateti.play(2, 1)
-        self.assertEquals(
+        self.assertEqual(
             str(self.tateti.tablero),
             "[[0, 0, 0], [0, 0, 0], [0, 'X', 0]]",
         )
@@ -70,7 +70,7 @@ class TestTateti(unittest.TestCase):
         self.tateti.play(2, 1)
         self.assertEqual(self.tateti.play(0, 2), "X wins")
         self.assertFalse(self.tateti.is_playing)
-        self.assertEquals(
+        self.assertEqual(
             str(self.tateti.tablero),
             "[['X', 'X', 'X'], ['O', 0, 0], [0, 'O', 0]]",
         )
@@ -86,7 +86,7 @@ class TestTateti(unittest.TestCase):
         self.tateti.play(2, 0)
         self.assertEqual(self.tateti.play(2, 1), "It's a TIE!")
         self.assertFalse(self.tateti.is_playing)
-        self.assertEquals(
+        self.assertEqual(
             str(self.tateti.tablero),
             "[['X', 'O', 'X'], ['X', 'X', 'O'], ['O', 'X', 'O']]",
         )
@@ -98,7 +98,7 @@ class TestTateti(unittest.TestCase):
         self.tateti.play(0, 2)
         self.assertEqual(self.tateti.play(2, 0), "X wins")
         self.assertFalse(self.tateti.is_playing)
-        self.assertEquals(
+        self.assertEqual(
             str(self.tateti.tablero),
             "[['X', 0, 'O'], ['X', 'O', 0], ['X', 0, 0]]",
         )
@@ -115,7 +115,7 @@ class TestTateti(unittest.TestCase):
         self.tateti.play(0, 2)
         self.assertEqual(self.tateti.play(2, 2), "X wins")
         self.assertFalse(self.tateti.is_playing)
-        self.assertEquals(
+        self.assertEqual(
             str(self.tateti.tablero),
             "[['X', 'O', 'O'], [0, 'X', 0], [0, 0, 'X']]",
         )
@@ -127,7 +127,7 @@ class TestTateti(unittest.TestCase):
         self.tateti.play(0, 0)
         self.assertEqual(self.tateti.play(2, 0), "X wins")
         self.assertFalse(self.tateti.is_playing)
-        self.assertEquals(
+        self.assertEqual(
             str(self.tateti.tablero),
             "[['O', 'O', 'X'], [0, 'X', 0], ['X', 0, 0]]",
         )
@@ -139,14 +139,14 @@ class TestTateti(unittest.TestCase):
         self.tateti.play(1, 1)
         self.assertEqual(self.tateti.play(2, 0), "X wins")
         self.assertFalse(self.tateti.is_playing)
-        self.assertEquals(
+        self.assertEqual(
             str(self.tateti.tablero),
             "[['X', 'O', 0], ['X', 'O', 0], ['X', 0, 0]]",
         )
 
     def test_board_layout(self):
         result = '\n000\n000\n000\n'
-        self.assertEquals(result, self.tateti.board)
+        self.assertEqual(result, self.tateti.board)
 
 
 if __name__ == "__main__":
