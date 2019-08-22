@@ -1,6 +1,12 @@
-from unittest.mock import patch
 import unittest
+from unittest.mock import patch
 from game import Game
+from sudoku import (
+    ALMOST_FINISHED_EXAMPLE_BOARD,
+    ALMOST_FINISHED_SHOWN_BOARD,
+    FINISHED_SHOWN_BOARD,
+    YOU_WIN
+    )
 
 
 class TestGame(unittest.TestCase):
@@ -45,6 +51,7 @@ class TestGame(unittest.TestCase):
             '8: Blackjack\n'
             '9: Battleship\n'
             '10: Poker\n'
+            '11: Sudoku Game\n'
             '99: to quit\n'
         )
 
@@ -512,6 +519,41 @@ class TestGame(unittest.TestCase):
                 'You win',
             ],
         )
+
+    def test_play_sudoku(self):
+
+        class ControlInputValues(object):
+            def __init__(self, *args, **kwargs):
+                self.played = False
+                self.play_count = -1
+                self.plays = [
+                    'a 1 2',
+                ]
+
+            def __call__(self, console_output):
+                if 'Select Game' in console_output:
+                    if self.played:
+                        return '99'
+                    self.played = True
+                    return '11'
+                self.play_count += 1
+                return self.plays[self.play_count]
+
+        with \
+                patch(
+                    'game.Game.get_input', side_effect=ControlInputValues()
+                    ), \
+                patch('game.Game.output', side_effect=self.output_collector), \
+                patch(
+                    'sudoku.game.fetch_board',
+                    return_value=ALMOST_FINISHED_EXAMPLE_BOARD,
+                ):
+            self.game.play()
+
+        self.assertEqual(
+            self.output_collector.output_collector,
+            [ALMOST_FINISHED_SHOWN_BOARD, YOU_WIN]
+         )
 
 
 if __name__ == "__main__":

@@ -25,6 +25,7 @@ from poker.test_poker import (
 )
 from battleship.test_battleship import TestBattleship
 from battleship.test_board import TestBoard
+from sudoku.tests.test_suite_sudoku import suite as sudoku_suite
 
 
 def suite():
@@ -58,4 +59,8 @@ def suite():
 
 
 if __name__ == "__main__":
-    unittest.main()
+    alltests = unittest.TestSuite()
+    alltests.addTest(suite())
+    # alltests.addTest(dr_suite())
+    alltests.addTest(sudoku_suite())
+    unittest.TextTestRunner().run(alltests)

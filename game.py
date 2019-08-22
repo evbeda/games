@@ -9,6 +9,7 @@ from generala.game import Generala
 from blackjack.blackjack_game import BlackJackGame
 from battleship.game import GameBattleship
 from poker.game import PokerGame
+from sudoku.game import SudokuGame
 
 
 class Game(object):
@@ -27,14 +28,14 @@ class Game(object):
             BlackJackGame,
             GameBattleship,
             PokerGame,
-
+            SudokuGame,
         ]
 
     def output(self, text):
         print(text)
 
     def get_input(self, text):
-        return raw_input(text)
+        return input(text)
 
     def game_inputs(self):
         game_inputs = 'Select Game\n'
