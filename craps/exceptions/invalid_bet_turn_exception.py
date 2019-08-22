@@ -1,0 +1,2 @@
+class InvalidBetTurnException(Exception):
+    pass
