@@ -11,6 +11,7 @@ class Buscaminas(GameWithBoard, GameBase):
     cols = 8
     rows = 8
     minimum = 0
+    input_are_ints = True
 
     def __init__(self):
         super(Buscaminas, self).__init__()
