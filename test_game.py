@@ -6,6 +6,12 @@ from sudoku import (
     ALMOST_FINISHED_SHOWN_BOARD,
     YOU_WIN
     )
+from craps.constants import (
+    CRAPS_FIRST_BOARD,
+    BET_PLACED_SUCCESFULLY,
+    CRAPS_SHOW_BET,
+    CRAPS_DICE
+)
 
 
 class TestGame(unittest.TestCase):
@@ -51,6 +57,7 @@ class TestGame(unittest.TestCase):
             '9: Battleship\n'
             '10: Poker\n'
             '11: Sudoku Game\n'
+            '12: Craps Game\n'
             '99: to quit\n'
         )
 
@@ -392,7 +399,7 @@ class TestGame(unittest.TestCase):
                         return '99'
                     self.played = True
                     return '2'
-                if 'Play (expecting 2 commands separated with spaces)' in console_output:
+                if 'Play (expecting 2 numbers separated with spaces)' in console_output:
                     game_turns = (
                         '1 1',
                     )
@@ -553,6 +560,50 @@ class TestGame(unittest.TestCase):
             self.output_collector.output_collector,
             [ALMOST_FINISHED_SHOWN_BOARD, YOU_WIN]
          )
+
+    def test_play_craps(self):
+
+        class ControlInputValues(object):
+            def __init__(self, *args, **kwargs):
+                self.played = False
+                self.play_count = -1
+                self.plays = [
+                    'PASS_BET 200',
+                    'GO',
+                    'NO'
+                ]
+
+            def __call__(self, console_output):
+                if 'Select Game' in console_output:
+                    if self.played:
+                        return '99'
+                    self.played = True
+                    return '12'
+                self.play_count += 1
+                return self.plays[self.play_count]
+
+        with \
+                patch(
+                    'game.Game.get_input', side_effect=ControlInputValues()
+                    ), \
+                patch('game.Game.output', side_effect=self.output_collector), \
+                patch(
+                    'random.sample',
+                    return_value=[3, 4],
+                ):
+            self.game.play()
+
+        self.assertEqual(
+            self.output_collector.output_collector,
+            [
+                CRAPS_FIRST_BOARD,
+                BET_PLACED_SUCCESFULLY,
+                CRAPS_SHOW_BET,
+                (3, 4),
+                CRAPS_DICE,
+                'Game Over',
+                ],
+        )
 
 
 if __name__ == "__main__":

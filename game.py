@@ -10,6 +10,7 @@ from blackjack.blackjack_game import BlackJackGame
 from battleship.game import GameBattleship
 from poker.game import PokerGame
 from sudoku.game import SudokuGame
+from craps.game import CrapsGame
 
 
 class Game(object):
@@ -29,6 +30,7 @@ class Game(object):
             GameBattleship,
             PokerGame,
             SudokuGame,
+            CrapsGame
         ]
 
     def output(self, text):
@@ -51,15 +53,24 @@ class Game(object):
 
     def get_turn_input(self, text):
         input_args = ''
+        if isinstance(self.active_game.input_args, tuple):
+            input_arg_qtys = self.active_game.input_args
+            expecting_input_args = ' or '.join(
+                str(input_arg_qty)
+                for input_arg_qty in self.active_game.input_args
+            )
+        else:
+            input_arg_qtys = (self.active_game.input_args,)
+            expecting_input_args = self.active_game.input_args
         expecting_str = (
-            'commands separated with spaces'
-            if self.active_game.input_args > 1 else 'number'
+            '{} numbers separated with spaces'.format(
+                expecting_input_args,
+            )
         )
         while True:
 
-            inputs = self.get_input('{} (expecting {} {})\n'.format(
+            inputs = self.get_input('{} (expecting {})\n'.format(
                 text,
-                self.active_game.input_args,
                 expecting_str,
             ))
             try:
@@ -70,6 +81,15 @@ class Game(object):
                     ]
                 else:
                     input_args = inputs.split(' ')
+                    if len(input_args) in input_arg_qtys:
+                        break
+                    else:
+                        self.output(
+                            'Wrong input count, expecting {} values'.format(
+                                self.active_game.input_args
+                            )
+                        )
+                        
                 if len(input_args) == self.active_game.input_args:
                     break
                 else:

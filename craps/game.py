@@ -28,6 +28,7 @@ class CrapsGame:
 
     name = 'Craps Game'
     input_args = (1, 2, 3)
+    input_are_ints = False
 
     def __init__(self):
         self.turn = Turn()
