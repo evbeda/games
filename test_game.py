@@ -4,7 +4,6 @@ from game import Game
 from sudoku import (
     ALMOST_FINISHED_EXAMPLE_BOARD,
     ALMOST_FINISHED_SHOWN_BOARD,
-    FINISHED_SHOWN_BOARD,
     YOU_WIN
     )
 
