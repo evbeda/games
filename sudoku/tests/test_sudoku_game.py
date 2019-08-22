@@ -30,7 +30,8 @@ class TestSudokuGame(unittest.TestCase):
         self.assertEqual(self.game.next_turn(), PLACE_A_NUMBER)
 
     def test_game_is_over(self):
-        self.game.is_playing = False
+        self.game.finish()
+        # import ipdb; ipdb.set_trace()
         self.assertEqual(self.game.next_turn(), GAME_OVER)
 
     @parameterized.expand([

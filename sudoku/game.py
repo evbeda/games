@@ -1,3 +1,4 @@
+from game_base import GameBase
 from . import (
     NUMBER_ADDED,
     PLACE_A_NUMBER,
@@ -12,17 +13,17 @@ from .api import fetch_board
 from .invalid_input_exception import InvalidInputException
 
 
-class SudokuGame:
+class SudokuGame(GameBase):
 
     name = 'Sudoku Game'
     input_args = 3
+    input_are_ints = False
 
-    def __init__(self, board=None):
+    def __init__(self, board=None, *args, **kwargs):
+        super(SudokuGame, self).__init__(*args, **kwargs)
         if not board:
             board = fetch_board()
         self.game_board = Board(board)
-        self.is_playing = True
-        self.input_are_ints = False
 
     def next_turn(self):
         if self.is_playing:
@@ -36,7 +37,7 @@ class SudokuGame:
             self.validate_input(row, column, value)
             self.game_board.place((row, int(column)), int(value))
             if self.game_board.is_finished():
-                self.is_playing = False
+                self.finish()
                 return YOU_WIN
             return NUMBER_ADDED
         except Exception as e:

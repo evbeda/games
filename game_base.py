@@ -17,7 +17,7 @@ class GameBase(object):
         return self._playing
 
     def play(self, *args):
-            return ''
+        return ''
 
     def next_turn(self):
         return ''
