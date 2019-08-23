@@ -2,6 +2,7 @@ from .board import show_board
 from .bet import BetCreator
 from .croupier import Croupier
 from .player import Player
+from game_base import GameBase
 from . import (
     SUCCESS_MESSAGE,
     NOT_ENOUGH_CASH_MESSAGE,
@@ -19,12 +20,13 @@ from .exceptions.invalid_bet_exception import InvalidBetException
 from .exceptions.invalid_bet_type_exception import InvalidBetTypeException
 
 
-class GameRoulette:
+class GameRoulette(GameBase):
     name = 'Roulette'
     input_args = (1, 3)
 
-    def __init__(self):
-        self.is_playing = True
+    def __init__(self, *args, **kwargs):
+        super(GameBase, self).__init__(*args, **kwargs)
+        self._playing = True
         self.croupier = Croupier(Player(100))
         self.input_are_ints = False
 
@@ -40,7 +42,7 @@ class GameRoulette:
         QUIT
         '''
         if command[0] == END_GAME_COMMAND:
-            self.is_playing = False
+            self._playing = False
             return BYE_MESSAGE
         elif command[0] == GO_COMMAND:
             return self.croupier.play()
