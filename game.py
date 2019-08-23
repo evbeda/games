@@ -11,6 +11,7 @@ from battleship.game import GameBattleship
 from poker.game import PokerGame
 from sudoku.game import SudokuGame
 from craps.game import CrapsGame
+from ruleta.game_roullete import GameRoulette
 
 
 class Game(object):
@@ -30,7 +31,8 @@ class Game(object):
             GameBattleship,
             PokerGame,
             SudokuGame,
-            CrapsGame
+            CrapsGame,
+            GameRoulette,
         ]
 
     def output(self, text):
