@@ -72,7 +72,6 @@ class Game(object):
             )
         )
         while True:
-
             inputs = self.get_input('{} (expecting {})\n'.format(
                 text,
                 expecting_str,
