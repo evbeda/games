@@ -138,5 +138,5 @@ class TestTurn(unittest.TestCase):
         board = ''
         board += 'Point: {}\n'.format(10)
         board += 'Dice: {}\n'.format([(1, 2)])
-        board += 'Bet:\n{}'.format(bet)
+        board += 'Bet:{}'.format(bet)
         self.assertEqual(board, turn.build_board())

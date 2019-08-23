@@ -122,10 +122,10 @@ class TestBets(unittest.TestCase):
         turn.state = state
         turn.dice = dice
         bet.pay(turn)
-        ret = ''
-        ret += 'Bet type: {}\n'.format(type(bet).__name__)
-        ret += 'Amount bet: {}\n'.format(bet.amount)
-        ret += 'Amount payed: {}\n'.format(expected_payment)
+        ret = '\n\t'
+        ret += 'Bet type: {}\n\t'.format(type(bet).__name__)
+        ret += 'Amount bet: {}\n\t'.format(bet.amount)
+        ret += 'Amount payed: {}\n\t'.format(expected_payment)
         ret += 'Bet state: {}\n'.format(bet.state)
         self.assertEqual(str(bet), ret)
 
