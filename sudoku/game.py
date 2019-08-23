@@ -20,7 +20,7 @@ class SudokuGame(GameBase):
     input_are_ints = False
 
     def __init__(self, board=None, *args, **kwargs):
-        super(SudokuGame, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         if not board:
             board = fetch_board()
         self.game_board = Board(board)

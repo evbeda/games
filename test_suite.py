@@ -28,6 +28,7 @@ from battleship.test_board import TestBoard
 from sudoku.tests.test_suite_sudoku import suite as sudoku_suite
 from craps.craps_suite import suite as craps_suite
 from ruleta.tests.test_roulette_suite import suite as roulette_suite
+from dungeon_raiders.tests.test_suite_dungeon import suite as dungeon_suite
 
 
 def suite():
@@ -60,6 +61,7 @@ def suite():
     test_suite.addTest(craps_suite())
     test_suite.addTest(sudoku_suite())
     test_suite.addTest(roulette_suite())
+    test_suite.addTest(dungeon_suite())
     return test_suite
 
 
