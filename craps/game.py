@@ -37,10 +37,6 @@ class CrapsGame(GameBase):
         self._playing = True
         self.money = 1000
 
-    @property
-    def is_playing(self):
-        return self._playing
-
     def next_turn(self):
         if self.turn.state == PLAYER_LOST:
             return LOST_MESSAGE
