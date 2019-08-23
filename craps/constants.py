@@ -25,6 +25,7 @@ CAN_NOT_LEAVE = "You can't leave until the turn ends. "
 INVALID_TURN_BET = "You can't make this bet in this turn"
 SHOOT_DICE_MESSAGE = 'Write Go to shoot the dice'
 BET_AGAIN_OR_GO = 'Bet again or go'
+INVALID_INPUT = 'Invalid input, try again'
 
 # Bet States
 BET_IN_PROGRESS = 'Bet in progress'
@@ -40,15 +41,18 @@ CRAPS_BET = 'CRAPS_BET'
 DOUBLE_SEVEN = 'DOUBLE_SEVEN'
 
 # Integration Test
-CRAPS_FIRST_BOARD = "Point: None\nDice: None\nMoney: 1000"
+CRAPS_FIRST_BOARD = "\nPoint: -\nDice: No dices played\nMoney: 1000\n"
 BET_PLACED_SUCCESFULLY = "Your bet was placed successfully: PASS_BET"
-CRAPS_SHOW_BET = "Point: None\n" \
-    "Dice: None\n" \
-    "Bet:\n" \
-    "Bet type: PassBet\n" \
-    "Amount bet: 200\n" \
-    "Amount payed: 0\n" \
-    "Bet state: Bet in progress\n" \
-    "Money: 800" \
-
-CRAPS_DICE = 'Point: None\nDice: (3, 4)\nBet:\nBet type: PassBet\nAmount bet: 200\nAmount payed: 400\nBet state: Payed\nMoney: 1200'
+# CRAPS_SHOW_BET = '''
+# Point: 0
+# Dice: No dices played
+# Bet:
+# Bet type: PassBet
+# Amount bet: 200
+# Amount payed: 0
+# Bet state: Bet in progress
+# Money: 800
+# '''
+CRAPS_SHOW_BET = "\nPoint: -\nDice: No dices played\nBet:\n\tBet type: PassBet\n\tAmount bet: 200\n\tAmount payed: 0\n\tBet state: Bet in progress\nMoney: 800\n"
+CRAPS_DICE = "\nPoint: -\nDice: (3, 4)\nBet:\n\tBet type: PassBet\n\tAmount bet: 200\n\tAmount payed: 400\n\tBet state: Payed\nMoney: 1200\n"
+# CRAPS_DICE_FINISH = "\nPoint: 0\nDice: (3, 4)\nBet:\n\tBet type: PassBet\n\tAmount bet: 200\n\tAmount payed: 400\n\tBet state: Payed\nMoney: 1200\n"

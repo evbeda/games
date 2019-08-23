@@ -27,6 +27,7 @@ from .constants import (
     INVALID_TURN_BET,
     DOUBLE_BET,
     SEVEN_BET,
+    INVALID_INPUT
 )
 
 
@@ -39,7 +40,7 @@ class TestCraps(unittest.TestCase):
         self.assertIsInstance(self.game.turn, Turn)
 
     @parameterized.expand([
-        (GAME_STARTED, [], 'PASS_BET, DO_NOT_PASS_BET, CRAPS_BET' + BET_MESSAGE),
+        (GAME_STARTED, [], 'Bets availables: PASS_BET, DO_NOT_PASS_BET, CRAPS_BET' + BET_MESSAGE),
     ])
     def test_craps_game_started_asks_for_a_bet(self, state, bets, message):
         self.game.turn.state = state
@@ -48,7 +49,8 @@ class TestCraps(unittest.TestCase):
 
     def test_craps_game_in_progress_asks_for_a_bet(self):
         self.game.turn.state = GAME_IN_PROGRESS
-        self.assertEqual(self.game.next_turn(), SHOOT_DICE_MESSAGE)
+        bets = 'Bets availables: '+BetCreator.list_bets(self.game.turn.state)
+        self.assertEqual(self.game.next_turn(), bets+'\n'+SHOOT_DICE_MESSAGE)
 
     def test_craps_player_lost_aks_keep_playing(self):
         self.game.turn.state = PLAYER_LOST
@@ -81,7 +83,7 @@ class TestCraps(unittest.TestCase):
     ])
     def test_craps_play_returns_score(self, dice):
         with patch('random.sample', return_value=dice):
-            self.assertEqual(self.game.play(GO_COMMAND), dice)
+            self.assertEqual(self.game.play(GO_COMMAND), '\nResult:')
 
     def test_craps_game_input_bet_placed_message(self):
         returned_play = self.game.play(PASS_BET, 10)
@@ -147,11 +149,11 @@ class TestCraps(unittest.TestCase):
         self.assertEqual(is_same_turn, expected)
 
     @parameterized.expand([
-        (GAME_STARTED, None, None, 1000, None, "Point: None\nDice: None\nMoney: 1000"),
-        (GAME_STARTED, None, PassBet(20, None), 980, None, "Point: None\nDice: None\nBet:\nBet type: PassBet\nAmount bet: 20\nAmount payed: 0\nBet state: Bet in progress\nMoney: 980"),
-        (GAME_IN_PROGRESS, 9, PassBet(20, (6, 3)), 980, None, "Point: 9\nDice: (6, 3)\nBet:\nBet type: PassBet\nAmount bet: 20\nAmount payed: 0\nBet state: Bet in progress\nMoney: 980"),
-        (PLAYER_LOST, 9, PassBet(200, (5, 2)), 800, None, "Point: 9\nDice: (5, 2)\nBet:\nBet type: PassBet\nAmount bet: 200\nAmount payed: 0\nBet state: Bet in progress\nMoney: 800"),
-        (PLAYER_WON, 6, PassBet(200, (4, 2)), 1200, 400, "Point: 6\nDice: (4, 2)\nBet:\nBet type: PassBet\nAmount bet: 200\nAmount payed: 400\nBet state: Payed\nMoney: 1200"),
+        (GAME_STARTED, None, None, 1000, None, "\nPoint: -\nDice: No dices played\nMoney: 1000\n"),
+        (GAME_STARTED, None, PassBet(20, None), 980, None, "\nPoint: -\nDice: No dices played\nBet:\n\tBet type: PassBet\n\tAmount bet: 20\n\tAmount payed: 0\n\tBet state: Bet in progress\nMoney: 980\n"),
+        (GAME_IN_PROGRESS, 9, PassBet(20, (6, 3)), 980, None, "\nPoint: 9\nDice: (6, 3)\nBet:\n\tBet type: PassBet\n\tAmount bet: 20\n\tAmount payed: 0\n\tBet state: Bet in progress\nMoney: 980\n"),
+        (PLAYER_LOST, 9, PassBet(200, (5, 2)), 800, None, "\nPoint: 9\nDice: (5, 2)\nBet:\n\tBet type: PassBet\n\tAmount bet: 200\n\tAmount payed: 0\n\tBet state: Bet in progress\nMoney: 800\n"),
+        (PLAYER_WON, 6, PassBet(200, (4, 2)), 1200, 400, "\nPoint: 6\nDice: (4, 2)\nBet:\n\tBet type: PassBet\n\tAmount bet: 200\n\tAmount payed: 400\n\tBet state: Payed\nMoney: 1200\n"),
     ])
     def test_show_board(self, state, point, bet, money, amount_payed, expected):
         game = CrapsGame()
@@ -166,3 +168,7 @@ class TestCraps(unittest.TestCase):
         game.money = money
         boards = game.board
         self.assertEqual(boards, expected)
+
+    def test_invalid_input(self):
+        game = CrapsGame()
+        self.assertEqual(game.play("something"), INVALID_INPUT)

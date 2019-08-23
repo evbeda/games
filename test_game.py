@@ -610,7 +610,7 @@ class TestGame(unittest.TestCase):
                 CRAPS_FIRST_BOARD,
                 BET_PLACED_SUCCESFULLY,
                 CRAPS_SHOW_BET,
-                (3, 4),
+                '\nResult:',
                 CRAPS_DICE,
                 'Game Over',
                 ],

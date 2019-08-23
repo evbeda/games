@@ -25,10 +25,10 @@ class Bet:
         self.state = BET_IN_PROGRESS
 
     def __str__(self):
-        ret = ''
-        ret += 'Bet type: {}\n'.format(type(self).__name__)
-        ret += 'Amount bet: {}\n'.format(self.amount)
-        ret += 'Amount payed: {}\n'.format(self.amount_payed)
+        ret = '\n\t'
+        ret += 'Bet type: {}\n\t'.format(type(self).__name__)
+        ret += 'Amount bet: {}\n\t'.format(self.amount)
+        ret += 'Amount payed: {}\n\t'.format(self.amount_payed)
         ret += 'Bet state: {}\n'.format(self.state)
         return ret
 
@@ -41,13 +41,13 @@ class Bet:
 
 class PassBet(Bet):
 
-    def __str__(self):
-        ret = ''
-        ret += 'Bet type: {}\n'.format(type(self).__name__)
-        ret += 'Amount bet: {}\n'.format(self.amount)
-        ret += 'Amount payed: {}\n'.format(self.amount_payed)
-        ret += 'Bet state: {}\n'.format(self.state)
-        return ret
+    # def __str__(self):
+    #     ret = '\n\t'
+    #     ret += 'Bet type: {}\n\t'.format(type(self).__name__)
+    #     ret += 'Amount bet: {}\n\t'.format(self.amount)
+    #     ret += 'Amount payed: {}\n\t'.format(self.amount_payed)
+    #     ret += 'Bet state: {}\n'.format(self.state)
+    #     return ret
 
     def check(self, turn):
         return turn.state == PLAYER_WON
@@ -65,13 +65,13 @@ class PassBet(Bet):
 
 class DoNotPassBet(Bet):
 
-    def __str__(self):
-        ret = ''
-        ret += 'Bet type: {}\n'.format(type(self).__name__)
-        ret += 'Amount bet: {}\n'.format(self.amount)
-        ret += 'Amount payed: {}\n'.format(self.amount_payed)
-        ret += 'Bet state: {}\n'.format(self.state)
-        return ret
+    # def __str__(self):
+    #     ret = '\n\t'
+    #     ret += 'Bet type: {}\n\t'.format(type(self).__name__)
+    #     ret += 'Amount bet: {}\n\t'.format(self.amount)
+    #     ret += 'Amount payed: {}\n\t'.format(self.amount_payed)
+    #     ret += 'Bet state: {}\n'.format(self.state)
+    #     return ret
 
     def check(self, turn):
         return turn.state == PLAYER_LOST
@@ -89,13 +89,13 @@ class DoNotPassBet(Bet):
 
 class SevenBet(Bet):
 
-    def __str__(self):
-        ret = ''
-        ret += 'Bet type: {}\n'.format(type(self).__name__)
-        ret += 'Amount bet: {}\n'.format(self.amount)
-        ret += 'Amount payed: {}\n'.format(self.amount_payed)
-        ret += 'Bet state: {}\n'.format(self.state)
-        return ret
+    # def __str__(self):
+    #     ret = '\n\t'
+    #     ret += 'Bet type: {}\n\t'.format(type(self).__name__)
+    #     ret += 'Amount bet: {}\n\t'.format(self.amount)
+    #     ret += 'Amount payed: {}\n\t'.format(self.amount_payed)
+    #     ret += 'Bet state: {}\n'.format(self.state)
+    #     return ret
 
     def check(self, turn):
         return sum(turn.dice) == 7
@@ -113,13 +113,13 @@ class SevenBet(Bet):
 
 class DoubleBet(Bet):
 
-    def __str__(self):
-        ret = ''
-        ret += 'Bet type: {}\n'.format(type(self).__name__)
-        ret += 'Amount bet: {}\n'.format(self.amount)
-        ret += 'Amount payed: {}\n'.format(self.amount_payed)
-        ret += 'Bet state: {}\n'.format(self.state)
-        return ret
+    # def __str__(self):
+    #     ret = '\n\t'
+    #     ret += 'Bet type: {}\n\t'.format(type(self).__name__)
+    #     ret += 'Amount bet: {}\n\t'.format(self.amount)
+    #     ret += 'Amount payed: {}\n\t'.format(self.amount_payed)
+    #     ret += 'Bet state: {}\n'.format(self.state)
+    #     return ret
 
     def check(self, turn):
         return turn.dice[0] == turn.dice[1]
