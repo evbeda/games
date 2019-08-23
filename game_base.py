@@ -5,7 +5,7 @@ class GameBase(object):
     input_are_ints = True
 
     def __init__(self, *args, **kwargs):
-        super(GameBase, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self._playing = True
 
     # @property

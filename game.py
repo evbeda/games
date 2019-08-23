@@ -12,6 +12,7 @@ from poker.game import PokerGame
 from sudoku.game import SudokuGame
 from craps.game import CrapsGame
 from ruleta.game_roullete import GameRoulette
+from dungeon_raiders.model.game import DungeonRaidersGame
 
 
 class Game(object):
@@ -33,6 +34,7 @@ class Game(object):
             SudokuGame,
             CrapsGame,
             GameRoulette,
+            DungeonRaidersGame,
         ]
 
     def output(self, text):
@@ -91,7 +93,7 @@ class Game(object):
                                 self.active_game.input_args
                             )
                         )
-                        
+
                 if len(input_args) == self.active_game.input_args:
                     break
                 else:
