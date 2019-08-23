@@ -1,4 +1,6 @@
 import unittest
+import copy
+from ..model.level import Level
 from ..model.player import Player
 from ..model.hand_player import HandPlayer
 from ..model.rooms.monster_room import MonsterRoom
@@ -18,11 +20,11 @@ Rooms:
 Players status:
 Caballero, wounds: 1, gold: 1
 Exploradora, wounds: 3, gold: 2
-Guerrero, wounds: 2, gold: 0
+Guerrero, wounds: 0, gold: 2
 '''
 
 BOARD_EXAMPLE_WINNER = '''Winner:
-Caballero, wounds: 1, gold: 1
+Guerrero, wounds: 0, gold: 2
 '''
 
 BOARD_EXAMPLE_TWO_WINNERS = '''Winners:
@@ -61,19 +63,146 @@ ROOMS_EXAMPLE = [
     Treasure((4, 2)),
     GoldRoom(['Caldero de lava', [(5, 3), (4, 2), (3, 1)]]),
     MonsterRoom((14, 3, 'Dragon')),
-    Treasure((3, 2)),
+    Treasure((3, 2))
 ]
 
 PLAYERS_EXAMPLE = [
     Player(character=['Caballero', 1, 1]),
     Player(character=['Exploradora', 3, 2]),
-    Player(character=['Guerrero', 2, 0]),
+    Player(character=['Guerrero', 0, 2]),
+]
+
+PLAYERS_EXAMPLE_INTEGRATION = [
+    Player(character=['Caballero', 1, 1]),
+    Player(character=['Exploradora', 3, 2]),
+    Player(character=['Guerrero', 0, 2]),
 ]
 
 PLAYERS_EXAMPLE_TWO_WINNERS = [
     Player(character=['Caballero', 1, 5]),
     Player(character=['Exploradora', 1, 5]),
     Player(character=['Guerrero', 2, 0]),
+]
+
+FIRST_LEVEL_EXAMPLE = [
+    Level(
+        copy.deepcopy(PLAYERS_EXAMPLE),
+        1,
+        copy.deepcopy(ROOMS_EXAMPLE[::-1]),
+        (True, True, False, True, False)
+    ),
+    None,
+    None,
+    None,
+    None
+]
+
+LAST_LEVEL_EXAMPLE_INTEGRATION = [
+    None,
+    None,
+    None,
+    None,
+    Level(
+        PLAYERS_EXAMPLE_INTEGRATION,
+        5,
+        copy.deepcopy(ROOMS_EXAMPLE),
+        (True, False, False, False, True)
+    )
+]
+
+INTEGRATION_TEST_OUTPUT = [
+    '''===================================================
+Level: 5
+Rooms:
+ * Treasure (💰 3, 💰 2) <--
+ * Hidden
+ * Hidden
+ * Hidden
+ * Esqueleto (❤️ 11, 🗡️️ 3)
+
+Players status:
+Caballero, wounds: 1, gold: 1
+Exploradora, wounds: 3, gold: 2
+Guerrero, wounds: 0, gold: 2
+''',
+    '''
+Caballero played 1, Exploradora played 1, Guerrero played 2
+Guerrero earnt 3 gold. Caballero and Exploradora earnt 1 gold.''',
+    '''===================================================
+Level: 5
+Rooms:
+ * Treasure (💰 3, 💰 2)
+ * Dragon (❤️ 14, 🗡️️ 3) <--
+ * Hidden
+ * Hidden
+ * Esqueleto (❤️ 11, 🗡️️ 3)
+
+Players status:
+Caballero, wounds: 1, gold: 2
+Exploradora, wounds: 3, gold: 3
+Guerrero, wounds: 0, gold: 5
+''',
+    '''
+Caballero played 2, Exploradora played 3, Guerrero played 4
+Dragon attacks. Caballero took 3 damage.''',
+    '''===================================================
+Level: 5
+Rooms:
+ * Treasure (💰 3, 💰 2)
+ * Dragon (❤️ 14, 🗡️️ 3)
+ * Caldero de lava (Gold) <--
+ * Hidden
+ * Esqueleto (❤️ 11, 🗡️️ 3)
+
+Players status:
+Caballero, wounds: 4, gold: 2
+Exploradora, wounds: 3, gold: 3
+Guerrero, wounds: 0, gold: 5
+''',
+    '''
+Caballero played 3, Exploradora played 5, Guerrero played 1
+Guerrero lost 3 gold. ''',
+    '''===================================================
+Level: 5
+Rooms:
+ * Treasure (💰 3, 💰 2)
+ * Dragon (❤️ 14, 🗡️️ 3)
+ * Caldero de lava (Gold)
+ * Treasure (💰 4, 💰 2) <--
+ * Esqueleto (❤️ 11, 🗡️️ 3)
+
+Players status:
+Caballero, wounds: 4, gold: 2
+Exploradora, wounds: 3, gold: 3
+Guerrero, wounds: 0, gold: 2
+''',
+    '''
+Caballero played 4, Exploradora played 2, Guerrero played 3
+Caballero earnt 4 gold. Guerrero earnt 2 gold.''',
+    '''===================================================
+Level: 5
+Rooms:
+ * Treasure (💰 3, 💰 2)
+ * Dragon (❤️ 14, 🗡️️ 3)
+ * Caldero de lava (Gold)
+ * Treasure (💰 4, 💰 2)
+ * Esqueleto (❤️ 11, 🗡️️ 3) <--
+
+Players status:
+Caballero, wounds: 4, gold: 6
+Exploradora, wounds: 3, gold: 3
+Guerrero, wounds: 0, gold: 4
+''',
+    '''
+Caballero played 5, Exploradora played 4, Guerrero played 5
+Esqueleto was beaten. No one took damage.
+===================================================
+Winner:
+Guerrero, wounds: 0, gold: 4
+
+Game over
+===================================================
+''',
 ]
 
 
