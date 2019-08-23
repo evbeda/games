@@ -22,18 +22,24 @@ from .constants import (
     SHOOT_DICE_MESSAGE,
     BET_AGAIN_OR_GO,
 )
+from game_base import GameBase
 
 
-class CrapsGame:
+class CrapsGame(GameBase):
 
     name = 'Craps Game'
     input_args = (1, 2, 3)
     input_are_ints = False
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
+        super(GameBase, self).__init__(*args, **kwargs)
         self.turn = Turn()
-        self.is_playing = True
+        self._playing = True
         self.money = 1000
+
+    @property
+    def is_playing(self):
+        return self._playing
 
     def next_turn(self):
         if self.turn.state == PLAYER_LOST:
@@ -52,7 +58,7 @@ class CrapsGame:
         # In case of the user wants to finish his turn
         if user_input[0] == NO_COMMAND:
             if self.turn.state == PLAYER_LOST or self.turn.state == PLAYER_WON:
-                self.is_playing = False
+                self._playing = False
                 return GAME_OVER
             else:
                 return CAN_NOT_LEAVE + BET_MESSAGE
