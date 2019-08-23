@@ -21,6 +21,11 @@ from ruleta import (
     BYE_MESSAGE,
     EXAMPLE_SHOW_BOARD_END_GAME
 )
+from dungeon_raiders.tests import (
+    PLAYERS_EXAMPLE_INTEGRATION,
+    LAST_LEVEL_EXAMPLE_INTEGRATION,
+    INTEGRATION_TEST_OUTPUT,
+)
 
 
 class TestGame(unittest.TestCase):
@@ -658,6 +663,55 @@ class TestGame(unittest.TestCase):
                 BYE_MESSAGE,
             ],
         )
+
+    def test_play_dungeon_raiders(self):
+
+        class ControlInputValues(object):
+            def __init__(self, *args, **kwargs):
+                self.played = False
+                self.play_count = -1
+                self.plays = [                      # lista de play inputs
+                    '1',
+                    '2',
+                    '3',
+                    '4',
+                    '5',
+                ]
+
+            def __call__(self, console_output):
+                if 'Select Game' in console_output:
+                    if self.played:
+                        return '99'
+                    self.played = True
+                    return '14'
+                self.play_count += 1
+                return self.plays[self.play_count]
+
+        with \
+                patch('game.Game.get_input', side_effect=ControlInputValues()), \
+                patch('game.Game.output', side_effect=self.output_collector), \
+                patch(
+                    'dungeon_raiders.model.game.DungeonRaidersGame.init_index_current_level',
+                    return_value=4
+                ), \
+                patch(
+                    'dungeon_raiders.model.game.DungeonRaidersGame.create_players',
+                    return_value=PLAYERS_EXAMPLE_INTEGRATION
+                ), \
+                patch(
+                    'dungeon_raiders.model.game.DungeonRaidersGame.create_levels',
+                    return_value=LAST_LEVEL_EXAMPLE_INTEGRATION
+                ), \
+                patch(
+                    'dungeon_raiders.model.hand_computer.HandComputer.select_card',
+                    side_effect=(1, 2, 3, 4, 5, 1, 2, 3, 4, 5)
+                ):
+            self.game.play()
+
+        self.assertEqual(
+            self.output_collector.output_collector,
+            INTEGRATION_TEST_OUTPUT
+         )
 
 
 if __name__ == "__main__":

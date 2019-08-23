@@ -24,10 +24,15 @@ class DungeonRaidersGame(GameBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.index_current_level = 0
+        self.index_current_level = DungeonRaidersGame.init_index_current_level()
         self.players = DungeonRaidersGame.create_players()
         self.levels = self.create_levels()
+        # import ipdb; ipdb.set_trace()
         self.current_level = self.levels[self.index_current_level]
+
+    @staticmethod
+    def init_index_current_level():
+        return 0
 
     def create_levels(self):
         deck = ROOMS.copy()

@@ -14,7 +14,7 @@ from ..model import BYE_MESSAGE, EXIT, GAME_OVER, LEVEL_FINISHED_MESSAGE, INPUT_
 from . import BOARD_EXAMPLE
 from . import BOARD_EXAMPLE_TWO_WINNERS
 from . import BOARD_EXAMPLE_WINNER
-from . import ROOMS_EXAMPLE
+from . import FIRST_LEVEL_EXAMPLE
 from . import NEXT_TURN_WOUNDROOM_EXAMPLE
 from . import NEXT_TURN_TREASURE_EXAMPLE
 from . import NEXT_TURN_GOLDROOM_EXAMPLE
@@ -65,18 +65,14 @@ class TestDungeon(unittest.TestCase):
         self.assertEqual(winners, expected_winners)
 
     @patch(
-        'random.choice',
-        return_value=(True, True, False, True, False)
-        )
-    @patch(
-        'dungeon_raiders.model.level.Level.select_rooms',
-        return_value=ROOMS_EXAMPLE
+        'dungeon_raiders.model.game.DungeonRaidersGame.create_levels',
+        return_value=FIRST_LEVEL_EXAMPLE
         )
     @patch(
         'dungeon_raiders.model.game.DungeonRaidersGame.create_players',
         return_value=PLAYERS_EXAMPLE
-        )
-    def test_board(self, _mocked_level_cards, _mocked_rooms, _mocked_players):
+    )
+    def test_board(self, _, _a):
         game = DungeonRaidersGame()
         self.assertEqual(BOARD_EXAMPLE, game.board)
 
