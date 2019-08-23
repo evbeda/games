@@ -26,6 +26,7 @@ class GameRoulette:
     def __init__(self):
         self.is_playing = True
         self.croupier = Croupier(Player(100))
+        self.input_are_ints = False
 
     def next_turn(self):
         return BetCreator.list_bets() + GO_END_COMMAND

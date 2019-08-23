@@ -12,6 +12,15 @@ from craps.constants import (
     CRAPS_SHOW_BET,
     CRAPS_DICE
 )
+from ruleta import (
+    EXAMPLE_SHOWN_BOARD_NO_BET,
+    SUCCESS_MESSAGE,
+    EXAMPLE_SHOWN_BOARD_BET,
+    WON_MESSAGE,
+    EXAMPLE_SHOWN_BOARD_WON_BET,
+    BYE_MESSAGE,
+    EXAMPLE_SHOW_BOARD_END_GAME
+)
 
 
 class TestGame(unittest.TestCase):
@@ -605,6 +614,49 @@ class TestGame(unittest.TestCase):
                 CRAPS_DICE,
                 'Game Over',
                 ],
+        )
+
+    def test_play_roulette(self):
+
+        class ControlInputValues(object):
+            def __init__(self, *args, **kwargs):
+                self.played = False
+                self.play_count = -1
+                self.plays = [
+                    'STRAIGHT_BET 20 40',
+                    'GO',
+                    'END_GAME'
+                ]
+
+            def __call__(self, console_output):
+                if 'Select Game' in console_output:
+                    if self.played:
+                        return '99'
+                    self.played = True
+                    return '13'
+                self.play_count += 1
+                return self.plays[self.play_count]
+
+        with \
+                patch(
+                    'game.Game.get_input', side_effect=ControlInputValues()
+                    ), \
+                patch('game.Game.output', side_effect=self.output_collector), \
+                patch(
+                    'ruleta.roulette.randint',
+                    return_value=20,
+                ):
+            self.game.play()
+        self.assertEqual(
+           self.output_collector.output_collector,
+           [
+                EXAMPLE_SHOWN_BOARD_NO_BET,
+                SUCCESS_MESSAGE,
+                EXAMPLE_SHOWN_BOARD_BET,
+                WON_MESSAGE + "1400 chips\nRANDOM NUMBER: 20",
+                EXAMPLE_SHOWN_BOARD_WON_BET,
+                BYE_MESSAGE,
+            ],
         )
 
 
