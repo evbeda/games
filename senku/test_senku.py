@@ -7,10 +7,11 @@ class TestSenku(unittest.TestCase):
 
     def setUp(self):
         self.game = SenkuGame()
+        self.game.create_board()
 
     def test_get_board_initial(self):
         self.assertEqual(
-            self.game.get_board(),
+            self.game.get_board,
             [
                 ['X', 'X', '0', '0', '0', 'X', 'X'],
                 ['X', 'X', '0', '0', '0', 'X', 'X'],
@@ -95,7 +96,7 @@ class TestSenku(unittest.TestCase):
     def test_move_piece_col(self):
         self.game.play(3, 1, 3, 3)
         self.assertEqual(
-            self.game.get_board(),
+            self.game.get_board,
             [
                 ['X', 'X', '0', '0', '0', 'X', 'X'],
                 ['X', 'X', '0', '0', '0', 'X', 'X'],
@@ -110,7 +111,7 @@ class TestSenku(unittest.TestCase):
     def test_move_piece_row(self):
         self.game.play(1, 3, 3, 3)
         self.assertEqual(
-            self.game.get_board(),
+            self.game.get_board,
             [
                 ['X', 'X', '0', '0', '0', 'X', 'X'],
                 ['X', 'X', '0', '-', '0', 'X', 'X'],
@@ -125,12 +126,12 @@ class TestSenku(unittest.TestCase):
     def test_get_board(self):
         test_array = [1, 2, 3, 4]
         self.game.set_board(test_array)
-        self.assertEqual(self.game._board, self.game.get_board())
+        self.assertEqual(self.game._board, self.game.get_board)
 
     def test_set_board(self):
         test_array = [1, 2, 3, 4]
         self.game.set_board(test_array)
-        self.assertEqual(test_array, self.game.get_board())
+        self.assertEqual(test_array, self.game.get_board)
 
     def test_check_lose_game(self):
         self.game.set_board([
@@ -154,7 +155,7 @@ class TestSenku(unittest.TestCase):
             ['X', 'X', '-', '-', '-', 'X', 'X'],
             ['X', 'X', '-', '-', '-', 'X', 'X'],
         ])
-        self.assertEqual(self.game.next_turn(), "You won")
+        self.assertEqual(self.game.check_finish(), "You won")
         self.assertFalse(self.game.is_playing)
 
     def test_next_turn_lose_0(self):
@@ -167,11 +168,11 @@ class TestSenku(unittest.TestCase):
             ['X', 'X', '-', '-', '-', 'X', 'X'],
             ['X', 'X', '-', '-', '-', 'X', 'X'],
         ])
-        self.assertEqual(self.game.next_turn(), "You loose")
+        self.assertEqual(self.game.check_finish(), "You loose")
         self.assertTrue(self.game.check_loose())
         self.assertFalse(self.game.is_playing)
 
-    def test_next_turn_lose_1(self):
+    def test_check_finish_lose_1(self):
         self.game.set_board([
             ['X', 'X', '-', '-', '-', 'X', 'X'],
             ['X', 'X', '-', '-', '-', 'X', 'X'],
@@ -181,11 +182,11 @@ class TestSenku(unittest.TestCase):
             ['X', 'X', '-', '-', '-', 'X', 'X'],
             ['X', 'X', '-', '-', '-', 'X', 'X'],
         ])
-        self.assertEqual(self.game.next_turn(), "You loose")
+        self.assertEqual(self.game.check_finish(), "You loose")
         self.assertTrue(self.game.check_loose())
         self.assertFalse(self.game.is_playing)
 
-    def test_next_turn_lose_2(self):
+    def test_check_finish_lose_2(self):
         self.game.set_board([
             ['X', 'X', '-', '-', '-', 'X', 'X'],
             ['X', 'X', '-', '0', '-', 'X', 'X'],
@@ -195,11 +196,11 @@ class TestSenku(unittest.TestCase):
             ['X', 'X', '-', '-', '-', 'X', 'X'],
             ['X', 'X', '-', '-', '-', 'X', 'X'],
         ])
-        self.assertEqual(self.game.next_turn(), "You loose")
+        self.assertEqual(self.game.check_finish(), "You loose")
         self.assertTrue(self.game.check_loose())
         self.assertFalse(self.game.is_playing)
 
-    def test_next_turn_lose_3(self):
+    def test_check_finish_lose_3(self):
         self.game.set_board([
             ['X', 'X', '-', '-', '-', 'X', 'X'],
             ['X', 'X', '-', '-', '-', 'X', 'X'],
@@ -209,11 +210,11 @@ class TestSenku(unittest.TestCase):
             ['X', 'X', '-', '-', '-', 'X', 'X'],
             ['X', 'X', '-', '-', '-', 'X', 'X'],
         ])
-        self.assertEqual(self.game.next_turn(), "You loose")
+        self.assertEqual(self.game.check_finish(), "You loose")
         self.assertTrue(self.game.check_loose())
         self.assertFalse(self.game.is_playing)
 
-    def test_next_turn_lose_4(self):
+    def test_check_finish_lose_4(self):
         self.game.set_board([
             ['X', 'X', '-', '-', '-', 'X', 'X'],
             ['X', 'X', '-', '-', '-', 'X', 'X'],
@@ -223,11 +224,11 @@ class TestSenku(unittest.TestCase):
             ['X', 'X', '-', '-', '-', 'X', 'X'],
             ['X', 'X', '-', '-', '-', 'X', 'X'],
         ])
-        self.assertEqual(self.game.next_turn(), "You loose")
+        self.assertEqual(self.game.check_finish(), "You loose")
         self.assertTrue(self.game.check_loose())
         self.assertFalse(self.game.is_playing)
 
-    def test_next_turn_lose_5(self):
+    def test_check_finish_lose_5(self):
         self.game.set_board([
             ['X', 'X', '-', '-', '-', 'X', 'X'],
             ['X', 'X', '-', '-', '-', 'X', 'X'],
@@ -237,11 +238,11 @@ class TestSenku(unittest.TestCase):
             ['X', 'X', '-', '-', '-', 'X', 'X'],
             ['X', 'X', '-', '-', '-', 'X', 'X'],
         ])
-        self.assertEqual(self.game.next_turn(), "You loose")
+        self.assertEqual(self.game.check_finish(), "You loose")
         self.assertTrue(self.game.check_loose())
         self.assertFalse(self.game.is_playing)
 
-    def test_next_turn_lose_6(self):
+    def test_check_finish_lose_6(self):
         self.game.set_board([
             ['X', 'X', '-', '-', '-', 'X', 'X'],
             ['X', 'X', '-', '-', '-', 'X', 'X'],
@@ -251,11 +252,11 @@ class TestSenku(unittest.TestCase):
             ['X', 'X', '-', '0', '-', 'X', 'X'],
             ['X', 'X', '-', '-', '-', 'X', 'X'],
         ])
-        self.assertEqual(self.game.next_turn(), "You loose")
+        self.assertEqual(self.game.check_finish(), "You loose")
         self.assertTrue(self.game.check_loose())
         self.assertFalse(self.game.is_playing)
 
-    def test_next_turn_lose_7(self):
+    def test_check_finish_lose_7(self):
         self.game.set_board([
             ['X', 'X', '-', '-', '-', 'X', 'X'],
             ['X', 'X', '-', '-', '-', 'X', 'X'],
@@ -265,11 +266,11 @@ class TestSenku(unittest.TestCase):
             ['X', 'X', '-', '-', '-', 'X', 'X'],
             ['X', 'X', '-', '-', '-', 'X', 'X'],
         ])
-        self.assertEqual(self.game.next_turn(), "You loose")
+        self.assertEqual(self.game.check_finish(), "You loose")
         self.assertTrue(self.game.check_loose())
         self.assertFalse(self.game.is_playing)
 
-    def test_next_turn_lose_8(self):
+    def test_check_finish_lose_8(self):
         self.game.set_board([
             ['X', 'X', '0', '0', '0', 'X', 'X'],
             ['X', 'X', '-', '-', '-', 'X', 'X'],
@@ -279,74 +280,9 @@ class TestSenku(unittest.TestCase):
             ['X', 'X', '-', '-', '-', 'X', 'X'],
             ['X', 'X', '-', '-', '-', 'X', 'X'],
         ])
-        self.assertEqual(self.game.next_turn(), "You loose")
+        self.assertEqual(self.game.check_finish(), "You loose")
         self.assertTrue(self.game.check_loose())
         self.assertFalse(self.game.is_playing)
-
-    def test_next_turn_playing_0(self):
-        self.game.set_board([
-            ['X', 'X', '0', '0', '0', 'X', 'X'],
-            ['X', 'X', '0', '0', '0', 'X', 'X'],
-            ['0', '0', '0', '0', '0', '0', '0'],
-            ['0', '0', '0', '-', '0', '0', '0'],
-            ['0', '0', '0', '0', '0', '0', '0'],
-            ['X', 'X', '0', '0', '0', 'X', 'X'],
-            ['X', 'X', '0', '0', '0', 'X', 'X'],
-        ])
-        self.assertEqual(self.game.next_turn(), "Please, make a move")
-        self.assertTrue(self.game.is_playing)
-
-    def test_next_turn_playing_1(self):
-        self.game.set_board([
-            ['X', 'X', '-', '-', '-', 'X', 'X'],
-            ['X', 'X', '-', '-', '-', 'X', 'X'],
-            ['-', '-', '-', '-', '-', '-', '-'],
-            ['-', '-', '-', '-', '0', '0', '-'],
-            ['-', '-', '-', '-', '-', '-', '-'],
-            ['X', 'X', '-', '-', '-', 'X', 'X'],
-            ['X', 'X', '-', '-', '-', 'X', 'X'],
-        ])
-        self.assertEqual(self.game.next_turn(), "Please, make a move")
-        self.assertTrue(self.game.is_playing)
-
-    def test_next_turn_playing_2(self):
-        self.game.set_board([
-            ['X', 'X', '-', '-', '-', 'X', 'X'],
-            ['X', 'X', '-', '0', '-', 'X', 'X'],
-            ['-', '-', '-', '0', '-', '-', '-'],
-            ['-', '-', '-', '-', '-', '-', '-'],
-            ['-', '-', '-', '-', '-', '-', '-'],
-            ['X', 'X', '-', '-', '-', 'X', 'X'],
-            ['X', 'X', '-', '-', '-', 'X', 'X'],
-        ])
-        self.assertEqual(self.game.next_turn(), "Please, make a move")
-        self.assertTrue(self.game.is_playing)
-
-    def test_next_turn_playing_3(self):
-        self.game.set_board([
-            ['X', 'X', '-', '-', '-', 'X', 'X'],
-            ['X', 'X', '-', '-', '-', 'X', 'X'],
-            ['-', '-', '-', '-', '-', '-', '-'],
-            ['-', '0', '0', '-', '-', '-', '-'],
-            ['-', '-', '-', '-', '-', '-', '-'],
-            ['X', 'X', '-', '-', '-', 'X', 'X'],
-            ['X', 'X', '-', '-', '-', 'X', 'X'],
-        ])
-        self.assertEqual(self.game.next_turn(), "Please, make a move")
-        self.assertTrue(self.game.is_playing)
-
-    def test_next_turn_playing_4(self):
-        self.game.set_board([
-            ['X', 'X', '-', '-', '-', 'X', 'X'],
-            ['X', 'X', '-', '-', '-', 'X', 'X'],
-            ['-', '-', '-', '-', '-', '-', '-'],
-            ['-', '-', '-', '-', '-', '-', '-'],
-            ['-', '-', '-', '0', '-', '-', '-'],
-            ['X', 'X', '-', '0', '-', 'X', 'X'],
-            ['X', 'X', '-', '-', '-', 'X', 'X'],
-        ])
-        self.assertEqual(self.game.next_turn(), "Please, make a move")
-        self.assertTrue(self.game.is_playing)
 
     def test_play_out_of_range(self):
         result = self.game.play(2, 3, 3, -3)
