@@ -15,8 +15,9 @@ class SenkuGame(GameWithBoard, GameBase):
     input_args = 4
     input_are_ints = True
 
-    def __init__(self, *args, **kwargs):
-        super(GameWithBoard, self).__init__(*args, **kwargs)
+    def __init__(self):
+        super(SenkuGame, self).__init__()
+        self.create_board()
 
     def create_board(self, **kwargs):
         self._board = [[space_occupied for _ in range(self.rows)] for _ in range(self.cols)]
