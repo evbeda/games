@@ -11,6 +11,7 @@ source =
     generala
     battleship
     poker
+    senku
     game.py
     game_base.py
 omit =
