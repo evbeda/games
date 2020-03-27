@@ -5,12 +5,16 @@ source =
     blackjack
     buscaminas
     connect_four_game
+    craps
     damas
+    dungeon_raiders
     four_number
     generala
     guess_number_game
     poker
     reversi
+    ruleta
+    sudoku
     tateti
     game.py
     game_base.py
