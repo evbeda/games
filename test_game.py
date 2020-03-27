@@ -26,6 +26,7 @@ from dungeon_raiders.tests import (
     LAST_LEVEL_EXAMPLE_INTEGRATION,
     INTEGRATION_TEST_OUTPUT,
 )
+from ahorcado.ahorcado import Ahorcado
 
 
 class TestGame(unittest.TestCase):
@@ -74,6 +75,7 @@ class TestGame(unittest.TestCase):
             '12: Craps Game\n'
             '13: Roulette\n'
             '14: Dungeon Raiders\n'
+            '15: Ahorcado\n'
             '99: to quit\n'
         )
 
@@ -712,6 +714,51 @@ class TestGame(unittest.TestCase):
             self.output_collector.output_collector,
             INTEGRATION_TEST_OUTPUT
          )
+
+    def test_play_ahorcado(self):
+
+        class ControlInputValues(object):
+            def __init__(self, *args, **kwargs):
+                self.played = False
+                self.play_count = 0
+
+            def __call__(self, console_output):
+                if 'Select Game' in console_output:
+                    if self.played:
+                        return '99'
+                    self.played = True
+                    return '15'
+                if "Please input a letter from A-Z" in console_output:
+                    game_turns = (
+                        'R',
+                        'A',
+                        'L',
+                        'B',
+                        'P',
+                    )
+                    play = game_turns[self.play_count]
+                    self.play_count += 1
+                    return play
+        with \
+                patch('game.Game.get_input', side_effect=ControlInputValues()), \
+                patch('game.Game.output', side_effect=self.output_collector), \
+                patch('ahorcado.ahorcado.Ahorcado.get_word_from_api', return_value='PALABRA'):
+            self.game.play()
+
+        self.assertEqual(
+            self.output_collector.output_collector,
+            ['_ _ _ _ _ _ _\n\nLifes: 6',
+            'Correct letter! Choose another',
+            '_ _ _ _ _ R _\nR\nLifes: 6',
+            'Correct letter! Choose another',
+            '_ A _ A _ R A\nR A\nLifes: 6',
+            'Correct letter! Choose another',
+            '_ A L A _ R A\nR A L\nLifes: 6',
+            'Correct letter! Choose another',
+            '_ A L A B R A\nR A L B\nLifes: 6',
+            'Game Finished'
+            ],
+        )
 
 
 if __name__ == "__main__":
