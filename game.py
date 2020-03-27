@@ -38,7 +38,7 @@ class Game(object):
             GameRoulette,
             DungeonRaidersGame,
             Ahorcado,
-            SenkuGame
+            SenkuGame,
         ]
 
     def output(self, text):
