@@ -1,3 +1,4 @@
+from game_base import GameBase
 import requests
 
 
@@ -9,11 +10,13 @@ class IsNotOneCharacter(Exception):
     pass
 
 
-class Ahorcado(object):
+class Ahorcado(GameBase):
     name = "Ahorcado"
     input_args = 1
+    input_are_ints = False
 
-    def __init__(self, force_word=None):
+    def __init__(self, force_word=None, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.word = force_word if force_word else self.get_word_from_api()
         self.lifes = 6
         self.used_letters = []
