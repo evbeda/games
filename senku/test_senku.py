@@ -303,3 +303,6 @@ class TestSenku(unittest.TestCase):
         result = self.game.play('a', 3, 3, 3)
         return_str = "Error type, please enter only integers"
         self.assertEqual(return_str, result)
+
+    def test_next_move(self):
+        self.assertEqual(self.game.next_turn(), "Please, make a move")
