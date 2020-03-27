@@ -1,17 +1,22 @@
 [run]
 source =
-    connect_four_game
-    tateti
-    buscaminas
-    damas
-    guess_number_game
-    reversi
-    four_number
-    blackjack
-    generala
+    ahorcado
     battleship
+    blackjack
+    buscaminas
+    connect_four_game
+    craps
+    damas
+    dungeon_raiders
+    four_number
+    generala
+    guess_number_game
     poker
+    reversi
+    ruleta
     senku
+    sudoku
+    tateti
     game.py
     game_base.py
 omit =
