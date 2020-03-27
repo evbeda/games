@@ -52,7 +52,6 @@ class Ahorcado(GameBase):
                 return "Game Finished"
             return "Correct letter! Choose another"
 
-
     def get_lifes(self):
         return "Lifes: {}".format(self.lifes)
 

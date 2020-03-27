@@ -713,7 +713,7 @@ class TestGame(unittest.TestCase):
         self.assertEqual(
             self.output_collector.output_collector,
             INTEGRATION_TEST_OUTPUT
-         )
+        )
 
     def test_play_ahorcado(self):
 
@@ -747,16 +747,17 @@ class TestGame(unittest.TestCase):
 
         self.assertEqual(
             self.output_collector.output_collector,
-            ['_ _ _ _ _ _ _\n\nLifes: 6',
-            'Correct letter! Choose another',
-            '_ _ _ _ _ R _\nR\nLifes: 6',
-            'Correct letter! Choose another',
-            '_ A _ A _ R A\nR A\nLifes: 6',
-            'Correct letter! Choose another',
-            '_ A L A _ R A\nR A L\nLifes: 6',
-            'Correct letter! Choose another',
-            '_ A L A B R A\nR A L B\nLifes: 6',
-            'Game Finished'
+            [
+                '_ _ _ _ _ _ _\n\nLifes: 6',
+                'Correct letter! Choose another',
+                '_ _ _ _ _ R _\nR\nLifes: 6',
+                'Correct letter! Choose another',
+                '_ A _ A _ R A\nR A\nLifes: 6',
+                'Correct letter! Choose another',
+                '_ A L A _ R A\nR A L\nLifes: 6',
+                'Correct letter! Choose another',
+                '_ A L A B R A\nR A L B\nLifes: 6',
+                'Game Finished'
             ],
         )
 

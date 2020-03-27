@@ -176,4 +176,3 @@ class TestAhorcado(unittest.TestCase):
         self.game.play("Q")
         self.game.play("U")
         self.game.play("K")
-        self.assertTrue(self.game.is_playing)
