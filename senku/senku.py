@@ -1,35 +1,39 @@
-from game_base import (
-    GameBase,
-    GameWithBoard,
-)
-
 space_free = '-'
 space_invalid = 'X'
 space_occupied = '0'
 
 
-class SenkuGame(GameWithBoard, GameBase):
+class SenkuGame(object):
     name = "Senku"
-    rows = 7
-    cols = 7
+    __row = 7
+    __col = 7
     input_args = 4
-    input_are_ints = True
+    
+    def __init__(self):
+        self.is_playing = True
+        self._board = [[space_occupied for _ in range(self.__row)] for _ in range(self.__col)]
 
-    def __init__(self, *args, **kwargs):
-        super(GameWithBoard, self).__init__(*args, **kwargs)
-
-    def create_board(self, **kwargs):
-        self._board = [[space_occupied for _ in range(self.rows)] for _ in range(self.cols)]
-
-        for i in range(self.rows):
+        for i in range(self.__row):
             if 2 > i or i > 4:
-                for j in range(self.cols):
+                for j in range(self.__col):
                     if 2 > j or j > 4:
                         self._board[i][j] = space_invalid
         self._board[3][3] = space_free
 
     def next_turn(self):
-        return "Please, make a move"
+        cont_ocupied = 0
+        for index_row in range(self.__row):
+            for index_col in range(self.__col):
+                if self.get_board()[index_row][index_col] == space_occupied:
+                    cont_ocupied += 1
+        if cont_ocupied == 1:
+            self.is_playing = False
+            return "You won"
+        if self.check_loose():
+            self.is_playing = False
+            return "You loose"
+        if cont_ocupied > 1:
+            return "Please, make a move"
 
     def play(self, initial_row, initial_col, final_row, final_col):
         try:
@@ -39,32 +43,19 @@ class SenkuGame(GameWithBoard, GameBase):
             final_col = int(final_col)
             self.validate_move(initial_row, initial_col, final_row, final_col)
             self.__move_piece(initial_row, initial_col, final_row, final_col)
-            return self.check_finish()
+            return "Right move"
         except SenkuInvalidMovementException:
             return "Error move, invalid Movement"
         except SenkuMovementOutOfRangeException:
             return "Error move, out of range Movement"
         except ValueError:
             return "Error type, please enter only integers"
-
-    def check_finish(self):
-        cont_ocupied = 0
-        for index_row in range(self.rows):
-            for index_col in range(self.cols):
-                if self.get_board[index_row][index_col] == space_occupied:
-                    cont_ocupied += 1
-        if cont_ocupied == 1:
-            self.finish()
-            return "You won"
-        if self.check_loose():
-            self.finish()
-            return "You loose"
-        return "Right move"
+        
 
     @property
     def board(self):
-        head = [str(i) for i in range(self.cols)]
-        horizontal_separator = ['=' for i in range(self.cols)]
+        head = [str(i) for i in range(self.__col)]
+        horizontal_separator = ['=' for i in range(self.__col)]
         vertical_separator = '| '
         body = ''
 
@@ -79,10 +70,11 @@ class SenkuGame(GameWithBoard, GameBase):
                + ' '.join(horizontal_separator) + '\n' \
                + body
 
-    def validate_move(self, initial_row, initial_col, final_row, final_col):
+    def validate_move(self, initial_row, initial_col, final_row, final_col ):
+        
 
         positions = [initial_row, initial_col, final_row, final_col]
-        if max(positions) > 6 or min(positions) < 0:
+        if max(positions)>6 or min(positions)<0:
             raise SenkuMovementOutOfRangeException("Value must be between 0 and 6")
 
         if (
@@ -129,10 +121,16 @@ class SenkuGame(GameWithBoard, GameBase):
         if initial_col == final_col:
             self._board[(initial_row + final_row) // 2][final_col] = space_free
 
+    def get_board(self):
+        return self._board
+
+    def set_board(self, arr_board):
+        self._board = arr_board
+
     def check_loose(self):
-        for row in range(self.rows):
-            for col in range(self.cols):
-                value = self.get_board[row][col]
+        for row in range(self.__row):
+            for col in range(self.__col):
+                value = self.get_board()[row][col]
                 if value == space_occupied:
                     try:
                         up = self.validate_move(row, col, row - 2, col)
@@ -166,3 +164,4 @@ class SenkuMovementOutOfRangeException(SenkuException):
 
 class SenkuInvalidMovementException(SenkuException):
     pass
+
