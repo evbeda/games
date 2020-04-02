@@ -11,6 +11,7 @@ source =
     four_number
     generala
     guess_number_game
+    hanoi_towers
     poker
     reversi
     ruleta

@@ -1,5 +1,6 @@
 import unittest
 from guess_number_game.test_guess_number_game import TestGuessNumberGame
+from hanoi_towers.test_hanoi_towers import TestHanoiTower
 from reversi.test_reversi import TestReversi
 from connect_four_game.test_connect_four_game import TestConnectFourGame
 from buscaminas.test_buscaminas import TestBuscamina
@@ -66,6 +67,7 @@ def suite():
     test_suite.addTest(dungeon_suite())
     test_suite.addTest(unittest.makeSuite(TestSenku))
     test_suite.addTest(unittest.makeSuite(TestAhorcado))
+    test_suite.addTest(unittest.makeSuite(TestHanoiTower))
     return test_suite
 
 

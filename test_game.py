@@ -77,6 +77,7 @@ class TestGame(unittest.TestCase):
             '14: Dungeon Raiders\n'
             '15: Ahorcado\n'
             '16: Senku\n'
+            '17: Hanoi Towers\n'
             '99: to quit\n'
         )
 
@@ -831,6 +832,64 @@ class TestGame(unittest.TestCase):
             "4| - - - - - - -\n"
             "5| X X - - - X X\n"
             "6| X X - - - X X\n",
+        )
+        self.assertEqual(
+            self.output_collector.output_collector[-1],
+            "You won",
+        )
+
+    def test_play_hanoi_towers(self):
+
+        class ControlInputValues(object):
+            def __init__(self, *args, **kwargs):
+                self.played = False
+                self.play_count = 0
+
+            def __call__(self, console_output):
+                if 'Select Game' in console_output:
+                    if self.played:
+                        return '99'
+                    self.played = True
+                    return '17'
+                if 'Enter the numbers of source and target towers' in console_output:
+                    game_moves = (
+                        "0 1",
+                        "0 2",
+                        "1 2",
+                        "0 1",
+                        "2 0",
+                        "2 1",
+                        "0 2",
+                        "2 1",
+                        "0 2",
+                        "1 2",
+                        "1 0",
+                        "2 0",
+                        "1 2",
+                        "0 1",
+                        "1 2",
+                        "0 2",
+                        "2 1",
+                        "0 2",
+                        "1 2",
+                    )
+
+                    play = game_moves[self.play_count]
+                    self.play_count += 1
+                    return play
+
+        with \
+                patch(
+                    'game.Game.get_input', side_effect=ControlInputValues(self.game)), \
+                patch(
+                    'game.Game.output', side_effect=self.output_collector):
+            self.game.play()
+        self.assertEqual(
+            self.output_collector.output_collector[-2],
+                "                    |                                        |                                        |                    \n" \
+                "                    |                                        |                                    - - | - -                \n" \
+                "                    |                                        |                                  - - - | - - -              \n" \
+                "                    |                                      - | -                              - - - - | - - - -            \n" \
         )
         self.assertEqual(
             self.output_collector.output_collector[-1],
