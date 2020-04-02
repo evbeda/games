@@ -5,50 +5,78 @@ from .tower import EmptyTower
 
 class HanoiTowers:
 
-    def __init__(self, cant_tokens):
+    name = "Hanoi Towers"
+    input_args = 2
+    input_are_ints = True
+    def __init__(self, cant_tokens=4):
 
         self.cant_tokens = cant_tokens
-        self.tower1 = Tower(cant_tokens)
-        self.tower2 = Tower()
-        self.tower3 = Tower()
+        self.towers = [Tower(cant_tokens), Tower(), Tower()]
         self.is_playing = True
 
     def next_turn(self):
 
-        if (len(self.tower3.tokens) == self.cant_tokens) or (len(self.tower2.tokens) == self.cant_tokens):
-            self.is_playing = False
+        if not self.is_playing:
             return "You won"
         else:
-            return "Plase make your move"
+            return "Enter the numbers of source and target towers"
 
-    def play(self, source_tower, target_tower):
+    def play(self, source, target):
 
         try:
-            my_token = source_tower.remove_token()
-            target_tower.insert_token(my_token)
+            source = int(source)
+            target = int(target)
+            self.validate_input(source, target)
+            my_token = self.towers[source].remove_token()
+            self.towers[target].insert_token(my_token)
+            if (len(self.towers[2].tokens) == self.cant_tokens) or (len(self.towers[1].tokens) == self.cant_tokens):
+                self.is_playing = False
+                return "You won"
+            return "Token moved successfully"
         except InvalidMovement:
-            source_tower.insert_token(my_token)
+            self.towers[source].insert_token(my_token)
             return "Invalid move"
         except EmptyTower:
             return "Empty tower"
+        except ValueError:
+            return "Error: enter only integers"
+        except SameTowerException:
+            return "Error: the towers must be different"
+        except NotValidTowerIndexException:
+            return f"Error: enter numbers between 0 and {len(self.towers)-1}"
+
+    def validate_input(self, source, target):
+        if source == target:
+            raise SameTowerException
+        try:
+            self.towers[source]
+            self.towers[target]
+        except IndexError:
+            raise NotValidTowerIndexException
+        return True
 
     @property
     def board(self):
-        tallest = max(len(self.tower1.tokens), len(self.tower2.tokens), len(self.tower3.tokens))
-        board = ""
-        for row in range(tallest, 0, -1):
-            if len(self.tower1.tokens) >= row:
-                board += " {}  ".format(self.tower1.tokens[row-1].size)
-            else:
-                board += "    "
-            if len(self.tower2.tokens) >= row:
-                board += " {}  ".format(self.tower2.tokens[row-1].size)
-            else:
-                board += "    "
-            if len(self.tower3.tokens) >= row:
-                board += " {}  ".format(self.tower3.tokens[row-1].size)
-            else:
-                board += "    "
-            board += "\n"
-        board += "=== === ==="
-        return board
+        tower_print = ""
+        for index in range(self.cant_tokens - 1, -1, -1):
+            for tower in self.towers:
+                if len(tower.tokens) > index:
+                    tower_print += " " * (20 - tower.tokens[index].size * 2)
+                    tower_print += "- " * tower.tokens[index].size
+                    tower_print += "|"
+                    tower_print += " -" * tower.tokens[index].size
+                    tower_print += " " * (20 - tower.tokens[index].size * 2)
+                else:
+                    tower_print += " " * (20)
+                    tower_print += "|"
+                    tower_print += " " * (20)
+            tower_print += "\n"
+        return tower_print
+
+
+class SameTowerException(Exception):
+    pass
+
+
+class NotValidTowerIndexException(Exception):
+    pass

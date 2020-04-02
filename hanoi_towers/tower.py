@@ -9,17 +9,13 @@ class Tower:
             self.tokens.insert(0, Token(i + 1))
 
     def insert_token(self, token):
-        if(self.validate_insert_token(token)):
+        if self.validate_insert_token(token):
             self.tokens.append(token)
         else:
             raise InvalidMovement
 
     def validate_insert_token(self, token):
-        if len(self.tokens) == 0:
-            return True
-        elif self.tokens[-1].size > token.size:
-            return True
-        return False
+        return len(self.tokens) == 0 or self.tokens[-1].size > token.size
 
     def remove_token(self):
         if self.tokens:

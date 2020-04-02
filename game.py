@@ -1,4 +1,5 @@
 from guess_number_game.guess_number_game import GuessNumberGame
+from hanoi_towers.hanoi_towers import HanoiTowers
 from tateti.tateti import Tateti
 from buscaminas.buscaminas import Buscaminas
 from connect_four_game.connect_four_game import ConnectFourGame
@@ -38,7 +39,8 @@ class Game(object):
             GameRoulette,
             DungeonRaidersGame,
             Ahorcado,
-            SenkuGame
+            SenkuGame,
+            HanoiTowers,
         ]
 
     def output(self, text):
