@@ -78,6 +78,7 @@ class TestGame(unittest.TestCase):
             '15: Ahorcado\n'
             '16: Senku\n'
             '17: Hanoi Towers\n'
+            '18: Qwixx\n'
             '99: to quit\n'
         )
 
