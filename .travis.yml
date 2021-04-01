@@ -5,7 +5,7 @@ script:
   - coverage run test_suite.py
 
 install:
-  - pip3 install -r requeriments.txt
+  - pip3 install -r requirements.txt
 
 after_success:
   - coveralls
