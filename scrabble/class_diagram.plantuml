@@ -1,0 +1,116 @@
+@startuml scrabble
+skinparam ClassFontColor automatic
+skinparam ClassHeaderBackgroundColor #444
+skinparam ClassBackgroundColor #ffffff
+skinparam BackgroundColor #777
+
+class Game {
+    players: [Player]
+    board: Board
+    tile_bag: TileBag
+    first: bool
+    skipped_turns: int
+    lost_turns: [int]
+    current_player: int
+    game_results: str
+    is_playing: bool
+    player_count: int
+
+    create_player(name_players: [str])
+    ask_challenge_show_player()
+    print_board()
+    change_player_tiles(letters: [str])
+    place_word(x: int, y: int, direction: bool, word: str)
+    resolve_challenge(result: bool, player: int)
+    get_current_player_hand()
+    change_turn()
+    skip_turn()
+    game_over()
+    count_points(with_remaining_tiles: bool)
+    get_game_results()
+    print_scores()
+}
+
+class Player {
+    id: int
+    name: str
+    tiles_in_hand: [Tile]
+    score: int
+    prev_score: int
+
+    one_draw(tiles_sack: TileBag)
+    full_draw(tiles_sack: TileBag)
+    put_t_draw(tiles_sack: TileBag, letters: [str])
+    get_hand()
+    add_points(points: int)
+    revert_play()
+    use_tiles(tiles: [Tile])
+}
+
+class Board {
+    spots: [ [Spot] ]
+    spots_orig: [ [Spot] ]
+    first: bool
+    revert_first: bool
+
+    set_spots()
+    multiplier(x: int, y: int)
+    get_board()
+    revert_board()
+    place_first_word(word: str, row: int, col: int, direction: bool, player: Player)
+    place_word(*args)
+    place_other_word(word: str, row: int, col: int, direction: bool, player: Player)
+    can_place_first_word(word: str, row: int, col: int, direction: bool)
+    tiles_in_board(spots: [Spot])
+    can_place_word(tiles_in_board: [(int, str)])
+    place_letters(word: str, row: int, col: int, direction: bool, indexes: [int])
+    word_to_tile(word: str)
+    get_spots_to_place_word(len_word: int, row: int, col: int, direction: bool)
+    tiles_diff(word: str, letters_in_board: [(int, str)])
+}
+
+class TileBag{
+    tiles: [Tile]
+
+    create_tile()
+    add_tile(tile: Tile)
+    draw_tile(index: int)
+}
+
+class Spot {
+    tile: Tile
+    mult_value: int
+    mult_type: str
+    mult_not_used: bool
+    row: int
+    col: int
+
+    set_tile(tile: Tile)
+    get_spot()
+}
+
+class Tile {
+    letter: str
+    score: int
+}
+
+class Score {
+    define_direction(word: str, row: int, col: int, direction: bool, spots: [ [Spot] ])
+    search_horiz_letter(word: str, row: int, col: int, spots: [ [Spot] ])
+    get_score(placed_word: str, row: int, col: int, direction: bool, spots: [ [Spot] ], spots_orig: [ [Spot] ])
+    filter_unchanged(words: [], board: [ [Spot] ])
+    search_vert_letter(word: str, row: int, col: int, spots: [ [Spot] ])
+    search_horiz_word(row: int, col: int, spots: [ [Spot] ])
+    search_vert_word(row: int, col: int, spots: [ [Spot] ])
+    multiply_score(spots: [Spot])
+}
+
+Game --> Player
+Game --> Board
+Game --> TileBag
+Board --> Spot
+Player --> Tile
+TileBag --> Tile
+Spot --> Tile
+Board ..> Score
+@enduml
