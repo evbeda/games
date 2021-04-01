@@ -1,0 +1,10 @@
+certifi==2020.12.5
+chardet==4.0.0
+coverage==5.5
+idna==2.10
+parameterized==0.8.1
+PyYAML==5.4.1
+requests==2.25.1
+six==1.15.0
+urllib3==1.26.4
+flake8==3.9.0

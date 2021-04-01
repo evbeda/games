@@ -1,0 +1,26 @@
+@startuml
+class ScorePad {
+    penalty: Integer
+}
+class Row {
+    marks: List
+    is_locked: Bool
+    color: String
+    numbers: List
+}
+class Dice{
+    color: String
+}
+class Qwixx{
+    current_player: Integer
+    state : String 
+    score_pad : List
+    current_player : int
+    dice_set : dic
+}
+
+ScorePad  --> "4" Row: rows
+Qwixx--> "1..4"ScorePad: score_pad
+Qwixx--> SetDices
+SetDices --> "6" Dice: dices
+@enduml
