@@ -16,7 +16,7 @@ from ruleta.game_roullete import GameRoulette
 from dungeon_raiders.model.game import DungeonRaidersGame
 from ahorcado.ahorcado import Ahorcado
 from senku.senku import SenkuGame
-
+from qwixx.qwixx import Qwixx 
 
 class Game(object):
 
@@ -41,6 +41,7 @@ class Game(object):
             Ahorcado,
             SenkuGame,
             HanoiTowers,
+            Qwixx,
         ]
 
     def output(self, text):
