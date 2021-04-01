@@ -41,14 +41,6 @@ class TestPlayer(unittest.TestCase):
         # assert
         self.assertEqual(self.player.temp_hand, expected)
 
-    # def test_hand_format(self):
-    #     self.player.temp_hand = [Tile(RED, 7), Tile(BLUE, 4), Tile(YELLOW, 5)]
-
-    #     self.assertEqual(
-    #         self.player.get_hand(),
-    #         'Pedro> 0:{}7 1:{}4 2:{}5'.format(RED, BLUE, YELLOW)
-    #     )
-
     @parameterized.expand([
         (
             [Tile(RED, 7), Tile(BLUE, 4), Tile(YELLOW, 5)],
@@ -56,9 +48,97 @@ class TestPlayer(unittest.TestCase):
             '\n'
             '        0   1   2   '.format(RED, BLUE, YELLOW),
         ),
+        (
+            [Tile(RED, 11), Tile(BLUE, 11), Tile(YELLOW, 11)],
+            'Pedro> {}11 {}11 {}11'
+            '\n'
+            '        0    1    2    '.format(RED, BLUE, YELLOW),
+        ),
+        (
+            [Tile(RED, 1), Tile(BLUE, 11), Tile(YELLOW, 2)],
+            'Pedro> {}1 {}11 {}2'
+            '\n'
+            '        0   1    2   '.format(RED, BLUE, YELLOW),
+        ),
+        (
+            [Tile(RED, 1), Tile(JOKER, 0), Tile(YELLOW, 2)],
+            'Pedro> {}1 {}0 {}2'
+            '\n'
+            '        0   1   2   '.format(RED, JOKER, YELLOW),
+        ),
+        (
+            [
+                Tile(RED, 1),
+                Tile(JOKER, 0),
+                Tile(YELLOW, 2),
+                Tile(YELLOW, 2),
+                Tile(YELLOW, 2),
+                Tile(YELLOW, 2),
+                Tile(YELLOW, 2),
+                Tile(YELLOW, 2),
+                Tile(YELLOW, 2),
+                Tile(YELLOW, 2),
+                Tile(YELLOW, 2),
+                Tile(YELLOW, 2),
+                Tile(YELLOW, 2),
+            ],
+            'Pedro> {}1 {}0 {}2 {}2 {}2 {}2 {}2 {}2 {}2 {}2 {}2 {}2 {}2'
+            '\n'
+            '        0   1   2   3   4   5   6   7   8   9   10  11  12  '
+            .format(
+                RED,
+                JOKER,
+                YELLOW,
+                YELLOW,
+                YELLOW,
+                YELLOW,
+                YELLOW,
+                YELLOW,
+                YELLOW,
+                YELLOW,
+                YELLOW,
+                YELLOW,
+                YELLOW
+            ),
+        ),
+        (
+            [
+                Tile(RED, 1),
+                Tile(JOKER, 0),
+                Tile(YELLOW, 2),
+                Tile(YELLOW, 2),
+                Tile(YELLOW, 2),
+                Tile(YELLOW, 2),
+                Tile(YELLOW, 2),
+                Tile(YELLOW, 2),
+                Tile(YELLOW, 2),
+                Tile(YELLOW, 2),
+                Tile(YELLOW, 2),
+                Tile(YELLOW, 12),
+                Tile(YELLOW, 2),
+            ],
+            'Pedro> {}1 {}0 {}2 {}2 {}2 {}2 {}2 {}2 {}2 {}2 {}2 {}12 {}2'
+            '\n'
+            '        0   1   2   3   4   5   6   7   8   9   10  11   12  '
+            .format(
+                RED,
+                JOKER,
+                YELLOW,
+                YELLOW,
+                YELLOW,
+                YELLOW,
+                YELLOW,
+                YELLOW,
+                YELLOW,
+                YELLOW,
+                YELLOW,
+                YELLOW,
+                YELLOW
+            ),
+        ),
     ])
     def test_hand_format(self, tiles, expected):
-        self.player.temp_hand = [Tile(RED, 7), Tile(BLUE, 4), Tile(YELLOW, 5)]
+        self.player.temp_hand = tiles
         self.assertEqual(
             self.player.get_hand(),
             expected
