@@ -19,6 +19,7 @@ source =
     senku
     sudoku
     tateti
+    qwixx
     game.py
     game_base.py
 omit =
