@@ -276,7 +276,7 @@ class Test_othello(unittest.TestCase):
         ]
     )
     def test_next_turn(self, state, player, expected):
-        self.game.is_playing = state
+        self.game._is_playing = state
         self.game.player_turn = player
         result = self.game.next_turn()
         self.assertEqual(result, expected)
