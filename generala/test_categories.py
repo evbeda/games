@@ -1,7 +1,11 @@
 import unittest
-from . import *
+from . import (
+    FIVE, FOUR, FULL, GENERALA,
+    ONE, POKER, SERVEDFULL, SERVEDGENERALA, SERVEDSTAIR,
+    SIX, STAIR, THREE, TWO,
+    )
+
 from .utils import check_throw
-import collections
 
 
 class test_categories(unittest.TestCase):

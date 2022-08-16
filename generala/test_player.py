@@ -1,5 +1,4 @@
 import unittest
-from . import *
 from .player import Player
 
 

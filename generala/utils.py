@@ -1,200 +1,43 @@
 import random
 
-from . import *
+from . import (
+    FIVE, FOUR, FULL, GENERALA,
+    ONE, POKER, SERVEDFULL, SERVEDGENERALA, SERVEDSTAIR,
+    SIX, STAIR, THREE, TWO,
+    )
 
 
 def throw_dice(num):
     results = []
-    for number in range(0, num):
+    for _ in range(0, num):
         results.append(random.randint(1, 6))
     return results
 
 
 def check_throw(throw_array, points_to_check, throw_number):
+
+    score = int()
+
     if points_to_check == GENERALA['name']:
         for index in range(0, len(throw_array) - 1):
             if throw_array[index] != throw_array[index + 1]:
-                return 0
-        if throw_number == 1:
-            return SERVEDGENERALA['score']
+                score = 0
+                break
         else:
-            return GENERALA['score']
+            if throw_number == 1:
+                score = SERVEDGENERALA['score']
+            else:
+                score = GENERALA['score']
     elif points_to_check == POKER['name']:
         for index in range(0, len(throw_array)):
             if throw_array.count(index + 1) == 4:
-                return POKER['score']
-        return 0
-    elif points_to_check == FULL['name']:
-        if throw_array.count(1) == 3:
-            if throw_array.count(2) == 2:
-                if throw_number == 1:
-                    return SERVEDFULL['score']
-                else:
-                    return FULL['score']
-            elif throw_array.count(3) == 2:
-                if throw_number == 1:
-                    return SERVEDFULL['score']
-                else:
-                    return FULL['score']
-            elif throw_array.count(4) == 2:
-                if throw_number == 1:
-                    return SERVEDFULL['score']
-                else:
-                    return FULL['score']
-            elif throw_array.count(5) == 2:
-                if throw_number == 1:
-                    return SERVEDFULL['score']
-                else:
-                    return FULL['score']
-            elif throw_array.count(6) == 2:
-                if throw_number == 1:
-                    return SERVEDFULL['score']
-                else:
-                    return FULL['score']
-            else:
-                return 0
-        elif throw_array.count(2) == 3:
-            if throw_array.count(1) == 2:
-                if throw_number == 1:
-                    return SERVEDFULL['score']
-                else:
-                    return FULL['score']
-            elif throw_array.count(3) == 2:
-                if throw_number == 1:
-                    return SERVEDFULL['score']
-                else:
-                    return FULL['score']
-            elif throw_array.count(4) == 2:
-                if throw_number == 1:
-                    return SERVEDFULL['score']
-                else:
-                    return FULL['score']
-            elif throw_array.count(5) == 2:
-                if throw_number == 1:
-                    return SERVEDFULL['score']
-                else:
-                    return FULL['score']
-            elif throw_array.count(6) == 2:
-                if throw_number == 1:
-                    return SERVEDFULL['score']
-                else:
-                    return FULL['score']
-            else:
-                return 0
-        elif throw_array.count(3) == 3:
-            if throw_array.count(1) == 2:
-                if throw_number == 1:
-                    return SERVEDFULL['score']
-                else:
-                    return FULL['score']
-            elif throw_array.count(2) == 2:
-                if throw_number == 1:
-                    return SERVEDFULL['score']
-                else:
-                    return FULL['score']
-            elif throw_array.count(4) == 2:
-                if throw_number == 1:
-                    return SERVEDFULL['score']
-                else:
-                    return FULL['score']
-            elif throw_array.count(5) == 2:
-                if throw_number == 1:
-                    return SERVEDFULL['score']
-                else:
-                    return FULL['score']
-            elif throw_array.count(6) == 2:
-                if throw_number == 1:
-                    return SERVEDFULL['score']
-                else:
-                    return FULL['score']
-            else:
-                return 0
-        elif throw_array.count(4) == 3:
-            if throw_array.count(1) == 2:
-                if throw_number == 1:
-                    return SERVEDFULL['score']
-                else:
-                    return FULL['score']
-            elif throw_array.count(3) == 2:
-                if throw_number == 1:
-                    return SERVEDFULL['score']
-                else:
-                    return FULL['score']
-            elif throw_array.count(2) == 2:
-                if throw_number == 1:
-                    return SERVEDFULL['score']
-                else:
-                    return FULL['score']
-            elif throw_array.count(5) == 2:
-                if throw_number == 1:
-                    return SERVEDFULL['score']
-                else:
-                    return FULL['score']
-            elif throw_array.count(6) == 2:
-                if throw_number == 1:
-                    return SERVEDFULL['score']
-                else:
-                    return FULL['score']
-            else:
-                return 0
-        elif throw_array.count(5) == 3:
-            if throw_array.count(1) == 2:
-                if throw_number == 1:
-                    return SERVEDFULL['score']
-                else:
-                    return FULL['score']
-            elif throw_array.count(3) == 2:
-                if throw_number == 1:
-                    return SERVEDFULL['score']
-                else:
-                    return FULL['score']
-            elif throw_array.count(4) == 2:
-                if throw_number == 1:
-                    return SERVEDFULL['score']
-                else:
-                    return FULL['score']
-            elif throw_array.count(2) == 2:
-                if throw_number == 1:
-                    return SERVEDFULL['score']
-                else:
-                    return FULL['score']
-            elif throw_array.count(6) == 2:
-                if throw_number == 1:
-                    return SERVEDFULL['score']
-                else:
-                    return FULL['score']
-            else:
-                return 0
-        elif throw_array.count(6) == 3:
-            if throw_array.count(1) == 2:
-                if throw_number == 1:
-                    return SERVEDFULL['score']
-                else:
-                    return FULL['score']
-            elif throw_array.count(3) == 2:
-                if throw_number == 1:
-                    return SERVEDFULL['score']
-                else:
-                    return FULL['score']
-            elif throw_array.count(4) == 2:
-                if throw_number == 1:
-                    return SERVEDFULL['score']
-                else:
-                    return FULL['score']
-            elif throw_array.count(5) == 2:
-                if throw_number == 1:
-                    return SERVEDFULL['score']
-                else:
-                    return FULL['score']
-            elif throw_array.count(2) == 2:
-                if throw_number == 1:
-                    return SERVEDFULL['score']
-                else:
-                    return FULL['score']
-            else:
-                return 0
+                score = POKER['score']
+                break
         else:
-            return 0
+            score = 0
+
+    elif points_to_check == FULL['name']:
+        score = check_throw_full_score(throw_array, throw_number)
 
     elif points_to_check == STAIR['name']:
         orderedList = sorted(throw_array)
@@ -205,39 +48,41 @@ def check_throw(throw_array, points_to_check, throw_number):
                 return STAIR['score']
         else:
             return 0
+
     elif points_to_check == ONE['name']:
-        sum = 0
-        for index in range(0, len(throw_array)):
-            if throw_array[index] == ONE['score']:
-                sum += ONE['score']
-        return sum
+        score = score = score_sum_point(throw_array, ONE)
+
     elif points_to_check == TWO['name']:
-        sum = 0
-        for index in range(0, len(throw_array)):
-            if throw_array[index] == TWO['score']:
-                sum += TWO['score']
-        return sum
+        score = score_sum_point(throw_array, TWO)
+
     elif points_to_check == THREE['name']:
-        sum = 0
-        for index in range(0, len(throw_array)):
-            if throw_array[index] == THREE['score']:
-                sum += THREE['score']
-        return sum
+        score = score_sum_point(throw_array, THREE)
+
     elif points_to_check == FOUR['name']:
-        sum = 0
-        for index in range(0, len(throw_array)):
-            if throw_array[index] == FOUR['score']:
-                sum += FOUR['score']
-        return sum
+        score = score_sum_point(throw_array, FOUR)
+
     elif points_to_check == FIVE['name']:
-        sum = 0
-        for index in range(0, len(throw_array)):
-            if throw_array[index] == FIVE['score']:
-                sum += FIVE['score']
-        return sum
+        score = score_sum_point(throw_array, FIVE)
+
     elif points_to_check == SIX['name']:
-        sum = 0
-        for index in range(0, len(throw_array)):
-            if throw_array[index] == SIX['score']:
-                sum += SIX['score']
-        return sum
+        score = score_sum_point(throw_array, SIX)
+
+    return score
+
+
+def check_throw_full_score(throw_array, throw_number):
+    score = int()
+    for number in range(7):
+        for quantity in range(7):
+            if quantity != number and throw_array.count(quantity) == 2:
+                score = full_score(throw_number)
+    return score
+
+
+def full_score(throw_number) -> int:
+    return SERVEDFULL['score'] if throw_number == 1\
+                    else FULL['score']
+
+
+def score_sum_point(throw_array, kind):
+    return sum([kind['score'] for el in throw_array if el == kind['score']])

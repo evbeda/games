@@ -2,7 +2,6 @@ from .player import Player
 from .utils import check_throw
 from .throw import Throw
 from game_base import GameBase, GameWithTurns
-import random
 
 
 class Generala(GameBase, GameWithTurns):
@@ -27,10 +26,10 @@ class Generala(GameBase, GameWithTurns):
 
     def finished(self):
         if self.player_one.score >= 3000:
-                return True
+            return True
 
         if self.player_two.score >= 3000:
-                return True
+            return True
 
         for key, value in self.player_one.combinations.items():
             if self.player_one.combinations[key] == '':
@@ -57,7 +56,7 @@ to cross out (e.g.: POKER, GENERALA, ETC.)'.format(
             )
 
     def play(self, text_input, value):
-        #import ipdb; ipdb.set_trace()
+
         if (self.is_playing):
             if 'KEEP' == text_input:
                 dados_a_conservar = value.split(',')
@@ -113,7 +112,8 @@ to cross out (e.g.: POKER, GENERALA, ETC.)'.format(
                             str(points),
                         )
                     else:
-                        return '\n***That category has already been crossed out.***\n'
+                        return '\n***That category has already been '\
+                            'crossed out.***\n'
                 else:
                     return '\n***That category does not exist.***\n'
             else:
