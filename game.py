@@ -19,6 +19,7 @@ from senku.senku import SenkuGame
 from qwixx.qwixx import Qwixx
 from rummy_and_burakko.rummy_and_burakko import RummyAndBurakko
 from wumpus.game import WumpusGame
+from backgammon.game.backgammon import BackgammonGame
 
 
 class Game(object):
@@ -46,7 +47,8 @@ class Game(object):
             HanoiTowers,
             Qwixx,
             RummyAndBurakko,
-            WumpusGame
+            WumpusGame,
+            BackgammonGame
         ]
 
     def output(self, text):
