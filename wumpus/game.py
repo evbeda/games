@@ -18,18 +18,22 @@ from wumpus.constants import (
     MESSAGE_NEXT_TURN,
 )
 import random
-from game_base import GameBase
+from game_base import GameBase, GameWithBoard
 
 
-class WumpusGame(GameBase):
+class WumpusGame(GameBase, GameWithBoard):
 
     name = 'Wumpus . An unforgettable Adventure'
     input_args = 2
     input_are_ints = False
 
+    minimum = 0
+    cols = COL
+    rows = ROW
+
     def __init__(self):
         super().__init__()
-        self._board = [['' for j in range(COL)] for i in range(ROW)]
+        super().create_board('')
         self.place_player()
 
         self.place_item(GOLD, GOLD_QUANTITY)
@@ -44,7 +48,7 @@ class WumpusGame(GameBase):
         self.memory = {}
 
     def place_player(self):
-        self._board[0][0] = PLAYER
+        self.set_value(0, 0, PLAYER)
 
     def place_item(self, item, quantity):
         for _ in range(quantity):
@@ -52,7 +56,7 @@ class WumpusGame(GameBase):
                 row = random.randint(0, ROW - 1)
                 col = random.randint(0, COL - 1)
                 if self._is_valid(row, col, item):
-                    self._board[row][col] = item
+                    self.set_value(row, col, item)
                     break
 
     def _is_valid(self, row, col, item) -> bool:
@@ -65,19 +69,19 @@ class WumpusGame(GameBase):
         position_list = []
         for i in range(ROW):
             for j in range(COL):
-                if self._board[i][j] == item:
+                if self.get_value(i, j) == item:
                     position_list.append((i, j))
         return position_list
 
     def check_is_empty(self, row, col):
-        cell = self._board[row][col]
+        cell = self.get_value(row, col)
         return cell == ''
 
     def move_player_transaction(self, new_row, new_col):
 
         row, col = self.position_finder(PLAYER)[0]
-        self._board[row][col] = VISITED_CELL
-        self._board[new_row][new_col] = PLAYER
+        self.set_value(row, col, VISITED_CELL)
+        self.set_value(new_row, new_col, PLAYER)
         self.modify_score(SCORE_GAME["move"])
 
     def there_is_item(self, item, row: int, col: int) -> bool:
@@ -87,7 +91,7 @@ class WumpusGame(GameBase):
         return (row, col) in self.position_finder(GOLD)
 
     def delete_item_on_position(self, item, row, col):
-        self._board[row][col] = self._board[row][col].replace(item, '')
+        self.set_value(row, col, self.get_value(row, col).replace(item, ''))
 
     def _posible_position(self, row, col):
         positions = {
@@ -117,7 +121,7 @@ class WumpusGame(GameBase):
     def move_and_game_over(self, reason):
 
         player_row, player_col = self.position_finder(PLAYER)[0]
-        self._board[player_row][player_col] = VISITED_CELL
+        self.set_value(player_row, player_col, VISITED_CELL)
         self.game_over(LOSE, reason)
 
     def modify_score(self, score_to_modify):
@@ -144,8 +148,8 @@ class WumpusGame(GameBase):
 
     def shoot_arrow(self, row, col):
         if self.swords > 0:
-            if WUMPUS in self._board[row][col]:
-                self._board[row][col] = VISITED_CELL
+            if WUMPUS in self.get_value(row, col):
+                self.set_value(row, col, VISITED_CELL)
                 self.modify_score(SCORE_GAME["gold_wumpus"])
             else:
                 self.modify_score(SCORE_GAME["lost_shoot"])
@@ -196,9 +200,9 @@ class WumpusGame(GameBase):
         hole_flag = False
         for p_row, p_col in positions:
 
-            if WUMPUS in self._board[p_row][p_col]:
+            if WUMPUS in self.get_value(p_row, p_col):
                 wumpus_flag = True
-            if HOLES in self._board[p_row][p_col]:
+            if HOLES in self.get_value(p_row, p_col):
                 hole_flag = True
         if wumpus_flag:
             item_array[2] = "+"
@@ -207,7 +211,7 @@ class WumpusGame(GameBase):
         return "".join(item_array)
 
     def parse_cell(self, row: int, col: int) -> str:
-        cell = self._board[row][col]
+        cell = self.get_value(row, col)
 
         if cell == PLAYER or cell == VISITED_CELL:
             cell = ' ' + cell + ' '
