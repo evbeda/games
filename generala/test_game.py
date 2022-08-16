@@ -135,7 +135,8 @@ class test_generala(unittest.TestCase):
         game.throw.number = 5
         result = game.should_keep_rolling()
         self.assertEqual(result, '{}\nYour throw: {} \nPick a category\n\
-to cross out (e.g.: POKER, GENERALA, ETC.)'.format(game.actual_player.name, game.throw.dice,))
+to cross out (e.g.: POKER, GENERALA, ETC.)'.format(game.actual_player.name,
+                                                   game.throw.dice,))
 
     def test_conservar_1(self):
         game = Generala("Santi", "Beto")
@@ -185,6 +186,11 @@ to cross out (e.g.: POKER, GENERALA, ETC.)'.format(game.actual_player.name, game
             game.play('CROSSOUT', 'WEFWEFW'),
             '\n***That category does not exist.***\n',
         )
+
+    def test_game_over(self):
+        game = Generala()
+        game.finish()
+        self.assertEqual(game.next_turn(), 'Game over')
 
 
 if __name__ == '__main__':
