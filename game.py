@@ -18,6 +18,7 @@ from ahorcado.ahorcado import Ahorcado
 from senku.senku import SenkuGame
 from qwixx.qwixx import Qwixx
 from rummy_and_burakko.rummy_and_burakko import RummyAndBurakko
+from wumpus.game import WumpusGame
 
 
 class Game(object):
@@ -45,6 +46,7 @@ class Game(object):
             HanoiTowers,
             Qwixx,
             RummyAndBurakko,
+            WumpusGame
         ]
 
     def output(self, text):
