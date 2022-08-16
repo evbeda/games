@@ -63,9 +63,9 @@ class GameWithBoard(object):
         self._board = board
 
     def create_board(self, char):
-        for x in range(self.rows):
+        for _ in range(self.rows):
             columns = []
-            for x in range(self.cols):
+            for _ in range(self.cols):
                 columns.append(char)
             self._board.append(columns)
 
