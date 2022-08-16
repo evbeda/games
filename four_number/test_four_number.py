@@ -70,6 +70,11 @@ class TestFourNumber(unittest.TestCase):
         self.assertEqual(self.game.play(1267), '2G')
         self.assertTrue(self.game.is_playing)
 
+    def test_game_over(self):
+        game = FourNumber()
+        game.finish()
+        self.assertEqual(game.next_turn(), 'Game over')
+
 
 if __name__ == "__main__":
     unittest.main()
