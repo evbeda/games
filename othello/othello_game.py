@@ -1,4 +1,4 @@
-from game_base import GameBase
+from game_base import GameBase, GameWithTurns
 from othello.constants import (
     PLAYER1,
     PLAYER2,
@@ -16,15 +16,15 @@ from othello.constants import (
 )
 
 
-class Othello(GameBase):
+class Othello(GameBase, GameWithTurns):
 
     name = 'Othello'
     input_args = 2
     input_are_ints = True
 
     def __init__(self):
-        self.possibles_players = [PLAYER1, PLAYER2]
-        self.player_turn = self.possibles_players[0]
+        super().__init__(name=PLAYER1, name2=PLAYER2)
+
         self._board = [
             [None, None, None, None, None, None, None, None],
             [None, None, None, None, None, None, None, None],
@@ -41,14 +41,6 @@ class Othello(GameBase):
         return sum(
             [piece == kind for row in self._board for piece in row])
 
-    def change_player(self):
-        self.player_turn = self.get_opposite_piece()
-
-    def get_opposite_piece(self):
-        if self.player_turn == PLAYER1:
-            return PLAYER2
-        return PLAYER1
-
     def determine_winner(self):
         if self.get_piece_count(PLAYER2) == self.get_piece_count(PLAYER1):
             return TIE_MATCH
@@ -58,7 +50,7 @@ class Othello(GameBase):
 
     def flip_pieces(self, coordinates):
         for row, col in coordinates:
-            self._board[row][col] = self.player_turn
+            self._board[row][col] = self.actual_player
 
     def validate_move(self, row, col):
         directions = [N, NE, E, SE, S, SW, W, NW]
@@ -92,7 +84,7 @@ class Othello(GameBase):
             col = col + change[1]
             if self._board[row][col] is None:
                 return []
-            if self._board[row][col] == self.player_turn:
+            if self._board[row][col] == self.actual_player:
                 ending_same_color = True
                 break
             pieces_available_to_flip.append((row, col))
@@ -147,15 +139,15 @@ class Othello(GameBase):
         moves = self.all_possible_moves()
         # pdb.set_trace()
         if not (move in moves):
-            return (f"Bad move of player {self.player_turn}. Try again")
+            return (f"Bad move of player {self.actual_player}. Try again")
 
         self.put_piece(move)
         self.flip_pieces(moves[move])
 
-        self.change_player()
+        self.change_turn()
 
         if not self.all_possible_moves():
-            self.change_player()
+            self.change_turn()
             if not self.all_possible_moves():
                 winner = self.determine_winner()
                 self.finish()
@@ -166,10 +158,10 @@ class Othello(GameBase):
 
     def next_turn(self):
         if self._is_playing:
-            return f"Turn of Player {self.player_turn}"
+            return f"Turn of Player {self.actual_player}"
         else:
             return GAME_OVER
 
     def put_piece(self, coordinate):
         row, col = coordinate
-        self._board[row][col] = self.player_turn
+        self._board[row][col] = self.actual_player
