@@ -1,4 +1,4 @@
-from game_base import GameBase, GameWithTurns
+from game_base import GameBase, GameWithTurns, GameWithBoard
 from othello.constants import (
     PLAYER1,
     PLAYER2,
@@ -16,7 +16,7 @@ from othello.constants import (
 )
 
 
-class Othello(GameBase, GameWithTurns):
+class Othello(GameBase, GameWithTurns, GameWithBoard):
 
     name = 'Othello'
     input_args = 2
@@ -24,18 +24,13 @@ class Othello(GameBase, GameWithTurns):
 
     def __init__(self):
         super().__init__(name=PLAYER1, name2=PLAYER2)
-
-        self._board = [
-            [None, None, None, None, None, None, None, None],
-            [None, None, None, None, None, None, None, None],
-            [None, None, None, None, None, None, None, None],
-            [None, None, None, PLAYER2, PLAYER1, None, None, None],
-            [None, None, None, PLAYER1, PLAYER2, None, None, None],
-            [None, None, None, None, None, None, None, None],
-            [None, None, None, None, None, None, None, None],
-            [None, None, None, None, None, None, None, None],
-        ]
-        self._is_playing = True
+        self.rows = 8
+        self.cols = 8
+        self.create_board(None)
+        self.set_value(3, 3, PLAYER2)
+        self.set_value(3, 4, PLAYER1)
+        self.set_value(4, 3, PLAYER1)
+        self.set_value(4, 4, PLAYER2)
 
     def get_piece_count(self, kind):
         return sum(
@@ -50,7 +45,7 @@ class Othello(GameBase, GameWithTurns):
 
     def flip_pieces(self, coordinates):
         for row, col in coordinates:
-            self._board[row][col] = self.actual_player
+            self.set_value(row, col, self.actual_player)
 
     def validate_move(self, row, col):
         directions = [N, NE, E, SE, S, SW, W, NW]
@@ -76,13 +71,10 @@ class Othello(GameBase, GameWithTurns):
         change = direction_coordinates[direction]
         pieces_available_to_flip = []
         ending_same_color = False
-
-        while (row + change[0] >= 0 and
-               row + change[0] < 8 and
-               col + change[1] >= 0 and col + change[1] < 8):
+        while (self.in_board(row + change[0], col + change[1])):
             row = row + change[0]
             col = col + change[1]
-            if self._board[row][col] is None:
+            if self.get_value(row, col) is None:
                 return []
             if self._board[row][col] == self.actual_player:
                 ending_same_color = True
@@ -164,4 +156,4 @@ class Othello(GameBase, GameWithTurns):
 
     def put_piece(self, coordinate):
         row, col = coordinate
-        self._board[row][col] = self.actual_player
+        self.set_value(row, col, self.actual_player)

@@ -52,7 +52,7 @@ class GameWithBoard(object):
     rows = 0
 
     def __init__(self, *args, **kwargs):
-        super(GameWithBoard, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self._board = []
 
     @property
