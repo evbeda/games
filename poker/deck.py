@@ -8,7 +8,9 @@ class Deck(object):
 
     def create(self):
         suits = ['h', 'd', 's', 'c']
-        values = ['A', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K']
+        values = [
+            'A', '2', '3', '4', '5', '6',
+            '7', '8', '9', 'T', 'J', 'Q', 'K']
         return [Card(value, suit) for value in values for suit in suits]
 
     def shuffle_cards(self):

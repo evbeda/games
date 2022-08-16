@@ -1,5 +1,9 @@
+import random
 import unittest
 from unittest.mock import patch
+
+from parameterized import parameterized
+
 from .poker import (
     combine_card,
     better_hand,
@@ -9,6 +13,7 @@ from .poker import (
     find_flush,
     find_cards_suits,
     find_straight,
+    get_face,
     sort_cards_by_number,
     compare_combinations,
     compare_hands,
@@ -24,12 +29,7 @@ from .poker import (
     STRAIGHT_FLUSH,
     POKER,
     FULL_HOUSE,
-    FLUSH,
-    STRAIGHT,
-    SET,
-    DOUBLE_PAIR,
     PAIR,
-    HIGH_CARD,
 )
 from .card import Card
 from .deck import Deck
@@ -226,6 +226,7 @@ class PokerTest(unittest.TestCase):
         self.assertEqual(get_value('J'), 11)
         self.assertEqual(get_value('Q'), 12)
         self.assertEqual(get_value('K'), 13)
+        self.assertEqual(get_value('T'), 10)
 
     def test_21combinations(self):
         result = combine_card(['Ah', '2h', '5h', '6h', '7h', '8h', '9h'])
@@ -701,6 +702,97 @@ class PokerTest(unittest.TestCase):
         result = hand.possibles_actions()
         self.assertEqual(result, [CALL, RAISE, FOLD])
 
+    def test_possible_action_after_all_in(self):
+        players = []
+        player = Player(100)
+        cpu = Player(100)
+        players.append(player)
+        players.append(cpu)
+        hand = Hand(players)
+        hand.all_in_value = True
+        result = hand.possibles_actions()
+        self.assertEqual(result, [CALL, FOLD])
+
+    @parameterized.expand([
+        (BET, 0, RAISE,  "You can't bet now"),
+        (BET, 100, BET,  'All In Done'),
+        (FOLD, 100, CHECK,  "You can't FOLD now"),
+        (CALL, 100, CALL,  "You can't CALL now"),
+
+    ])
+    def test_take_action(self, action, bet, last_action, expected):
+
+        players = []
+        player = Player(100)
+        cpu = Player(100)
+        players.append(player)
+        players.append(cpu)
+        hand = Hand(players)
+        hand.last_action = last_action
+
+        result = hand.take_action(action, bet)
+        self.assertEqual(result, expected)
+
+    @parameterized.expand([
+        (CHECK, 0, CHECK),
+        (CALL, 0, RAISE),
+        (CALL, 0, BET),
+    ])
+    def test_action_withnext_stage(self, action, bet, last_action):
+
+        stage = ('pair', ['7d', '5s', 'Qh', '6c', 'Ad'])
+        players = []
+        player = Player(100)
+        cpu = Player(100)
+        players.append(player)
+        players.append(cpu)
+        hand = Hand(players)
+        hand.last_action = last_action
+
+        with patch.object(Hand, 'next_stage', return_value=stage):
+            result = hand.take_action(action, bet)
+            self.assertEqual(result, stage)
+
+    @parameterized.expand([
+        (RAISE, RAISE, PLAYER),
+        (RAISE, RAISE, CPU),
+        (CALL,  BET, PLAYER),
+    ])
+    def test_bet_all_in(self, action, last_action, turn):
+
+        players = []
+        player = Player(100)
+        cpu = Player(100)
+        players.append(player)
+        players.append(cpu)
+        hand = Hand(players)
+        hand.all_in_value = True
+        hand.last_action = last_action
+        hand.last_bet = 100
+        hand.stage = 5
+        stage = ('pair', ['7d', '5s', 'Qh', '6c', 'Ad'])
+
+        hand.turn = turn
+
+        with patch.object(Hand, 'next_stage', return_value=stage):
+            result = hand.take_action(action, 100)
+            self.assertEqual(result, 'All In ' + str(stage))
+
+    @parameterized.expand([
+        (RAISE, 40, 100,),
+        (RAISE, 50, 50,),
+    ])
+    @patch.object(random, 'choice')
+    def test_play_as_cpu(self, action, last_bet, money,
+                         patch_action):
+
+        patch_action.return_value = action
+        hand = Hand([Player(100), Player(100)])
+        hand.last_action = CALL
+        hand.last_bet = last_bet
+        hand.players[1].money = money
+        self.assertEqual(hand.play_as_cpu(), 'raise done!')
+
 
 class PokerGameTest(unittest.TestCase):
     def test_player_no_money_money(self):
@@ -746,7 +838,12 @@ class PokerGameTest(unittest.TestCase):
         game.hand.player_cards = ['Jh', '6h']
         game.hand.stage = 5
         result = game.next_turn()
-        self.assertEqual(result, "\nWINNER: None\nPOT: 0\nPLAYER: ['Jh', '6h'] \n\nCPU: ['4c', '7d'] \nCOMMON CARDS: [] \nPLAYER MONEY: 100 \nCPU MONEY: 100 \n\n")
+        self.assertEqual(result, "\nWINNER: None\n"
+                                 "POT: 0\nPLAYER: ['Jh', '6h'] \n\n"
+                                 "CPU: ['4c', '7d'] \n"
+                                 "COMMON CARDS: [] \n"
+                                 "PLAYER MONEY: 100 \n"
+                                 "CPU MONEY: 100 \n\n")
 
     def test_play_with_bet(self):
         def side_effect(cpu_action):
@@ -784,6 +881,31 @@ class PokerGameTest(unittest.TestCase):
         self.assertEqual(game.play('BADCOMMAND'),
                          'Invalid action')
 
+    def test_quit_game(self):
+        game = PokerGame()
+        self.assertEqual(game.play('q'), 'You quit the game')
 
-if __name__ == "__main__":
-    unittest.main()
+    def test_board(self):
+        game = PokerGame()
+        game.player.money = 50
+        game.cpu.money = 70
+        game.hand.common_cards = []
+        game.hand.cpu_cards = ['4c', '7d']
+        game.hand.player_cards = ['Jh', '6h']
+        board = "\nPOT: 0"\
+                "\nPLAYER: ['Jh', '6h'] \n"\
+                "COMMON CARDS: [] \n"\
+                "PLAYER MONEY: 50 \n"\
+                "CPU MONEY: 70 \n\n"
+        self.assertEqual(game.board, board)
+
+    @parameterized.expand([
+        (14, 'A'),
+        (10, 'T'),
+        (11, 'J'),
+        (12, 'Q'),
+        (13, 'K'),
+        (8, 8),
+    ])
+    def test_get_face(self, value, expected):
+        self.assertEqual(get_face(value), expected)

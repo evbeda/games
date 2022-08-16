@@ -147,7 +147,3 @@ class TestTateti(unittest.TestCase):
     def test_board_layout(self):
         result = '\n000\n000\n000\n'
         self.assertEqual(result, self.tateti.board)
-
-
-if __name__ == "__main__":
-    unittest.main()
