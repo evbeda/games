@@ -79,50 +79,49 @@ class BlackJackGame(GameBase):
         elif who == 'Player Wins!':
             self.player.money += self.bet
 
+    def message_to_win(self, condition):
+        return self.messages_who_win[condition]
+
     def who_wins(self):
+        flag_win = 0
         if self.dealer_hand.value == 21 and len(self.dealer_hand.cards) == 2:
-            if (self.player.hand.value == 21 and
-                    len(self.player.hand.cards) == 2):
+            if (self.player.hand.value == 21 and len(self.player.hand.cards) == 2):
                 self.is_finished = True
-                return self.messages_who_win['T']
-            self.is_finished = True
-            return self.messages_who_win['Dealer']
+                flag_win = self.message_to_win('T')
+            else:
+                self.is_finished = True
+                flag_win = self.message_to_win('Dealer')
         elif self.player.hand.value == 21 and len(self.player.hand.cards) == 2:
             self.is_finished = True
-            return self.messages_who_win['Player']
-        elif self.dealer_hand.value > 21:
+            flag_win = self.message_to_win('Player')
+        elif self.dealer_hand.value > 21 or self.player.hand.value == 21:
             self.is_finished = True
-            return self.messages_who_win['Player']
-        elif self.player.hand.value > 21:
+            flag_win = self.message_to_win('Player')
+        elif self.player.hand.value > 21 or self.dealer_hand.value == 21:
             self.is_finished = True
-            return self.messages_who_win['Dealer']
-        elif self.dealer_hand.value == 21:
-            self.is_finished = True
-            return self.messages_who_win['Dealer']
-        elif self.player.hand.value == 21:
-            self.is_finished = True
-            return self.messages_who_win['Player']
+            flag_win = self.message_to_win('Dealer')
         elif (
             self.dealer_hand.value >= 17 and
             self.player.hand.value > self.dealer_hand.value
         ):
             self.is_finished = True
-            return self.messages_who_win['Player']
+            flag_win = self.message_to_win('Player')
         elif (
             self.dealer_hand.value >= 17 and
             self.dealer_hand.value > self.player.hand.value
         ):
             self.is_finished = True
-            return self.messages_who_win['Dealer']
+            flag_win = self.message_to_win('Dealer')
         elif (
                 self.dealer_hand.value >= 17 and
                 self.dealer_hand.value == self.player.hand.value
         ):
             self.is_finished = True
-            return self.messages_who_win['T']
+            flag_win = self.message_to_win('T')
         elif self.dealer_hand.value < 17:
             self._playing = True
-            return self.messages_who_win['C']
+            flag_win = self.message_to_win('C')
+        return flag_win
 
     def next_turn(self):
         if self._playing:
