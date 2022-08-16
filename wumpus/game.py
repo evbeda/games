@@ -129,7 +129,7 @@ class WumpusGame(GameBase, GameWithBoard):
 
     def game_over(self, result: str, reason: str = ''):
 
-        self._playing = False
+        self.finish()
         self.result_of_game = result
 
         message = "Bad Luck! You lose. "
@@ -224,7 +224,7 @@ class WumpusGame(GameBase, GameWithBoard):
 
     def next_turn(self):
         result = ""
-        if self.is_playing:
+        if self._playing:
             result = MESSAGE_NEXT_TURN
         else:
             result = self.message_game_over + str(self.score)
@@ -287,7 +287,7 @@ class WumpusGame(GameBase, GameWithBoard):
         try:
             self.manager_move(action, direction)
             result = f"Your score is {str(self.score)}"
-            if not self.is_playing:
+            if not self._playing:
                 result = self.message_game_over + str(self.score)
         except Exception:
             return "Bad move"
