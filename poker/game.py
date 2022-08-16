@@ -1,9 +1,7 @@
-import random
 from game_base import GameBase
 from .player import Player
 from .hand import Hand
 from .poker import (
-    CHECK,
     CALL,
     BET,
     FOLD,
@@ -53,22 +51,31 @@ class PokerGame(GameBase):
                 if self.hand.stage < 5:
                     splited_command = command.split(',')
                     if splited_command[0] in possibles_actions:
-                        if splited_command[0] == BET or splited_command[0] == RAISE:
+                        if (
+                            splited_command[0] == BET
+                            or splited_command[0] == RAISE
+                        ):
+
                             try:
                                 bet = int(splited_command[1])
                                 result = PLAYER + ': ' + self.hand.take_action(
                                     splited_command[0], bet)
-                                result = result + '\n' + CPU + ': ' + self.hand.play_as_cpu()
+                                result = result + '\n' + CPU + ': ' +\
+                                    self.hand.play_as_cpu()
                                 return result
                             except Exception:
                                 return 'Please enter a number to bet'
-                        elif splited_command[0] == FOLD or splited_command[0] == CALL:
+                        elif (
+                            splited_command[0] == FOLD
+                            or splited_command[0] == CALL
+                        ):
                             result = self.hand.take_action(splited_command[0])
                             return result
                         else:
                             result = PLAYER + ': ' + self.hand.take_action(
                                 splited_command[0])
-                            result = result + '\n' + CPU + ': ' + self.hand.play_as_cpu()
+                            result = result + '\n' + CPU + ': ' +\
+                                self.hand.play_as_cpu()
                             return result
                     else:
                         return 'Invalid action'
@@ -86,25 +93,24 @@ class PokerGame(GameBase):
                 common_cards=self.hand.common_cards,
                 money_player=self.player.money,
                 money_cpu=self.cpu.money,
-
             )
 
     def show_down(self):
-            return ('\nWINNER: {winner}'
-                    '\nPOT: {pot}'
-                    '\nPLAYER: {player_cards} \n'
-                    '\nCPU: {cpu_cards} \n'
-                    'COMMON CARDS: {common_cards} \n'
-                    'PLAYER MONEY: {money_player} \n'
-                    'CPU MONEY: {money_cpu} \n\n').format(
-                winner=self.hand.winner,
-                pot=self.hand.pot,
-                player_cards=self.hand.player_cards,
-                cpu_cards=self.hand.cpu_cards,
-                common_cards=self.hand.common_cards,
-                money_player=self.player.money,
-                money_cpu=self.cpu.money,
-            )
+        return ('\nWINNER: {winner}'
+                '\nPOT: {pot}'
+                '\nPLAYER: {player_cards} \n'
+                '\nCPU: {cpu_cards} \n'
+                'COMMON CARDS: {common_cards} \n'
+                'PLAYER MONEY: {money_player} \n'
+                'CPU MONEY: {money_cpu} \n\n').format(
+            winner=self.hand.winner,
+            pot=self.hand.pot,
+            player_cards=self.hand.player_cards,
+            cpu_cards=self.hand.cpu_cards,
+            common_cards=self.hand.common_cards,
+            money_player=self.player.money,
+            money_cpu=self.cpu.money,
+        )
 
     def player_no_money(self):
         if self.player.money == 0:

@@ -224,7 +224,10 @@ def better_hand(combinations):
     best_hand = combinations[0]
     for combination in combinations:
         category = best_category_combination(combination)
-        if greater_combinations[category] >= greater_combinations[best_category]:
+        if (
+            greater_combinations[category] >=
+            greater_combinations[best_category]
+        ):
             best_category = category
             if compare_combinations(combination, best_hand) == FIRST:
                 best_hand = combination
@@ -266,15 +269,16 @@ def best_category_combination(combination):
 
 
 def compare_hands(player_hand, cpu_hand):
-    if greater_combinations[player_hand[0]] > greater_combinations[cpu_hand[0]]:
+
+    if (
+        greater_combinations[player_hand[0]] >
+        greater_combinations[cpu_hand[0]]
+    ):
         return 'PLAYER WINS!'
-    elif greater_combinations[player_hand[0]] < greater_combinations[cpu_hand[0]]:
+    elif (
+        greater_combinations[player_hand[0]] <
+        greater_combinations[cpu_hand[0]]
+    ):
         return 'CPU WINS!'
     else:
-        winner = compare_combinations(player_hand[1], cpu_hand[1])
-        if winner == FIRST:
-            return 'PLAYER WINS!'
-        elif winner == SECOND:
-            return 'CPU WINS!'
-        else:
-            return 'TIE'
+        return 'TIE'
