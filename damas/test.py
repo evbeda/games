@@ -260,6 +260,30 @@ class TestDamaGame(unittest.TestCase):
         self.game.play(3, 3, 2, 4)
         self.assertEqual(self.game.play(7, 2, 6, 3), None)
 
+    def test_play_white(self):
+        self.game._board = [
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', 'w', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', 'w', ' ', ' ', ' ', ' '],
+            [' ', ' ', 'b', ' ', ' ', ' ', ' ', ' '],
+            [' ', 'w', ' ', ' ', ' ', 'w', ' ', 'w'],
+            [' ', ' ', ' ', ' ', ' ', ' ', 'w', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', 'w']]
+        self.assertEqual(self.game.play_white(3, 3, 4, 5),'you cant reach that place!')
+    
+    def test_play_white_with_jump(self):
+        self.game._board = [
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', 'w', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', 'w', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', 'w'],
+            [' ', ' ', ' ', ' ', ' ', ' ', 'w', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', 'w']]
+        self.assertEqual(self.game.play_white(4, 2, 2, 4),'you cant reach that places!')
+
 
 if __name__ == '__main__':
     unittest.main()

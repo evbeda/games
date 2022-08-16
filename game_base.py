@@ -76,7 +76,7 @@ class GameWithBoard(object):
         self._board[x][y] = value
 
     def in_board(self, x, y):
-        return self.cols > x and self.cols > y and x >= 0 and y >= 0
+        return self.rows > x and self.cols > y and x >= 0 and y >= 0
 
     def in_columns(self, *args):
         count_args = len(args)
