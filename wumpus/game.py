@@ -18,16 +18,17 @@ from wumpus.constants import (
     MESSAGE_NEXT_TURN,
 )
 import random
+from game_base import GameBase
 
 
-class WumpusGame:
+class WumpusGame(GameBase):
 
     name = 'Wumpus . An unforgettable Adventure'
     input_args = 2
     input_are_ints = False
 
-    def __init__(self) -> None:
-        self.is_playing = True
+    def __init__(self):
+        super().__init__()
         self._board = [['' for j in range(COL)] for i in range(ROW)]
         self.place_player()
 
@@ -124,7 +125,7 @@ class WumpusGame:
 
     def game_over(self, result: str, reason: str = ''):
 
-        self.is_playing = False
+        self._playing = False
         self.result_of_game = result
 
         message = "Bad Luck! You lose. "
@@ -261,7 +262,8 @@ class WumpusGame:
             if (
                 (row_next, col_next) not in visited and
                 board[row_next][col_next] != HOLES and
-                self._find_gold_recursive(row_next, col_next, gold_position, board, visited)
+                self._find_gold_recursive(row_next, col_next, gold_position,
+                                          board, visited)
             ):
                 return True
         return False
@@ -272,7 +274,8 @@ class WumpusGame:
         aux_board[row][col] = HOLES
         golds = self.position_finder(GOLD)
         for gold_position in golds:
-            if not self._find_gold_recursive(0, 0, gold_position, aux_board, []):
+            if not self._find_gold_recursive(0, 0, gold_position,
+                                             aux_board, []):
                 return False
         return True
 

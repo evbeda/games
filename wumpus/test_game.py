@@ -12,7 +12,8 @@ from .constants import (GOLD, GOLD_QUANTITY, HIDE_CELL, LOSE, PLAYER,
 
 from wumpus.game import WumpusGame
 
-from .scenarios import (INITIAL_BIG_FAIL_BOARD, SCENARIO_1, SCENARIO_2, SCENARIO_3, SCENARIO_4,
+from .scenarios import (INITIAL_BIG_FAIL_BOARD, SCENARIO_1, SCENARIO_2,
+                        SCENARIO_3, SCENARIO_4,
                         SCENARIO_CELL_PARSE_1, SCENARIO_CELL_PARSE_2,
                         SCENARIO_CELL_PARSE_3, SCENARIO_CELL_PARSE_4,
                         SCENARIO_CELL_PARSE_5,
@@ -190,8 +191,10 @@ class TestGame(unittest.TestCase):
 
     @parameterized.expand([
         (WIN, '', 'CONGRATS!! You WIN!!! Your final score is '),
-        (LOSE, WUMPUS, "Bad Luck! You lose. You have eaten by a Wumpus. Your final score is "),
-        (LOSE, HOLES, "Bad Luck! You lose. You falled into a hole. Your final score is "),
+        (LOSE, WUMPUS, "Bad Luck! You lose. You have eaten by a Wumpus."
+            + " Your final score is "),
+        (LOSE, HOLES, "Bad Luck! You lose. You falled into a hole."
+            + " Your final score is "),
     ])
     def test_game_over(self, result, reason, expected_message):
         game = WumpusGame()
@@ -425,15 +428,17 @@ class TestGame(unittest.TestCase):
     ])
     def test_next_turn_true(self, play_condition, score, final_message):
         game = WumpusGame()
-        game.is_playing = play_condition
+        game._playing = play_condition
         game.score = score
         message = game.next_turn()
         self.assertEqual(message, final_message)
 
     @parameterized.expand([
         (WIN, '', 'CONGRATS!! You WIN!!! Your final score is 1000'),
-        (LOSE, WUMPUS, "Bad Luck! You lose. You have eaten by a Wumpus. Your final score is 1000"),
-        (LOSE, HOLES, "Bad Luck! You lose. You falled into a hole. Your final score is 1000"),
+        (LOSE, WUMPUS, "Bad Luck! You lose. You have eaten by a Wumpus."
+            + " Your final score is 1000"),
+        (LOSE, HOLES, "Bad Luck! You lose. You falled into a hole."
+            + " Your final score is 1000"),
     ])
     def test_next_turn_game_over(self, result, reason, expected_msg):
 
@@ -490,7 +495,8 @@ class TestGame(unittest.TestCase):
     def test_find_gold_way(self, gold_position, board, bool_return):
         game = WumpusGame()
         game._board = board
-        self.assertEqual(game._find_gold_recursive(0, 0, gold_position, board, []), bool_return)
+        self.assertEqual(game._find_gold_recursive(0, 0, gold_position,
+                         board, []), bool_return)
 
     @parameterized.expand([
         (7, 10, VALID_HOLE_SCENARIO, True),
