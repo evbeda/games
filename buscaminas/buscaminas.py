@@ -20,7 +20,8 @@ class Buscaminas(GameWithBoard, GameBase):
         self.generate_bombs()
 
     def next_turn(self):
-        return "Play" if self.is_playing else '*********** Game Over ************'
+        return "Play" if self.is_playing\
+            else '*********** Game Over ************'
 
     def check_lose(self, x, y):
         return self.get_value(x, y) == 'B'
@@ -52,6 +53,11 @@ class Buscaminas(GameWithBoard, GameBase):
         self.set_value(x, y, str(count_bombs))
 
     def play(self, x, y):
+
+        if self.check_win():
+            self.finish()
+            return '*********** You Win ***********'
+
         if not self.is_playing:
             return '*********** Game Over ************'
 
@@ -64,10 +70,6 @@ class Buscaminas(GameWithBoard, GameBase):
         if self.check_lose(x, y):
             self.finish()
             return '*********** You Lose ***********'
-
-        if self.check_win():
-            self.finish()
-            return '*********** You Win ***********'
 
         self.keep_playing(x, y)
         return 'Keep playing'
@@ -82,20 +84,22 @@ class Buscaminas(GameWithBoard, GameBase):
     def generate_random(self):
         x = randint(0, self.rows - 1)
         y = randint(0, self.cols - 1)
-        return (x, y,) if self.get_value(x, y) != 'B' else self.generate_random()
+        return (x, y,) if self.get_value(x, y) != 'B'\
+            else self.generate_random()
 
     def check_position_used(self, x, y):
         return self.get_value(x, y) != ' ' and self.get_value(x, y) != 'B'
 
     def poster(self):
-        poster = ""
-        poster += " ______ _   _ _____ _____  ___ ___  ________ _   _  ___  _____ \n"
-        poster += " | ___ \ | | /  ___/  __ \/ _ \|  \/  |_   _| \ | |/ _ \/  ___|\n"
-        poster += " | |_/ / | | \ `--.| /  \/ /_\ \ .  . | | | |  \| / /_\ \ `--. \n"
-        poster += " | ___ \ | | |`--. \ |   |  _  | |\/| | | | | . ` |  _  |`--.  \n"
-        poster += " | |_/ / |_| /\__/ / \__/\ | | | |  | |_| |_| |\  | | | /\__/ /\n"
-        poster += " \____/ \___/\____/ \____|_| |_|_|  |_/\___/\_| \_|_| |_|____/ \n"
-        return poster
+        p = """
+        ______ _   _ _____ _____  ___ ___  ________ _   _  ___  _____
+        | ___ \\ | | /  ___/  __ \\/ _ \\|  \\/  |_   _| \\ | |/ _ \\/  ___|
+        | |_/ / | | \\ `--.| /  |\\/ /_\\ \\ .  . | | | |  \\| / /_\\ \\ `--.
+        | ___ \\ | | |`--. \\ |   |  _  | |\\/| | | | | . ` |  _  |`--.
+        | |_/ / |_| /\\__/ / \\__/\\ | | | |  | |_| |_| |\\  | | | /\\__/ /
+        \\____/ \\___/\\____/ \\____|_| |_|_|  |_/\\___/\\_| \\_|_| |_|____/ "
+        """
+        return p
 
     @property
     def board(self):
@@ -111,10 +115,6 @@ class Buscaminas(GameWithBoard, GameBase):
 
                 if casilla == 'B':
                     casilla = ' '
-                    output += '|' + casilla
-
-                elif casilla == '*':
-                    casilla = '*'
                     output += '|' + casilla
 
                 else:
