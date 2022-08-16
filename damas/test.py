@@ -270,7 +270,19 @@ class TestDamaGame(unittest.TestCase):
             [' ', 'w', ' ', ' ', ' ', 'w', ' ', 'w'],
             [' ', ' ', ' ', ' ', ' ', ' ', 'w', ' '],
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', 'w']]
-        self.assertEqual(self.game.play_white(3, 3, 4, 5),'you cant reach that place!')
+        self.assertEqual(self.game.play_white(3, 3, 4, 4),'you cant reach that place!')
+
+    def test_play_white_with_out_pieces(self):
+        self.game._board = [
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', 'w', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', 'w', ' ', ' ', ' ', ' '],
+            [' ', ' ', 'b', ' ', ' ', ' ', ' ', ' '],
+            [' ', 'w', ' ', ' ', ' ', 'w', ' ', 'w'],
+            [' ', ' ', ' ', ' ', ' ', ' ', 'w', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', 'w']]
+        self.assertEqual(self.game.play_white(3, 3, 2, 5),'you cant reach that place!')
     
     def test_play_white_with_jump(self):
         self.game._board = [
@@ -284,6 +296,65 @@ class TestDamaGame(unittest.TestCase):
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', 'w']]
         self.assertEqual(self.game.play_white(4, 2, 2, 4),'you cant reach that places!')
 
+    def test_play_white(self):
+        self.game._board = [
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', 'w', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', 'b', ' ', ' ', ' ', ' '],
+            [' ', ' ', 'b', ' ', ' ', ' ', ' ', ' '],
+            [' ', 'w', ' ', ' ', ' ', 'w', ' ', 'w'],
+            [' ', ' ', ' ', ' ', ' ', ' ', 'w', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', 'w']]
+        self.assertEqual(self.game.play_black(3, 3, 4, 5),'you cant reach that place!')
+
+    def test_play_black_with_jump(self):
+        self.game._board = [
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', 'w', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', 'b', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', 'w'],
+            [' ', ' ', ' ', ' ', ' ', ' ', 'w', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', 'w']]
+        self.assertEqual(self.game.play_black(4, 3, 6, 1),'you cant reach that places!')
+
+    def test_play_black_with_jump_ex(self):
+        self.game._board = [
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', 'w', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', 'b', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', 'w'],
+            [' ', ' ', ' ', ' ', ' ', ' ', 'w', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', 'w']]
+        self.assertEqual(self.game.play_black(4, 3, 6, 5),'you cant reach that place!')
+
+    def test_play_black_with_jump(self):
+        self.game._board = [
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', 'w', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', 'b', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', 'w'],
+            [' ', ' ', ' ', ' ', ' ', ' ', 'w', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', 'w']]
+        self.assertEqual(self.game.play_black(4, 3, 6, 1),'you cant reach that places!')
+
+    def test_play_black_with_jump(self):
+        self.game._board = [
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', 'w', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', 'w'],
+            [' ', ' ', ' ', ' ', ' ', ' ', 'w', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', 'w']]
+        self.assertEqual(self.game.play_black(4, 3, 6, 1),'No black piece here to move !')
 
 if __name__ == '__main__':
     unittest.main()
