@@ -1,4 +1,5 @@
 
+from email import message
 from . import cardsDictionary, colorDictionary, cards_colors
 from .player import Player
 from .deck import Deck
@@ -44,7 +45,10 @@ class BlackJackGame(GameBase):
         self.dealer_hand = Hand()
         player_deck_card_deal = self.deck.deal(2)
         dealer_deck_card_deal = self.deck.deal(2)
-        if player_deck_card_deal == 'Out of cards!' or dealer_deck_card_deal == 'Out of cards!':
+        if (
+                player_deck_card_deal == 'Out of cards!' or
+                dealer_deck_card_deal == 'Out of cards!'
+                ):
             self.deck_counter += 1
             if self.deck_counter < 7:
                 self.deck = Deck(cardsDictionary, colorDictionary)
@@ -133,25 +137,26 @@ class BlackJackGame(GameBase):
         else:
             return 'Game Over'
 
+    def card_encode_function(self, card):
+        user_cards = ''
+        card_encode = cards_colors[card[1]]
+        if(card[0] == 'T'):
+            user_cards += '10' + card_encode + ', '
+        else:
+            user_cards += card[0] + card_encode + ', '
+        return user_cards
+
     @property
     def board(self):
         if not self.bet_time:
             dealer_cards = ''
             player_cards = ''
             for card in self.dealer_hand.cards:
-                card_encode = cards_colors[card[1]]
                 # print(type(card_encode))
-                if(card[0] == 'T'):
-                    dealer_cards += '10' + card_encode + ', '
-                else:
-                    dealer_cards += card[0] + card_encode + ', '
+                dealer_cards += self.card_encode_function(card)
 
             for card in self.player.hand.cards:
-                card_encode = cards_colors[card[1]]
-                if(card[0] == 'T'):
-                    player_cards += '10' + card_encode + ', '
-                else:
-                    player_cards += card[0] + card_encode + ', '
+                player_cards += self.card_encode_function(card)
 
             player_cards = player_cards[:-2]
             dealer_cards = dealer_cards[:-2]
@@ -167,50 +172,48 @@ class BlackJackGame(GameBase):
             return ''
 
     def play(self, command):
+        message = ""
         if not self.check_you_can_bet():
             self.finish()
-            return 'You dont have money.'
+            message = 'You dont have money.'
         elif self.is_finished:
             if command == 'q':
                 self.bet_time = True
                 self.finish()
-                return 'You left the game'
-            try:
-                self.bet_time = True
-                bet = int(command)
-                result = self.check_bet(bet)
-                if result == 'NEW ROUND!':
-                    self.reset_round
-                    self.bet = bet
-                    self.is_finished = False
-                    self.bet_time = False
-                    if self.reset_round() == 'Game Over! No more decks':
-                        self._playing = False
-                        return self.reset_round()
-                return result
-            except Exception:
-                return 'Please enter a number or q to quit'
+                message = 'You left the game'
+            else:
+                try:
+                    self.bet_time = True
+                    bet = int(command)
+                    result = self.check_bet(bet)
+                    if result == 'NEW ROUND!':
+                        self.reset_round
+                        self.bet = bet
+                        self.is_finished = False
+                        self.bet_time = False
+                        if self.reset_round() == 'Game Over! No more decks':
+                            self._playing = False
+                            return self.reset_round()
+                    return result
+                except Exception:
+                    message = 'Please enter a number or q to quit'
         else:
             if command == '=':
                 if self.who_wins() == 'CONTINUE':
                     self.dealer_hand.deal_card(self.deck.deal(1))
-                    return self.play('=')
+                    message = self.play('=')
                 else:
                     who_wins = self.who_wins()
                     self.give_money_to_winner(who_wins)
-                    return who_wins
+                    message = who_wins
             elif command == '+':
                 self.player.hand.deal_card(self.deck.deal(1))
-                if self.who_wins() == 'CONTINUE':
-                    who_wins = self.who_wins()
-                    self.give_money_to_winner(who_wins)
-                    return who_wins
-                else:
-                    who_wins = self.who_wins()
-                    self.give_money_to_winner(who_wins)
-                    return who_wins
+                who_wins = self.who_wins()
+                self.give_money_to_winner(who_wins)
+                message = who_wins
             elif command == 'q':
                 self.finish()
-                return 'You left the game'
+                message = 'You left the game'
             else:
-                return 'Wrong command, please use + or = .'
+                message = 'Wrong command, please use + or = .'
+        return message
