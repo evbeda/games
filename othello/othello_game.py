@@ -1,3 +1,4 @@
+from game_base import GameBase
 from othello.constants import (
     PLAYER1,
     PLAYER2,
@@ -15,7 +16,7 @@ from othello.constants import (
 )
 
 
-class Othello():
+class Othello(GameBase):
 
     name = 'Othello'
     input_args = 2
@@ -34,7 +35,7 @@ class Othello():
             [None, None, None, None, None, None, None, None],
             [None, None, None, None, None, None, None, None],
         ]
-        self.is_playing = True
+        self._is_playing = True
 
     def get_piece_count(self, kind):
         return sum(
@@ -157,13 +158,14 @@ class Othello():
             self.change_player()
             if not self.all_possible_moves():
                 winner = self.determine_winner()
-                self.is_playing = False
-                return TIE_MATCH if winner == TIE_MATCH else f"{winner} wins the match"
+                self.finish()
+                return TIE_MATCH if winner == TIE_MATCH \
+                    else f"{winner} wins the match"
 
         return MOVE_OK
 
     def next_turn(self):
-        if self.is_playing:
+        if self._is_playing:
             return f"Turn of Player {self.player_turn}"
         else:
             return GAME_OVER
