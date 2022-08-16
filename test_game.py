@@ -81,6 +81,7 @@ class TestGame(unittest.TestCase):
             '18: Qwixx\n'
             '19: Rummy and Burakko\n'
             '20: Wumpus . An unforgettable Adventure\n'
+            '21: Backgammon\n'
             '99: to quit\n'
         )
 
