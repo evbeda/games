@@ -87,7 +87,7 @@ class Test_othello(unittest.TestCase):
         self.assertEqual(expected, pieces)
 
     def test_initial_player(self):
-        self.assertTrue(self.game.player_turn == PLAYER1)
+        self.assertTrue(self.game.actual_player == PLAYER1)
 
     @parameterized.expand(
         [
@@ -99,21 +99,8 @@ class Test_othello(unittest.TestCase):
     )
     def test_current_turn(self, it, expected):
         for _ in range(it):
-            self.game.change_player()
-        self.assertEqual(expected, self.game.player_turn)
-
-    @parameterized.expand(
-        [
-            (1, PLAYER1),
-            (3, PLAYER1),
-            (4, PLAYER2),
-            (7, PLAYER1),
-        ]
-    )
-    def test_opposite_piece(self, it, expected):
-        for _ in range(it):
-            self.game.change_player()
-        self.assertEqual(expected, self.game.get_opposite_piece())
+            self.game.change_turn()
+        self.assertEqual(expected, self.game.actual_player)
 
     @parameterized.expand(
         # initial_board , coordinates , index_player, final_board
@@ -126,8 +113,9 @@ class Test_othello(unittest.TestCase):
         ]
     )
     def test_flip_pieces(self, initial_board, cordinates, index, final_board):
+        possibles_players = [PLAYER1, PLAYER2]
         self.game._board = self._convert_scenario_to_matrix(initial_board)
-        self.game.player_turn = self.game.possibles_players[index]
+        self.game._turn = possibles_players[index]
         self.game.flip_pieces(cordinates)
         self.assertEqual(
             self._convert_scenario_to_matrix(final_board), self.game._board)
@@ -154,7 +142,7 @@ class Test_othello(unittest.TestCase):
     def test_validate_direction(self, board, player,
                                 row, col, direction, expected):
         self.game._board = board
-        self.game.player_turn = player
+        self.game._turn = player
         self.assertEqual(expected,
                          self.game.validate_direction(row, col, direction))
 
@@ -187,7 +175,7 @@ class Test_othello(unittest.TestCase):
     )
     def test_validate_move(self, board, player, row, col, expected):
         self.game._board = board
-        self.game.player_turn = player
+        self.game._turn = player
         self.assertEqual(expected, self.game.validate_move(row, col))
 
     @parameterized.expand(
@@ -263,7 +251,7 @@ class Test_othello(unittest.TestCase):
         ]
     )
     def test_play(self, board, row, col, player, expected):
-        self.game.player_turn = player
+        self.game._turn = player
         self.game._board = self._convert_scenario_to_matrix(board)
         result = self.game.play(row, col)
         self.assertEqual(result, expected)
@@ -277,7 +265,7 @@ class Test_othello(unittest.TestCase):
     )
     def test_next_turn(self, state, player, expected):
         self.game._is_playing = state
-        self.game.player_turn = player
+        self.game._turn = player
         result = self.game.next_turn()
         self.assertEqual(result, expected)
 
