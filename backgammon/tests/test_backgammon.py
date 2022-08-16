@@ -25,7 +25,12 @@ from backgammon.tests.test_scenarios import (
     board_with_just_one_move,
     return_board_str,)
 from unittest.mock import patch
-from backgammon.game.constants import BLACK, WHITE, TIE, WINNER_BLACK, WINNER_WHITE
+from backgammon.game.constants import (
+    BLACK,
+    WHITE,
+    TIE,
+    WINNER_BLACK,
+    WINNER_WHITE)
 
 
 class BackgammonGameTest(unittest.TestCase):
@@ -65,7 +70,7 @@ class BackgammonGameTest(unittest.TestCase):
     def test_player(self, patch_color):
         with patch('random.choice', return_value=patch_color):
             new_game = BackgammonGame()
-            player = new_game.player
+            player = new_game._turn
         self.assertEqual(player, patch_color)
 
     @parameterized.expand([
@@ -89,7 +94,7 @@ class BackgammonGameTest(unittest.TestCase):
     ])
     def test_opposite(self, current_player, expected):
 
-        self.backgammon.player = current_player
+        self.backgammon._turn = current_player
         self.assertEqual(self.backgammon.opposite, expected)
 
     @parameterized.expand(
@@ -106,8 +111,8 @@ class BackgammonGameTest(unittest.TestCase):
         patch_function.return_value = patch_value
         game = BackgammonGame()
         for _ in range(it):
-            game.change_active_player()
-        self.assertEqual(expected, game.player)
+            game.change_turn()
+        self.assertEqual(expected, game._turn)
 
     @parameterized.expand([
         (BLACK, 0, False),
@@ -115,7 +120,7 @@ class BackgammonGameTest(unittest.TestCase):
     ])
     def test_less_than_two_enemies_in_position(self, current_player, position,
                                                expected_result):
-        self.backgammon.player = current_player
+        self.backgammon._turn = current_player
         result = self.backgammon.less_than_two_enemies_in_position(position)
         self.assertEqual(result, expected_result)
 
@@ -128,7 +133,7 @@ class BackgammonGameTest(unittest.TestCase):
     ])
     def test_less_than_five_own_pieces(self, current_player,
                                        position, expected):
-        self.backgammon.player = current_player
+        self.backgammon._turn = current_player
         result = self.backgammon.less_than_five_own_pieces(position)
         self.assertEqual(result, expected)
 
@@ -142,7 +147,7 @@ class BackgammonGameTest(unittest.TestCase):
     )
     def test_at_least_one_piece_of_the_player(self, current_player,
                                               position, expected_result):
-        self.backgammon.player = current_player
+        self.backgammon._turn = current_player
         result = self.backgammon.at_least_one_piece_of_the_player(position)
         self.assertEqual(result, expected_result)
 
@@ -160,7 +165,7 @@ class BackgammonGameTest(unittest.TestCase):
     ])
     def test_valid_move(self, current_player,
                         initial_pos, final_pos, expected):
-        self.backgammon.player = current_player
+        self.backgammon._turn = current_player
         result = self.backgammon.is_valid_move(initial_pos, final_pos)
         self.assertEqual(result, expected)
 
@@ -169,7 +174,7 @@ class BackgammonGameTest(unittest.TestCase):
     ])
     def test_capture_opposite_piece(self, actual_position, new_position):
         game = BackgammonGame()
-        game.player = WHITE
+        game._turn = WHITE
         game.capture_opposite_piece(actual_position, new_position)
         captured_piece = game.expelled[BLACK]
         self.assertEqual(1, captured_piece)
@@ -231,7 +236,7 @@ class BackgammonGameTest(unittest.TestCase):
     def test_can_capture(self, board, current_player, new_position, expected):
         game = BackgammonGame()
         game.board_matrix = board
-        game.player = current_player
+        game._turn = current_player
         result = game.can_capture(new_position)
         self.assertEqual(result, expected)
 
@@ -249,7 +254,7 @@ class BackgammonGameTest(unittest.TestCase):
                        new_position, first_dice, second_dice, expected):
         game = BackgammonGame()
         game.board_matrix = board
-        game.player = current_player
+        game._turn = current_player
         game.dice_one = first_dice
         game.dice_two = second_dice
         game.get_move_options()
@@ -297,13 +302,13 @@ class BackgammonGameTest(unittest.TestCase):
                                    board, expected):
         game = BackgammonGame()
         game.board_matrix = board
-        game.player = current_player
+        game._turn = current_player
         game.expelled[current_player] = pieces_captured
         game.dice_one = first_dice
         game.dice_two = second_dice
         game.move_options = move_options
         game.insert_captured_piece(new_position)
-        col = 0 if game.player == WHITE else 1
+        col = 0 if game._turn == WHITE else 1
         result = game.board_matrix[new_position][col]
         self.assertEqual(result, expected)
 
@@ -316,7 +321,7 @@ class BackgammonGameTest(unittest.TestCase):
     def test_increment_points(self, current_player,
                               new_position, expected):
         game = BackgammonGame()
-        game.player = current_player
+        game._turn = current_player
         game.increment_points(new_position)
         points = game.points[current_player]
         self.assertEqual(points, expected)
@@ -338,7 +343,7 @@ class BackgammonGameTest(unittest.TestCase):
     def test_next_turn(self, is_active, first_dice, second_dice, move_options,
                        points, captured, turn, current_player, expected):
         self.backgammon.active_game = is_active
-        self.backgammon.player = current_player
+        self.backgammon._turn = current_player
         self.backgammon.dice_one = first_dice
         self.backgammon.dice_two = second_dice
         self.backgammon.points = points
@@ -369,7 +374,7 @@ class BackgammonGameTest(unittest.TestCase):
     def test_captured_piece(self, board, current_player, captured_pieces,
                             expected):
         self.backgammon.board_matrix = board
-        self.backgammon.player = current_player
+        self.backgammon._turn = current_player
         self.backgammon.expelled = captured_pieces
         result = self.backgammon.can_insert_captured_piece()
         self.assertEqual(result, expected)
@@ -391,7 +396,7 @@ class BackgammonGameTest(unittest.TestCase):
     def test_all_posible_moves(self, current_player, first_dice, second_dice,
                                move_options, expected):
         game = BackgammonGame()
-        game.player = current_player
+        game._turn = current_player
         game.dice_one = first_dice
         game.dice_two = second_dice
         game.move_options = move_options
@@ -414,7 +419,7 @@ class BackgammonGameTest(unittest.TestCase):
     ])
     def test_avialable_moves(self, current_player, all_moves, board, expected):
         game = BackgammonGame()
-        game.player = current_player
+        game._turn = current_player
         game.board_matrix = board
         with patch.object(BackgammonGame, 'all_moves', return_value=all_moves):
             result = game.available_moves()
@@ -430,7 +435,7 @@ class BackgammonGameTest(unittest.TestCase):
     def test_play(self, player, from_coor, to_coor, dice_one,
                   dice_two, expected_result, board):
         game = BackgammonGame()
-        game.player = player
+        game._turn = player
         game.dice_one, game.dice_two = dice_one, dice_two
         game.board_matrix = board
         result = game.play(from_coor, to_coor)
@@ -442,7 +447,7 @@ class BackgammonGameTest(unittest.TestCase):
     def test_game_over(self, player, from_coor, to_coor, dice_one,
                        dice_two, expected_result, board):
         game = BackgammonGame()
-        game.player = player
+        game._turn = player
         game.dice_one, game.dice_two = dice_one, dice_two
         game.board_matrix = board
         game.play(from_coor, to_coor)
@@ -455,8 +460,8 @@ class BackgammonGameTest(unittest.TestCase):
                                   dice_two, from_coor, to_coor, board,
                                   expected_result):
         game = BackgammonGame()
-        game.player = player
-        game.expelled[game.player] = expelled_pieces
+        game._turn = player
+        game.expelled[game._turn] = expelled_pieces
         game.dice_one, game.dice_two = dice_one, dice_two
         game.board_matrix = board
         result = game.play(from_coor, to_coor)
@@ -477,11 +482,11 @@ class BackgammonGameTest(unittest.TestCase):
     def test_play_no_move_options(self, current_player, from_coor, to_coor,
                                   dice_one, dice_two, move_options, expected):
         game = BackgammonGame()
-        game.player = current_player
+        game._turn = current_player
         game.dice_one, game.dice_two = dice_one, dice_two
         game.move_options = move_options
         game.play(from_coor, to_coor)
-        result = game.player
+        result = game._turn
         self.assertEqual(result, expected)
 
 
