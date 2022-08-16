@@ -51,7 +51,7 @@ class DamaGameStart(GameWithTurns,  GameBase, GameWithBoard):
                     self.eat_piece(k, t, 'b')
                     return self.move(x, y, w, z, self.get_value(x, y))
                 else:
-                    return 'you cant reach that place!'
+                    return 'you cant reach that places!'
             return 'you cant reach that place!'
         else:
             return 'No white piece here to move !'
