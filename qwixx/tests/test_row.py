@@ -1,6 +1,7 @@
 import unittest
 from parameterized import parameterized
 from ..row import (
+    NotCanMark,
     Row,
     CantBeLocked,
     RowIsLocked,
@@ -45,6 +46,16 @@ class TestRow(unittest.TestCase):
     def test_check_row_lock_exception(self, number, color, exception_NotCanMark):
         r = Row(color)
         r.blocked_rows.append(color)
+        with self.assertRaises(exception_NotCanMark):
+            r.check_row_lock(number)
+    
+    @parameterized.expand([
+        (6, 'rojo', NotCanMark),
+    ])
+    def test_check_row_lock_exception(self, number, color, exception_NotCanMark):
+        r = Row(color)
+        r.is_locked = True
+
         with self.assertRaises(exception_NotCanMark):
             r.check_row_lock(number)
 
