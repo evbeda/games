@@ -1,3 +1,4 @@
+from email import message
 from game_base import (
     GameBase,
     GameWithBoard,
@@ -50,17 +51,18 @@ class SenkuGame(GameWithBoard, GameBase):
 
     def check_finish(self):
         cont_ocupied = 0
+        message = "Right move"
         for index_row in range(self.rows):
             for index_col in range(self.cols):
                 if self.get_board[index_row][index_col] == space_occupied:
                     cont_ocupied += 1
         if cont_ocupied == 1:
             self.finish()
-            return "You won"
-        if self.check_loose():
+            message = "You won"
+        elif self.check_loose():
             self.finish()
-            return "You loose"
-        return "Right move"
+            message = "You loose"
+        return message
 
     @property
     def board(self):
@@ -130,31 +132,26 @@ class SenkuGame(GameWithBoard, GameBase):
         if initial_col == final_col:
             self._board[(initial_row + final_row) // 2][final_col] = space_free
 
+    def try_exception(self, row_i, col_i, row_f, col_f):
+        try:
+            direction = self.validate_move(row_i, col_i, row_f, col_f)
+        except Exception:
+            direction = False
+        return direction
+
     def check_loose(self):
+        flag = True
         for row in range(self.rows):
             for col in range(self.cols):
                 value = self.get_board[row][col]
                 if value == space_occupied:
-                    try:
-                        up = self.validate_move(row, col, row - 2, col)
-                    except Exception:
-                        up = False
-                    try:
-                        down = self.validate_move(row, col, row + 2, col)
-                    except Exception:
-                        down = False
-                    try:
-                        left = self.validate_move(row, col, row, col - 2)
-                    except Exception:
-                        left = False
-                    try:
-                        right = self.validate_move(row, col, row, col + 2)
-                    except Exception:
-                        right = False
+                    up = self.try_exception(row, col, row - 2, col)
+                    down = self.try_exception(row, col, row + 2, col)
+                    left = self.try_exception(row, col, row, col - 2)
+                    right = self.try_exception(row, col, row, col + 2)
                     if up or down or left or right:
-                        return False
-
-        return True
+                        flag = False
+        return flag
 
 
 class SenkuException(Exception):
