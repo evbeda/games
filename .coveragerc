@@ -20,6 +20,9 @@ source =
     sudoku
     tateti
     qwixx
+    othello
+    wumpus
+    backgammont
     game.py
     game_base.py
 omit =
