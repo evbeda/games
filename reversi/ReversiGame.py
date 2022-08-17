@@ -37,9 +37,7 @@ class ReversiGame(GameWithTurns, GameWithBoard, GameBase):
             return False
 
     def has_piece_to_change(self, x, y, piece):
-        if (self.in_board(x, y) and
-                self.get_value(x, y) == piece):
-            return True
+        return self.in_board(x, y) and self.get_value(x, y) == piece
 
     def all_directions(self):
         return (
