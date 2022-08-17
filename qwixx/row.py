@@ -1,3 +1,6 @@
+from sys import settrace
+
+
 class NotCanMark(Exception):
     def __init__(self):
         super().__init__('You cannot mark that row, the number must be on the right of the last mark!')
@@ -20,6 +23,7 @@ class Row:
         self.color = color
         self.numbers = self.create_row_numbers()
         self.marks = []
+        self._is_locked = False
 
     def create_row_numbers(self):
         return (
@@ -36,7 +40,11 @@ class Row:
         if self.color in self.blocked_rows:
             raise RowIsLocked
         else:
-            return False
+            return self._is_locked
+    
+    @is_locked.setter
+    def is_locked(self, value):
+        self._is_locked = value
 
     def set_mark(self, number):
         if self.check_row_lock(number):
