@@ -270,7 +270,7 @@ class TestGame(unittest.TestCase):
         game.dealer_hand.cards = ['Kd', 'Th']
         game.dealer_hand.value = 20
         with patch('blackjack.deck.Deck.deal',
-                        return_value=['3d']):
+                   return_value=['3d']):
             self.assertEqual(game.play('+'), 'Dealer Wins!')
 
     def test_play_one_more_wins(self):
@@ -335,7 +335,7 @@ class TestGame(unittest.TestCase):
         game.dealer_hand.cards = ['Kd', '5h']
         game.dealer_hand.value = 15
         with patch('blackjack.deck.Deck.deal',
-                        return_value=['2d']):
+                   return_value=['2d']):
             self.assertEqual(game.play('+'), 'CONTINUE')
 
     def test_force_quit(self):
@@ -359,7 +359,7 @@ class TestGame(unittest.TestCase):
         game.dealer_hand.value = 9
         game.player.hand.counter_as = 1
         with patch('blackjack.deck.Deck.deal',
-                        return_value=['9d']):
+                   return_value=['9d']):
             self.assertEqual(game.play('+'), 'CONTINUE')
             self.assertEqual(game.player.hand.value, 14)
             self.assertEqual(game.dealer_hand.value, 9)
@@ -375,7 +375,7 @@ class TestGame(unittest.TestCase):
         game.dealer_hand.value = 9
         game.player.hand.counter_as = 2
         with patch('blackjack.deck.Deck.deal',
-                        return_value=['8d']):
+                   return_value=['8d']):
             self.assertEqual(game.play('+'), 'CONTINUE')
 
     def test_game_with_as_mock(self):
@@ -388,7 +388,7 @@ class TestGame(unittest.TestCase):
         game.dealer_hand.cards = ['4d', '5h']
         game.dealer_hand.value = 9
         with patch('blackjack.deck.Deck.deal',
-                        return_value=['8d']):
+                   return_value=['8d']):
             game.play('+')
             self.assertEqual(game.player.hand.cards, ['4h', 'Ad', '9d', '8d'])
             self.assertEqual(game.player.hand.value, 22)
@@ -404,7 +404,7 @@ class TestGame(unittest.TestCase):
         game.dealer_hand.value = 9
         game.player.hand.counter_as = 2
         with patch('blackjack.deck.Deck.deal',
-                        return_value=['Ac']):
+                   return_value=['Ac']):
             self.assertEqual(game.play('+'), 'CONTINUE')
 
     def test_game_with_as_4(self):
@@ -418,7 +418,7 @@ class TestGame(unittest.TestCase):
         game.dealer_hand.value = 9
         game.player.hand.counter_as = 3
         with patch('blackjack.deck.Deck.deal',
-                        return_value=['Ac']):
+                   return_value=['Ac']):
             self.assertEqual(game.play('+'), 'CONTINUE')
 
     def test_game_with_as_3_2_as_1(self):
@@ -432,7 +432,7 @@ class TestGame(unittest.TestCase):
         game.dealer_hand.value = 9
         game.player.hand.counter_as = 2
         with patch('blackjack.deck.Deck.deal',
-                        return_value=['Ac']):
+                   return_value=['Ac']):
             self.assertEqual(game.play('+'), 'CONTINUE')
             self.assertEqual(game.player.hand.value, 13)
 
@@ -447,7 +447,7 @@ class TestGame(unittest.TestCase):
         game.dealer_hand.value = 9
         game.player.hand.counter_as = 3
         with patch('blackjack.deck.Deck.deal',
-                        return_value=['Ac']):
+                   return_value=['Ac']):
             self.assertEqual(game.play('+'), 'CONTINUE')
 
     def test_game_with_player_wins(self):
@@ -563,7 +563,7 @@ class TestGame(unittest.TestCase):
         game.dealer_hand.value = 9
         game.player.hand.counter_as = 3
         with patch('blackjack.deck.Deck.deal',
-                        return_value=['Ac']):
+                   return_value=['Ac']):
             self.assertEqual(game.play('='), 'Dealer Wins!')
 
     def test_deck_empty(self):
