@@ -40,10 +40,10 @@ class SudokuGame(GameBase):
                 self.finish()
                 return YOU_WIN
             return NUMBER_ADDED
-        except Exception as e:
-            return str(e)
         except InvalidInputException as e:
             return str(e)
+        except Exception as e:
+            return str(e)        
 
     @property
     def board(self):
