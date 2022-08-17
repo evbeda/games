@@ -330,8 +330,8 @@ class TestGame(unittest.TestCase):
 
     @parameterized.expand([  # test exceptions moves
         (MOVES["shoot"], MOVES_DIRECTION["north"], 0, 0),
-        (MOVES["shoot"], MOVES_DIRECTION["south"], 7, 7),
-        (MOVES["shoot"], MOVES_DIRECTION["east"], 7, 7),
+        (MOVES["shoot"], MOVES_DIRECTION["south"], 7, 14),
+        (MOVES["shoot"], MOVES_DIRECTION["east"], 7, 14),
         (MOVES["shoot"], MOVES_DIRECTION["west"], 7, 0),
     ])
     def test_admin_move_exceptions_shoot(self, accion, direccion, row, col):
@@ -343,8 +343,8 @@ class TestGame(unittest.TestCase):
 
     @parameterized.expand([  # test exceptions moves
         (MOVES["move"], MOVES_DIRECTION["north"], 0, 0),
-        (MOVES["move"], MOVES_DIRECTION["south"], 7, 7),
-        (MOVES["move"], MOVES_DIRECTION["east"], 7, 7),
+        (MOVES["move"], MOVES_DIRECTION["south"], 7, 14),
+        (MOVES["move"], MOVES_DIRECTION["east"], 7, 14),
         (MOVES["move"], MOVES_DIRECTION["west"], 7, 0),
     ])
     def test_admin_move_exceptions(self, accion, direccion, row, col):
