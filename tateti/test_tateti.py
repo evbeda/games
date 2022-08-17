@@ -105,7 +105,8 @@ class TestTateti(unittest.TestCase):
 
     def test_position_taken(self):
         self.tateti.play(0, 0)
-        self.assertEqual(self.tateti.play(0, 0), "Position already taken,please, choose another one.")
+        self.assertEqual(self.tateti.play(0, 0),
+                         "Position already taken,please, choose another one.")
         # fixme-17: assert turn
 
     def test_win_diagon_des(self):
@@ -147,3 +148,8 @@ class TestTateti(unittest.TestCase):
     def test_board_layout(self):
         result = '\n000\n000\n000\n'
         self.assertEqual(result, self.tateti.board)
+
+    def test_game_over(self):
+        game = Tateti()
+        game.finish()
+        self.assertEqual(game.play(0, 2), "Game Over.")
