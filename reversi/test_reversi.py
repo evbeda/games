@@ -231,6 +231,19 @@ class TestReversi(unittest.TestCase):
             'White',
         )
 
+    def test_play_invalid_moves(self):
+        self.game.set_board([
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', 'B', 'B', 'B', 'B', 'B', ' '],
+            [' ', ' ', 'B', 'W', 'W', 'W', 'B', ' '],
+            [' ', ' ', 'B', 'W', ' ', 'W', 'B', ' '],
+            [' ', ' ', 'B', 'W', 'W', 'W', 'B', ' '],
+            [' ', ' ', 'B', 'B', 'B', 'B', 'B', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+        ])
+        self.assertEqual(self.game.validate(9, 10), 'Values must be between 0 and 7')
+
     def test_graphic_board(self):
         self.game.set_board([
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
@@ -265,7 +278,7 @@ class TestReversi(unittest.TestCase):
 
         self.assertEqual(result, self.game.board)
 
-    def test_play_finish(self):
+    def test_play_finish_white_wins(self):
         self.game.set_board([
             ['W', 'W', 'W', 'W', 'W', 'W', 'W', 'W'],
             ['W', 'W', 'B', 'B', 'B', 'B', 'B', 'W'],
@@ -295,6 +308,64 @@ class TestReversi(unittest.TestCase):
         ]
 
         self.assertEqual(result, self.game.get_board)
+    
+    def test_play_finish_tie(self):
+        self.game.set_board([
+            ['W', 'W', 'W', 'B', 'B', 'B', 'B', 'B'],
+            ['W', 'W', 'W', 'W', 'W', 'W', 'W', 'B'],
+            ['W', 'W', 'W', 'B', 'B', 'W', 'W', 'B'],
+            ['B', 'W', 'W', 'B', 'B', 'B', 'W', 'W'],
+            ['B', 'W', 'W', 'B', 'B', 'B', 'W', 'B'],
+            ['B', ' ', 'B', 'W', 'W', 'W', 'W', 'B'],
+            ['B', 'W', 'B', 'B', 'W', 'B', 'B', 'B'],
+            ['B', 'W', 'B', 'B', 'B', 'W', 'B', 'B'],
+        ])
+        self.assertEqual(
+            self.game.play(5, 1),
+            "It's a tie! --- Whites: 32; Blacks: 32",
+        )
+
+        result = [
+            ['W', 'W', 'W', 'B', 'B', 'B', 'B', 'B'],
+            ['W', 'W', 'W', 'W', 'W', 'W', 'W', 'B'],
+            ['W', 'W', 'W', 'B', 'B', 'W', 'W', 'B'],
+            ['B', 'W', 'W', 'B', 'B', 'B', 'W', 'W'],
+            ['B', 'W', 'W', 'B', 'B', 'B', 'W', 'B'],
+            ['B', 'W', 'W', 'W', 'W', 'W', 'W', 'B'],
+            ['B', 'W', 'B', 'B', 'W', 'B', 'B', 'B'],
+            ['B', 'W', 'B', 'B', 'B', 'W', 'B', 'B'],
+        ]
+        self.assertEqual(result, self.game.get_board)
+    
+    def test_play_finish_black_wins(self):
+        self.game.set_board([
+            ['B', 'B', 'B', 'B', 'B', 'B', 'B', 'B'],
+            ['B', 'B', 'W', 'W', 'W', 'W', 'W', 'B'],
+            ['B', 'B', 'W', 'B', 'B', 'B', 'W', 'B'],
+            ['B', 'B', 'W', 'B', 'B', 'B', 'W', 'B'],
+            ['B', 'B', 'W', 'B', 'B', 'B', 'W', 'B'],
+            ['B', ' ', 'B', 'W', 'W', 'W', 'W', 'B'],
+            ['B', 'B', 'B', 'B', 'B', 'B', 'B', 'B'],
+            ['B', 'B', 'B', 'B', 'B', 'B', 'B', 'B'],
+        ])
+        self.assertEqual(
+            self.game.play(5, 1),
+            'Blacks win 47 to 17',
+        )
+
+        result = [
+            ['B', 'B', 'B', 'B', 'B', 'B', 'B', 'B'],
+            ['B', 'B', 'W', 'W', 'W', 'W', 'W', 'B'],
+            ['B', 'B', 'W', 'B', 'B', 'B', 'W', 'B'],
+            ['B', 'B', 'W', 'B', 'B', 'B', 'W', 'B'],
+            ['B', 'B', 'W', 'B', 'B', 'B', 'W', 'B'],
+            ['B', 'W', 'W', 'W', 'W', 'W', 'W', 'B'],
+            ['B', 'B', 'B', 'B', 'B', 'B', 'B', 'B'],
+            ['B', 'B', 'B', 'B', 'B', 'B', 'B', 'B'],
+        ]
+
+        self.assertEqual(result, self.game.get_board)
+
 
     def test_change_turn_if_no_possibility(self):
         self.game.set_board([
@@ -325,6 +396,20 @@ class TestReversi(unittest.TestCase):
         ])
         self.assertEqual(self.game.play(0, 0),
                           'Game over!')
+    
+    def test_has_piece_to_change(self):
+        self.game.set_board([
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', 'B', 'B', 'B', 'B', 'B', ' '],
+            [' ', ' ', 'B', 'W', 'W', 'W', 'B', ' '],
+            [' ', ' ', 'B', 'W', ' ', 'W', 'B', ' '],
+            [' ', ' ', 'B', 'W', 'W', 'W', 'B', ' '],
+            [' ', ' ', 'B', 'B', 'B', 'B', 'B', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+        ])
+        self.assertEqual(self.game.has_piece_to_change(4, 2, 'B'), True)
+
 
 
 if __name__ == "__main__":

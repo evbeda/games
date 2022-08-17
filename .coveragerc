@@ -22,7 +22,7 @@ source =
     qwixx
     othello
     wumpus
-    backgammont
+    backgammon
     game.py
     game_base.py
 omit =
@@ -38,6 +38,3 @@ exclude_lines =
     print
     if __name__ == '__main__':
     def suite
-
-
-
