@@ -527,3 +527,7 @@ class TestGame(unittest.TestCase):
         self.assertEqual(game.is_playing, expected_is_playing)
         self.assertEqual(game.score, expected_score)
         self.assertEqual(initial_board, expected_result)
+
+    def test_play_exception(self):
+        game = WumpusGame()
+        self.assertEqual(game.play('m', 'w'), "Bad move")
