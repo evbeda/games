@@ -1,5 +1,3 @@
-
-from email import message
 from . import cardsDictionary, colorDictionary, cards_colors
 from .player import Player
 from .deck import Deck
@@ -86,45 +84,64 @@ class BlackJackGame(GameBase):
     def message_to_win(self, condition):
         return self.messages_who_win[condition]
 
+    def there_is_tie(self) -> bool:
+
+        more_than_17 = self.dealer_hand.value >= 17
+        equal_hands = (self.dealer_hand.value == self.player.hand.value)
+
+        first_condition = self.dealer_and_player_equal_hands()
+        second_condition = more_than_17 and equal_hands
+
+        return first_condition or second_condition
+
+    def dealer_and_player_equal_hands(self) -> bool:
+        return ((self.dealer_hand.value == 21
+                and len(self.dealer_hand.cards) == 2) and
+                (self.player.hand.value == 21
+                and len(self.player.hand.cards) == 2))
+
+    def dealer_wins(self) -> bool:
+        first_condition = (self.player.hand.value > 21
+                           or self.dealer_hand.value == 21)
+        second_condition = self.secod_dealer_condition()
+        return first_condition or second_condition
+
+    def secod_dealer_condition(self) -> bool:
+        return (self.dealer_hand.value >= 17 and
+                not (self.dealer_hand.value > 21
+                     or self.player.hand.value == 21)
+                and self.dealer_hand.value > self.player.hand.value)
+
+    def player_wins(self):
+        cond_1 = self.fisrt_conticion_player()
+        cond_2 = (self.dealer_hand.value >= 17 and
+                  self.player.hand.value > self.dealer_hand.value)
+        return cond_1 or cond_2
+
+    def fisrt_conticion_player(self):
+        return ((self.player.hand.value == 21 and
+                 len(self.player.hand.cards) == 2) or
+                self.dealer_hand.value > 21 or self.player.hand.value == 21)
+
     def who_wins(self):
+
         flag_win = 0
-        if self.dealer_hand.value == 21 and len(self.dealer_hand.cards) == 2:
-            if (self.player.hand.value == 21 and len(self.player.hand.cards) == 2):
-                self.is_finished = True
-                flag_win = self.message_to_win('T')
-            else:
-                self.is_finished = True
-                flag_win = self.message_to_win('Dealer')
-        elif self.player.hand.value == 21 and len(self.player.hand.cards) == 2:
-            self.is_finished = True
-            flag_win = self.message_to_win('Player')
-        elif self.dealer_hand.value > 21 or self.player.hand.value == 21:
-            self.is_finished = True
-            flag_win = self.message_to_win('Player')
-        elif self.player.hand.value > 21 or self.dealer_hand.value == 21:
-            self.is_finished = True
-            flag_win = self.message_to_win('Dealer')
-        elif (
-            self.dealer_hand.value >= 17 and
-            self.player.hand.value > self.dealer_hand.value
-        ):
-            self.is_finished = True
-            flag_win = self.message_to_win('Player')
-        elif (
-            self.dealer_hand.value >= 17 and
-            self.dealer_hand.value > self.player.hand.value
-        ):
-            self.is_finished = True
-            flag_win = self.message_to_win('Dealer')
-        elif (
-                self.dealer_hand.value >= 17 and
-                self.dealer_hand.value == self.player.hand.value
-        ):
-            self.is_finished = True
+        self.is_finished = True
+
+        if self.there_is_tie():
             flag_win = self.message_to_win('T')
-        elif self.dealer_hand.value < 17:
+
+        elif self.dealer_wins():
+            flag_win = self.message_to_win('Dealer')
+
+        elif self.player_wins():
+            flag_win = self.message_to_win('Player')
+
+        else:
+            self.is_finished = False
             self._playing = True
             flag_win = self.message_to_win('C')
+
         return flag_win
 
     def next_turn(self):
