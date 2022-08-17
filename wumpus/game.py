@@ -176,11 +176,11 @@ class WumpusGame(GameBase, GameWithBoard):
         result = ()
         if coord == "w" and row - 1 >= 0:
             result = (row - 1, col)
-        elif coord == "s" and row + 1 <= 7:
+        elif coord == "s" and row + 1 < ROW:
             result = (row + 1, col)
         elif coord == "a" and col - 1 >= 0:
             result = (row, col - 1)
-        elif coord == "d" and col + 1 <= 7:
+        elif coord == "d" and col + 1 < COL:
             result = (row, col + 1)
         return result
 
