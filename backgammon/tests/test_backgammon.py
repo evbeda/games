@@ -1,12 +1,10 @@
-from hashlib import new
-from inspect import trace
+
 import unittest
 from parameterized import parameterized
 from backgammon.game.backgammon import BackgammonGame
 from backgammon.tests.test_scenarios import (
     initial_board,
     board_1,
-    board_3,
     board_4,
     board_5,
     board_6,
@@ -23,8 +21,6 @@ from backgammon.tests.test_scenarios import (
     board_7,
     presented_initial_board,
     presented_board7,
-    board_with_no_more_moves,
-    board_with_just_one_move,
     return_board_str,)
 from unittest.mock import patch
 from backgammon.game.constants import (
