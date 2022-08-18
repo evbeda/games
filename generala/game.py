@@ -25,19 +25,27 @@ class Generala(GameBase, GameWithTurns):
             return 'Game over'
 
     def finished(self):
-        if self.player_one.score >= 3000:
-            return True
+        finished = False
+        if (
+            self.player_one.score >= 3000 or
+            self.player_two.score >= 3000
+        ):
+            finished = True
 
-        if self.player_two.score >= 3000:
-            return True
+        if not finished:
 
-        for key, value in self.player_one.combinations.items():
-            if self.player_one.combinations[key] == '':
-                return False
-        for key, value in self.player_two.combinations.items():
-            if self.player_two.combinations[key] == '':
-                return False
-        return True
+            for key, value in self.player_one.combinations.items():
+                if self.player_one.combinations[key] == '':
+                    finished = False
+                    break
+            for key, value in self.player_two.combinations.items():
+                if self.player_two.combinations[key] == '':
+                    finished = False
+                    break
+            else:
+                finished = True
+
+        return finished
 
     def should_keep_rolling(self):
         if self.throw.is_possible_to_roll():
@@ -58,6 +66,8 @@ to cross out (e.g.: POKER, GENERALA, ETC.)'.format(
     def play(self, text_input, value):
 
         if (self.is_playing):
+            result = ''
+
             if 'KEEP' == text_input:
                 dados_a_conservar = value.split(',')
                 self.which_to_roll = [0, 1, 2, 3, 4, ]
@@ -70,6 +80,7 @@ to cross out (e.g.: POKER, GENERALA, ETC.)'.format(
             elif 'THROW' == text_input:
                 self.should_keep_rolling()
                 self.throw.roll([0, 1, 2, 3, 4, ])
+
             elif 'CROSSOUT' == text_input:
                 categoria = value
                 possible_categories = [
@@ -105,19 +116,23 @@ to cross out (e.g.: POKER, GENERALA, ETC.)'.format(
                         self.change_turn()
                         self.actual_player.tirada = 1
                         self.round += 1
-                        if self.finished():
-                            self.finish()
-                        return 'YOU CROSSED OUT: {} - SCORE: {}'.format(
+
+                        result = 'YOU CROSSED OUT: {} - SCORE: {}'.format(
                             categoria,
                             str(points),
                         )
                     else:
-                        return '\n***That category has already been '\
+                        result = '\n***That category has already been '\
                             'crossed out.***\n'
                 else:
-                    return '\n***That category does not exist.***\n'
+                    result = '\n***That category does not exist.***\n'
+
             else:
-                return 'Enter CROSSOUT (CATEGORY), KEEP (1,2..) or THROW NOW'
+                result = 'Enter CROSSOUT (CATEGORY), KEEP (1,2..) or THROW NOW'
+
+            if self.finished():
+                self.finish()
+            return result
 
     @property
     def board(self):
