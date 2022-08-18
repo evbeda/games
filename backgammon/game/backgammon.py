@@ -95,23 +95,6 @@ class BackgammonGame(GameBase, GameWithTurns):
             self.move_options = self.total_dices
         return self.move_options        
 
-
-
-    # def get_move_options(self):
-    #     '''Determines the move options based ONLY on the dices.
-    #     Should be used only once per turn'''
-    #     d1 = self.dice_one
-    #     d2 = self.dice_two
-    #     move_options = []
-    #     if len(self.move_points) == 2:
-    #         move_options = [d1, d2, d1 + d2]
-    #         move_options = list(set(move_options))
-    #     elif len(self.move_points) == 4:
-    #         move_options = [d1, d1 * 2, d1 * 3, d1 * 4]
-    #     self.move_options = move_options
-    #     return move_options
-
-
     def update_move_options(self, move):
         if move == self.dice_one or move == self.dice_two:
             self.total_dices.remove(move)
@@ -123,62 +106,6 @@ class BackgammonGame(GameBase, GameWithTurns):
             for _ in range(count):
                 self.total_dices.pop()
         self.get_move_options()
-
-    #     '''
-    #     Updates the move options remaining, based on the last move.
-    #     Must not be used in the current turn if a player has made no move.
-    #     (in that case use get_move_options() instead).
-    #     the parameter "move" should be already validated, and must be included
-    #     in move_options before the use of this function.
-    #     Returns an empty array if there are no more move_options.
-    #     '''
-
-    #     self.update_move_aux1(move)
-
-    #     if self.dice_one == self.dice_two and len(self.move_options) == 4:
-    #         self.update_move_aux2(move)
-    #     elif self.dice_one == self.dice_two and len(self.move_options) <= 3:
-    #         self.update_move_aux3(move)
-
-    # def update_move_aux1(self, move):
-    #     if self.dice_one != self.dice_two and len(self.move_options) > 1:
-    #         if move == self.dice_one + self.dice_two:
-    #             self.move_options = []
-    #         elif move == self.dice_one:
-    #             self.move_options = [self.dice_two]
-    #         elif move == self.dice_two:
-    #             self.move_options = [self.dice_one]
-
-    #     elif self.dice_one != self.dice_two and len(self.move_options) <= 1:
-    #         self.move_options = []
-
-    # def update_move_aux2(self, move):
-    #     d1 = self.dice_one
-    #     if len(self.move_options) == 4 and move == self.move_options[3]:
-    #         self.move_options = []
-    #     elif len(self.move_options) == 4 and move == self.move_options[2]:
-    #         self.move_options = [d1]
-    #     elif len(self.move_options) == 4 and move == self.move_options[1]:
-    #         self.move_options = [d1, d1 * 2]
-    #     elif len(self.move_options) == 4 and move == self.move_options[0]:
-    #         self.move_options = [d1, d1 * 2, d1 * 3]
-
-    # def update_move_aux3(self, move):
-    #     d1 = self.dice_one
-    #     if len(self.move_options) == 3 and move == self.move_options[2]:
-    #         self.move_options = []
-    #     elif len(self.move_options) == 3 and move == self.move_options[1]:
-    #         self.move_options = [d1]
-    #     elif len(self.move_options) == 3 and move == self.move_options[0]:
-    #         self.move_options = [d1, d1 * 2]
-
-    #     elif len(self.move_options) == 2 and move == self.move_options[1]:
-    #         self.move_options = []
-    #     elif len(self.move_options) == 2 and move == self.move_options[0]:
-    #         self.move_options = [d1]
-
-    #     else:
-    #         self.move_options = []
 
     @property
     def opposite(self):
@@ -277,22 +204,6 @@ class BackgammonGame(GameBase, GameWithTurns):
         else:
             return TIE
 
-    # def make_move_change_position(
-    #     self,
-    #     new_position,
-    #     move,
-    #     col
-    # ):
-    #     if (
-    #         self.less_than_five_own_pieces(new_position)
-    #         or self.less_than_two_enemies_in_position(new_position)
-    #     ):
-    #         self.update_move_options(move)
-    #         self.expelled[self.actual_player] -= 1
-    #         self.board_matrix[new_position][col] += 1
-    #         self.increment_points(new_position)
-    #         return True
-
     def can_move_expelled_piece(
         self,
         new_position,
@@ -301,36 +212,6 @@ class BackgammonGame(GameBase, GameWithTurns):
             self.less_than_five_own_pieces(new_position)
             or self.less_than_two_enemies_in_position(new_position)
         )
-
-    # def make_move_expelled_piece(
-    #     self,
-    #     actual_position,
-    #     new_position,
-    #     move,
-    #     col
-    # ):
-
-    #     if (
-    #         (self.less_than_five_own_pieces(new_position)
-    #             or self.less_than_two_enemies_in_position(new_position))
-    #         and self.can_capture(new_position)
-    #     ):
-    #         self.capture_opposite_piece(actual_position, new_position)
-    #         self.update_move_options(move)
-    #         self.expelled[self.actual_player] -= 1
-    #         return True
-    #     else:
-    #         self.change_position(new_position, move, col)
-
-    # def insert_captured_piece(self, actual_position, new_position):
-    #     if self.can_insert_captured_piece():
-    #         col = 0 if self.actual_player == WHITE else 1
-    #         move = 23 - new_position if (
-    #             self.actual_player == BLACK) else new_position
-    #         self.make_move_expelled_piece(actual_position, new_position,
-    #                                       move, col)
-    #         return True
-    #     return False
 
     def next_turn(self):
         if not self.active_game:
